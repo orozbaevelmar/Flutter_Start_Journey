@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:start_journey/home/hotels/hotels_screen.dart';
 
 class PostScreen extends StatelessWidget {
-  var nameOfHotels = [
-    'Sheraton Bishkek',
-  ];
+  int whichHotel;
+  PostScreen(this.whichHotel);
+
   var category = [
     'Wi-Fi',
     'Gym',
@@ -24,8 +25,9 @@ class PostScreen extends StatelessWidget {
               height: 400,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image:
-                      AssetImage('images/hotels/sheraton_bishkek/hotels0.jpg'),
+                  image: AssetImage(
+                    '${HotelsScreen.map.entries.elementAt(whichHotel).value.elementAt(2)}Door.jpg',
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -74,7 +76,13 @@ class PostScreen extends StatelessWidget {
                             ],
                           ),
                           child: Icon(
-                            Icons.favorite_outline_outlined,
+                            HotelsScreen.map.entries
+                                    .elementAt(whichHotel)
+                                    .value
+                                    .elementAt(1)
+                                    .startsWith('u')
+                                ? Icons.favorite_outline_outlined
+                                : Icons.favorite,
                             size: 25,
                           ),
                         ),
@@ -108,7 +116,10 @@ class PostScreen extends StatelessWidget {
                     margin: EdgeInsets.only(left: 20, right: 2),
                     height: 100,
                     child: ListView.builder(
-                      itemCount: 8,
+                      itemCount: HotelsScreen.map.entries
+                          .elementAt(whichHotel)
+                          .value
+                          .length, //rewrote
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
@@ -120,7 +131,8 @@ class PostScreen extends StatelessWidget {
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: AssetImage(
-                                  'images/hotels/sheraton_bishkek/hotel$index.jpg'),
+                                '${HotelsScreen.map.entries.elementAt(whichHotel).value.elementAt(2)}$index.jpg', //rewrote
+                              ),
                             ),
                           ),
                         );
@@ -131,7 +143,9 @@ class PostScreen extends StatelessWidget {
                     padding: EdgeInsets.all(20),
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Sheraton Bishkek',
+                      HotelsScreen.map.entries
+                          .elementAt(whichHotel)
+                          .key, // rewrote
                       style: GoogleFonts.frankRuhlLibre(
                         fontSize: 43,
                         fontWeight: FontWeight.w400,
@@ -203,7 +217,10 @@ class PostScreen extends StatelessWidget {
                       right: 20,
                     ),
                     child: Text(
-                      "Sheraton Bishkek features free bikes, terrace, a restaurant and bar in Bishkek. This 5-star hotel offers a concierge service and luggage storage space. The accommodation provides a 24-hour front desk, airport transfers, room service and free Wi-Fi throughout the property.",
+                      HotelsScreen.map.entries
+                          .elementAt(whichHotel)
+                          .value
+                          .elementAt(5), //rewrote
                       style: GoogleFonts.roboto(
                         fontWeight: FontWeight.w300,
                         fontSize: 20,
@@ -229,7 +246,10 @@ class PostScreen extends StatelessWidget {
               margin: EdgeInsets.all(20),
               alignment: Alignment.center,
               child: Text(
-                '\$450 / Night',
+                HotelsScreen.map.entries
+                    .elementAt(whichHotel)
+                    .value
+                    .elementAt(4),
                 style: GoogleFonts.lobster(
                     fontSize: 25, fontWeight: FontWeight.normal),
               ),

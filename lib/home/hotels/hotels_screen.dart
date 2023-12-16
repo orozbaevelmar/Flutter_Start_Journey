@@ -13,24 +13,6 @@ class HotelsScreen extends StatefulWidget {
     'TES Hotel',
   ]; */
 
-  static Map<String, List<String>> map = {
-    'Sheraton Bishkek': [
-      // key: hotels name
-      'Bishkek, Kyrgyzstan', // 0.hotels loacation
-      'f', // 1.hotel = favourite or unfavourite
-      'images/hotels/sheraton_bishkek/hotel', // 2.hotels photos
-      '4.3*', // 3.hotels star
-      '\$450 / Night' // 4.hotels price
-    ],
-    'Jannat Resort': [
-      'Osh, Kyrgyzstan',
-      'u',
-      'images/hotels/jannat_resort/hotel',
-      '5*',
-      '\$1000 / Night'
-    ],
-  };
-
   //  key: hotels name
 
   // values: 1.hotels location
@@ -38,7 +20,27 @@ class HotelsScreen extends StatefulWidget {
   //        3.hotels photos
   //        4.hotels stars
   //        5.hotels price
-  static String itemRedOrNot = '1';
+  //        6.hotels description
+
+  static Map<String, List<String>> map = {
+    'Sheraton Bishkek': [
+      // key: hotels name
+      'Bishkek, Kyrgyzstan', // 0.hotels loacation
+      'f', // 1.hotel = favourite or unfavourite
+      'images/hotels/sheraton_bishkek/hotel', // 2.hotels photos
+      '4.3*', // 3.hotels star
+      '\$450 / Night', // 4.hotels price
+      'Sheraton Bishkek features free bikes, terrace, a restaurant and bar in Bishkek. This 5-star hotel offers a concierge service and luggage storage space. The accommodation provides a 24-hour front desk, airport transfers, room service and free Wi-Fi throughout the property.' // hotels description
+    ],
+    'Jannat Resort': [
+      'Osh, Kyrgyzstan',
+      'u',
+      'images/hotels/jannat_resort/hotel',
+      '5*',
+      '\$1000 / Night',
+      'Jannat Resort is beautiful place',
+    ],
+  };
 
   @override
   State<HotelsScreen> createState() => _HotelsScreenState();
@@ -152,7 +154,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PostScreen(),
+                              builder: (context) => PostScreen(index),
                             ),
                           );
                         },

@@ -27,15 +27,6 @@ class _GeneralScreenState extends State<GeneralScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.grey.shade100, // Colors.grey.shade200,
-      /* appBar: AppBar(
-        title: Text("Start Travel"),
-        //backgroundColor: Color.fromRGBO(166, 202, 190, 0),
-        actions: [HomeAppBar()],
-      ), */
-      /* drawer: Drawer(
-        // Add a ListView to the drawer
-        child: CallDrawer(),
-      ), */
 
       // Body
 

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:start_journey/home/hotels/hotels_screen.dart';
+import 'dart:async' show Future;
+import 'package:flutter/services.dart' show rootBundle;
 
 class PostScreen extends StatelessWidget {
   int whichHotel;
@@ -13,6 +16,21 @@ class PostScreen extends StatelessWidget {
     'Bar',
     'Air conditioning',
   ];
+
+  Future<int> countFiles([
+    String path = 'fds',
+    //'${HotelsScreen.map.entries.elementAt(whichHotel).value.elementAt(2)}Door.jpg', //'assets/images/',
+  ]) async {
+    final assetManifest = await AssetManifest.loadFromAssetBundle(rootBundle);
+    final assetPaths = assetManifest
+        .listAssets()
+        .where((String key) => key.startsWith(path))
+        .toList();
+
+    debugPrint('Number of files in the $path folder: ${assetPaths.length}');
+    return assetPaths.length;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,10 +134,11 @@ class PostScreen extends StatelessWidget {
                     margin: EdgeInsets.only(left: 20, right: 2),
                     height: 100,
                     child: ListView.builder(
-                      itemCount: HotelsScreen.map.entries
+                      itemCount: 6,
+                      /* HotelsScreen.map.entries
                           .elementAt(whichHotel)
                           .value
-                          .length, //rewrote
+                          .length, //rewrote */
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {

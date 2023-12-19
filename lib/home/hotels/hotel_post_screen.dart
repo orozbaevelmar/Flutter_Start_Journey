@@ -17,10 +17,7 @@ class PostScreen extends StatelessWidget {
     'Air conditioning',
   ];
 
-  Future<int> countFiles([
-    String path = 'fds',
-    //'${HotelsScreen.map.entries.elementAt(whichHotel).value.elementAt(2)}Door.jpg', //'assets/images/',
-  ]) async {
+  Future<int> countFilesInFolder(String path) async {
     final assetManifest = await AssetManifest.loadFromAssetBundle(rootBundle);
     final assetPaths = assetManifest
         .listAssets()
@@ -28,13 +25,13 @@ class PostScreen extends StatelessWidget {
         .toList();
 
     debugPrint('Number of files in the $path folder: ${assetPaths.length}');
-    return assetPaths.length;
+    return assetPaths.length - 1; // -1 because HotelDoor.jpg
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Color.fromRGBO(191, 191, 191, 1),
+      // backgroundColor: Color.fromRGBO(191, 191, 191, 1),
       body: _buildBody(context),
       bottomNavigationBar: _buildPriceAndBookingAtBottom(),
     );
@@ -60,7 +57,7 @@ class PostScreen extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(
-            '${HotelsScreen.map.entries.elementAt(whichHotel).value.elementAt(2)}Door.jpg',
+            '${HotelsScreen.map.entries.elementAt(whichHotel).value.elementAt(2)}hotelDoor.jpg',
           ),
           fit: BoxFit.cover,
         ),
@@ -164,30 +161,38 @@ class PostScreen extends StatelessWidget {
         Container(
           margin: EdgeInsets.only(left: 20, right: 2),
           height: 100,
-          child: ListView.builder(
-            itemCount: 6,
-            /* HotelsScreen.map.entries
-                              .elementAt(whichHotel)
-                              .value
-                              .length, //rewrote */
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                width: 100,
-                margin: EdgeInsets.only(right: 25),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage(
-                      '${HotelsScreen.map.entries.elementAt(whichHotel).value.elementAt(2)}$index.jpg', //rewrote
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+          child: FutureBuilder(
+              future: countFilesInFolder(HotelsScreen.map.entries
+                  .elementAt(whichHotel)
+                  .value
+                  .elementAt(2)),
+              initialData: 0,
+              builder: (context, snapshot) {
+                return ListView.builder(
+                  itemCount: snapshot.data,
+                  /* HotelsScreen.map.entries
+                                .elementAt(whichHotel)
+                                .value
+                                .length, //rewrote */
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      width: 100,
+                      margin: EdgeInsets.only(right: 25),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage(
+                            '${HotelsScreen.map.entries.elementAt(whichHotel).value.elementAt(2)}hotel$index.jpg', //rewrote
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }),
         ),
       ],
     );
@@ -308,7 +313,7 @@ class PostScreen extends StatelessWidget {
         children: [
           Container(
             width: 130,
-            margin: EdgeInsets.all(20),
+            //margin: EdgeInsets.all(20),
             alignment: Alignment.center,
             child: Text(
               HotelsScreen.map.entries.elementAt(whichHotel).value.elementAt(4),

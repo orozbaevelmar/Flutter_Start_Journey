@@ -27,7 +27,7 @@ class HotelsScreen extends StatefulWidget {
       // key: hotels name
       'Bishkek, Kyrgyzstan', // 0.hotels loacation
       'f', // 1.hotel = favourite or unfavourite
-      'images/hotels/sheraton_bishkek/hotel', // 2.hotels photos
+      'images/hotels/sheraton_bishkek/', // 2.hotels photos
       '4.3*', // 3.hotels star
       '\$450 / Night', // 4.hotels price
       'Sheraton Bishkek features free bikes, terrace, a restaurant and bar in Bishkek. This 5-star hotel offers a concierge service and luggage storage space. The accommodation provides a 24-hour front desk, airport transfers, room service and free Wi-Fi throughout the property.' // hotels description
@@ -35,7 +35,7 @@ class HotelsScreen extends StatefulWidget {
     'Jannat Resort': [
       'Osh, Kyrgyzstan',
       'u',
-      'images/hotels/jannat_resort/hotel',
+      'images/hotels/jannat_resort/',
       '5*',
       '\$1000 / Night',
       'Jannat Resort is beautiful place',
@@ -194,7 +194,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                     borderRadius: BorderRadius.circular(20),
                     image: DecorationImage(
                       image: AssetImage(
-                        '${HotelsScreen.map.entries.elementAt(index).value.elementAt(2)}$index.jpg',
+                        '${HotelsScreen.map.entries.elementAt(index).value.elementAt(2)}hotel$index.jpg',
                       ),
                       fit: BoxFit.cover,
                       opacity: 0.9,

@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/home/hotels/hotels_screen.dart';
-import 'package:start_journey/home/regions/batken.dart';
-import 'package:start_journey/home/regions/chuy.dart';
-import 'package:start_journey/home/regions/jalal_abad.dart';
-import 'package:start_journey/home/regions/naryn.dart';
-import 'package:start_journey/home/regions/osh.dart';
-import 'package:start_journey/home/regions/talas.dart';
-import 'package:start_journey/home/regions/ysyk_kol.dart';
+import 'package:start_journey/home_categories/hotel/hotels_screen.dart';
+import 'package:start_journey/home_regions/batken.dart';
+import 'package:start_journey/home_regions/chuy.dart';
+import 'package:start_journey/home_regions/jalal_abad.dart';
+import 'package:start_journey/home_regions/naryn.dart';
+import 'package:start_journey/home_regions/osh.dart';
+import 'package:start_journey/home_regions/talas.dart';
+import 'package:start_journey/home_regions/ysyk_kol.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   // hotel, snow sports, nature, sights,
   // nature --> waterfall, river, camping, mountain, lake,
   var category = [

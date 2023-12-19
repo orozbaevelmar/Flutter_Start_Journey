@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/main_screen/general_screen.dart';
+import 'package:start_journey/enter/navigation_bar.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -34,10 +34,11 @@ class WelcomeScreen extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => GeneralScreen(),
-                        ));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NavigationBarScreen(),
+                      ),
+                    );
                   },
                   child: Ink(
                     padding: EdgeInsets.all(15),

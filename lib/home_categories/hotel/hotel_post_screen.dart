@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:start_journey/home/hotels/hotels_screen.dart';
-import 'dart:async' show Future;
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:start_journey/home_categories/hotel/store/hotel_store.dart';
 
-class PostScreen extends StatelessWidget {
-  int whichHotel;
+class PostScreen extends StatefulWidget {
+  final int whichHotel;
   PostScreen(this.whichHotel);
 
-  var category = [
+  @override
+  State<PostScreen> createState() => _PostScreenState();
+}
+
+class _PostScreenState extends State<PostScreen> {
+  final category = [
     'Wi-Fi',
     'Gym',
     'Parking',
@@ -17,16 +19,7 @@ class PostScreen extends StatelessWidget {
     'Air conditioning',
   ];
 
-  Future<int> countFilesInFolder(String path) async {
-    final assetManifest = await AssetManifest.loadFromAssetBundle(rootBundle);
-    final assetPaths = assetManifest
-        .listAssets()
-        .where((String key) => key.startsWith(path))
-        .toList();
-
-    debugPrint('Number of files in the $path folder: ${assetPaths.length}');
-    return assetPaths.length - 1; // -1 because HotelDoor.jpg
-  }
+  HotelStore _hotelStore = HotelStore();
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +50,7 @@ class PostScreen extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(
-            '${HotelsScreen.map.entries.elementAt(whichHotel).value.elementAt(2)}hotelDoor.jpg',
+            '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotelDoor.jpg',
           ),
           fit: BoxFit.cover,
         ),
@@ -107,8 +100,8 @@ class PostScreen extends StatelessWidget {
                       ],
                     ),
                     child: Icon(
-                      HotelsScreen.map.entries
-                              .elementAt(whichHotel)
+                      HotelStore.mapHotelInformation.entries
+                              .elementAt(widget.whichHotel)
                               .value
                               .elementAt(1)
                               .startsWith('u')
@@ -162,8 +155,9 @@ class PostScreen extends StatelessWidget {
           margin: EdgeInsets.only(left: 20, right: 2),
           height: 100,
           child: FutureBuilder(
-              future: countFilesInFolder(HotelsScreen.map.entries
-                  .elementAt(whichHotel)
+              future: _hotelStore.countFilesInFolder(HotelStore
+                  .mapHotelInformation.entries
+                  .elementAt(widget.whichHotel)
                   .value
                   .elementAt(2)),
               initialData: 0,
@@ -185,7 +179,7 @@ class PostScreen extends StatelessWidget {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(
-                            '${HotelsScreen.map.entries.elementAt(whichHotel).value.elementAt(2)}hotel$index.jpg', //rewrote
+                            '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotel$index.jpg', //rewrote
                           ),
                         ),
                       ),
@@ -203,7 +197,9 @@ class PostScreen extends StatelessWidget {
       padding: EdgeInsets.all(20),
       alignment: Alignment.centerLeft,
       child: Text(
-        HotelsScreen.map.entries.elementAt(whichHotel).key, // rewrote
+        HotelStore.mapHotelInformation.entries
+            .elementAt(widget.whichHotel)
+            .key, // rewrote
         style: GoogleFonts.frankRuhlLibre(
           fontSize: 43,
           fontWeight: FontWeight.w400,
@@ -287,8 +283,8 @@ class PostScreen extends StatelessWidget {
             right: 20,
           ),
           child: Text(
-            HotelsScreen.map.entries
-                .elementAt(whichHotel)
+            HotelStore.mapHotelInformation.entries
+                .elementAt(widget.whichHotel)
                 .value
                 .elementAt(5), //rewrote
             style: GoogleFonts.roboto(
@@ -306,17 +302,24 @@ class PostScreen extends StatelessWidget {
   // build bottom navigation bar:-----------------------------------------------
   Widget _buildPriceAndBookingAtBottom() {
     return Container(
-      margin: EdgeInsets.only(bottom: 20, left: 10, right: 10),
+      margin: EdgeInsets.only(
+        bottom: 20,
+        left: 10,
+        right: 10,
+      ),
       padding: EdgeInsets.all(5),
       height: 90,
       child: Row(
+        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: 130,
-            //margin: EdgeInsets.all(20),
+            margin: EdgeInsets.symmetric(horizontal: 20),
             alignment: Alignment.center,
             child: Text(
-              HotelsScreen.map.entries.elementAt(whichHotel).value.elementAt(4),
+              HotelStore.mapHotelInformation.entries
+                  .elementAt(widget.whichHotel)
+                  .value
+                  .elementAt(4),
               style: GoogleFonts.lobster(
                   fontSize: 25, fontWeight: FontWeight.normal),
             ),

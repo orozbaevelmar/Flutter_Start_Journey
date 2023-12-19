@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:start_journey/home/hotels/hotel_post_screen.dart';
-import 'package:start_journey/home/hotels/hotels_screen.dart';
+import 'package:start_journey/home_categories/hotel/hotel_post_screen.dart';
+import 'package:start_journey/home_categories/hotel/store/hotel_store.dart';
 
-class FavouriteScreen extends StatelessWidget {
-  HotelsScreen num = HotelsScreen();
+class FavouriteScreen extends StatefulWidget {
+  const FavouriteScreen({super.key});
 
+  @override
+  State<FavouriteScreen> createState() => _FavouriteScreenState();
+}
+
+class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,14 +21,17 @@ class FavouriteScreen extends StatelessWidget {
             child: ListView.builder(
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
-              itemCount: HotelsScreen.map.length, // hotelsName.length
+              itemCount:
+                  HotelStore.mapHotelInformation.length, // hotelsName.length
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => PostScreen(index),
+                        builder: (context) => PostScreen(
+                          index,
+                        ),
                       ),
                     );
                   },
@@ -94,7 +102,7 @@ class FavouriteScreen extends StatelessWidget {
                                 Container(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
-                                    HotelsScreen.map.entries
+                                    HotelStore.mapHotelInformation.entries
                                         .elementAt(index)
                                         .key, //hotelsName[index],
                                     style: GoogleFonts.acme(

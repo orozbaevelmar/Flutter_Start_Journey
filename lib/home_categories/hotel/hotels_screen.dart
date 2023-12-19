@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:start_journey/home/hotels/hotel_post_screen.dart';
+import 'package:start_journey/home_categories/hotel/hotel_post_screen.dart';
+import 'package:start_journey/home_categories/hotel/store/hotel_store.dart';
 
 class HotelsScreen extends StatefulWidget {
   HotelsScreen({super.key});
@@ -21,26 +22,6 @@ class HotelsScreen extends StatefulWidget {
   //        4.hotels stars
   //        5.hotels price
   //        6.hotels description
-
-  static Map<String, List<String>> map = {
-    'Sheraton Bishkek': [
-      // key: hotels name
-      'Bishkek, Kyrgyzstan', // 0.hotels loacation
-      'f', // 1.hotel = favourite or unfavourite
-      'images/hotels/sheraton_bishkek/', // 2.hotels photos
-      '4.3*', // 3.hotels star
-      '\$450 / Night', // 4.hotels price
-      'Sheraton Bishkek features free bikes, terrace, a restaurant and bar in Bishkek. This 5-star hotel offers a concierge service and luggage storage space. The accommodation provides a 24-hour front desk, airport transfers, room service and free Wi-Fi throughout the property.' // hotels description
-    ],
-    'Jannat Resort': [
-      'Osh, Kyrgyzstan',
-      'u',
-      'images/hotels/jannat_resort/',
-      '5*',
-      '\$1000 / Night',
-      'Jannat Resort is beautiful place',
-    ],
-  };
 
   @override
   State<HotelsScreen> createState() => _HotelsScreenState();
@@ -174,7 +155,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
-          itemCount: HotelsScreen.map.length,
+          itemCount: HotelStore.mapHotelInformation.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: EdgeInsets.only(right: 20),
@@ -194,7 +175,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                     borderRadius: BorderRadius.circular(20),
                     image: DecorationImage(
                       image: AssetImage(
-                        '${HotelsScreen.map.entries.elementAt(index).value.elementAt(2)}hotel$index.jpg',
+                        '${HotelStore.mapHotelInformation.entries.elementAt(index).value.elementAt(2)}hotel$index.jpg',
                       ),
                       fit: BoxFit.cover,
                       opacity: 0.9,
@@ -215,7 +196,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
-                                HotelsScreen.map.entries
+                                HotelStore.mapHotelInformation.entries
                                     .elementAt(index)
                                     .value
                                     .elementAt(3),
@@ -227,9 +208,10 @@ class _HotelsScreenState extends State<HotelsScreen> {
                             InkWell(
                               onTap: () {
                                 setState(() {
-                                  HotelsScreen.map.entries
+                                  HotelStore.mapHotelInformation.entries
                                       .elementAt(index)
-                                      .value[1] = HotelsScreen.map.entries
+                                      .value[1] = HotelStore
+                                          .mapHotelInformation.entries
                                           .elementAt(index)
                                           .value
                                           .elementAt(1)
@@ -252,7 +234,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                   ],
                                 ),
                                 child: Icon(
-                                  HotelsScreen.map.entries
+                                  HotelStore.mapHotelInformation.entries
                                           .elementAt(index)
                                           .value
                                           .elementAt(1)
@@ -261,7 +243,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                       : Icons.favorite,
 
                                   //Icons.favorite, //favorite_outline_outlined,
-                                  color: HotelsScreen.map.entries
+                                  color: HotelStore.mapHotelInformation.entries
                                           .elementAt(index)
                                           .value
                                           .elementAt(1)
@@ -283,7 +265,9 @@ class _HotelsScreenState extends State<HotelsScreen> {
                               Container(
                                 alignment: Alignment.bottomLeft,
                                 child: Text(
-                                  HotelsScreen.map.entries.elementAt(index).key,
+                                  HotelStore.mapHotelInformation.entries
+                                      .elementAt(index)
+                                      .key,
                                   style: GoogleFonts.acme(
                                     // acme // yeonsung
                                     fontSize: 25,
@@ -305,7 +289,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                       ),
                                     ),
                                     Text(
-                                      HotelsScreen.map.entries
+                                      HotelStore.mapHotelInformation.entries
                                           .elementAt(index)
                                           .value
                                           .elementAt(0),

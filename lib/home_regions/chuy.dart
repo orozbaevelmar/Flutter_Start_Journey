@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class Chuy extends StatelessWidget {
-  var category = [
+  Chuy({super.key});
+  final category = [
     'Hotel',
     'Sights',
     'Nature',
     'Snow Sport',
   ];
-  var categoryColor = [
+  final categoryColor = [
     Colors.amber.shade300,
     Colors.green.shade300,
     Colors.red.shade200,

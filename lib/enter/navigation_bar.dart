@@ -4,17 +4,17 @@ import 'package:start_journey/favourite/favourite_screen.dart';
 import 'package:start_journey/home/home_screen.dart';
 import 'package:start_journey/settings/settings_screen.dart';
 
-class GeneralScreen extends StatefulWidget {
-  const GeneralScreen({super.key});
+class NavigationBarScreen extends StatefulWidget {
+  const NavigationBarScreen({super.key});
 
   @override
-  State<GeneralScreen> createState() => _GeneralScreenState();
+  State<NavigationBarScreen> createState() => _NavigationBarScreenState();
 }
 
-class _GeneralScreenState extends State<GeneralScreen> {
+class _NavigationBarScreenState extends State<NavigationBarScreen> {
   int _selectedIndex = 2;
 
-  static List<Widget> _widgetOptions = [
+  final List<Widget> _widgetOptions = [
     Scaffold(),
     FavouriteScreen(),
     HomeScreen(),

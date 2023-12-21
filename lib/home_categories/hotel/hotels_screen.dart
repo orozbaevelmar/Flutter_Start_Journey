@@ -1,33 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:start_journey/favourite/store/favourite_store.dart';
 import 'package:start_journey/home_categories/hotel/hotel_post_screen.dart';
 import 'package:start_journey/home_categories/hotel/store/hotel_store.dart';
 
 class HotelsScreen extends StatefulWidget {
   HotelsScreen({super.key});
 
-  /* static List<String> hotelsName = [
-    'Sheraton Bishkek',
-    'Grand Hotel',
-    'Jannat Resort',
-    'Rayan Hotel',
-    'TES Hotel',
-  ]; */
-
-  //  key: hotels name
-
-  // values: 1.hotels location
-  //        2.hotels favourite icon = red or black
-  //        3.hotels photos
-  //        4.hotels stars
-  //        5.hotels price
-  //        6.hotels description
-
   @override
   State<HotelsScreen> createState() => _HotelsScreenState();
 }
 
 class _HotelsScreenState extends State<HotelsScreen> {
+  FavouriteStore _favouriteStore = FavouriteStore();
+
   List<String> yourWishes = [
     'Near You',
     'Popular',
@@ -205,19 +191,13 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                 ),
                               ),
                             ),
+
+                            // Favourite Icon
                             InkWell(
                               onTap: () {
                                 setState(() {
-                                  HotelStore.mapHotelInformation.entries
-                                      .elementAt(index)
-                                      .value[1] = HotelStore
-                                          .mapHotelInformation.entries
-                                          .elementAt(index)
-                                          .value
-                                          .elementAt(1)
-                                          .startsWith('u')
-                                      ? 'f'
-                                      : 'u';
+                                  _favouriteStore
+                                      .addToFavouriteElement(index); //
                                 });
                               },
                               child: Container(
@@ -233,25 +213,8 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                     ),
                                   ],
                                 ),
-                                child: Icon(
-                                  HotelStore.mapHotelInformation.entries
-                                          .elementAt(index)
-                                          .value
-                                          .elementAt(1)
-                                          .startsWith('u')
-                                      ? Icons.favorite_outline_outlined
-                                      : Icons.favorite,
-
-                                  //Icons.favorite, //favorite_outline_outlined,
-                                  color: HotelStore.mapHotelInformation.entries
-                                          .elementAt(index)
-                                          .value
-                                          .elementAt(1)
-                                          .startsWith('u')
-                                      ? Colors.black
-                                      : Colors.red, //delete,
-                                  size: 25,
-                                ),
+                                child: _favouriteStore
+                                    .checkFavoureIconRedOrOutlined(index),
                               ),
                             ),
                           ],

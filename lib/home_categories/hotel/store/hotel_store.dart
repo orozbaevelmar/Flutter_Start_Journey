@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class HotelStore {
+  /* static List<String> hotelsName = [
+    'Sheraton Bishkek',
+    'Grand Hotel',
+    'Jannat Resort',
+    'Rayan Hotel',
+    'TES Hotel',
+  ]; */
+
   // values: 1.hotels location
   //        2.hotels favourite icon = red or black
   //        3.hotels photos
@@ -10,15 +18,16 @@ class HotelStore {
   //        6.hotels description
 
   // all informations about hotel:----------------------------------------------
-  static Map<String, List<String>> mapHotelInformation = {
+  static final Map<String, List<String>> mapHotelInformation = {
     'Sheraton Bishkek': [
       // key: hotels name
       'Bishkek, Kyrgyzstan', // 0.hotels loacation
-      'f', // 1.hotel = favourite or unfavourite
+      'u', // 1.hotel = favourite or unfavourite
       'images/hotels/sheraton_bishkek/', // 2.hotels photos
       '4.3*', // 3.hotels star
       '\$450 / Night', // 4.hotels price
       'Sheraton Bishkek features free bikes, terrace, a restaurant and bar in Bishkek. This 5-star hotel offers a concierge service and luggage storage space. The accommodation provides a 24-hour front desk, airport transfers, room service and free Wi-Fi throughout the property.' // hotels description
+      // 5.hotel's description
     ],
     'Jannat Resort': [
       'Osh, Kyrgyzstan',

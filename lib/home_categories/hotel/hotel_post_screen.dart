@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:start_journey/home_categories/hotel/store/hotel_store.dart';
 
 class PostScreen extends StatefulWidget {
-  final int whichHotel;
+  final String whichHotel;
   PostScreen(this.whichHotel);
 
   @override
@@ -50,7 +50,8 @@ class _PostScreenState extends State<PostScreen> {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(
-            '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotelDoor.jpg',
+            '${HotelStore.mapHotelInformation[widget.whichHotel]?[2]}hotelDoor.jpg',
+            /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotelDoor.jpg', */
           ),
           fit: BoxFit.cover,
         ),
@@ -100,11 +101,13 @@ class _PostScreenState extends State<PostScreen> {
                       ],
                     ),
                     child: Icon(
-                      HotelStore.mapHotelInformation.entries
+                      HotelStore.mapHotelInformation[widget.whichHotel]![1]
+                              .startsWith('u')
+                          /* HotelStore.mapHotelInformation.entries
                               .elementAt(widget.whichHotel)
                               .value
                               .elementAt(1)
-                              .startsWith('u')
+                              .startsWith('u') */
                           ? Icons.favorite_outline_outlined
                           : Icons.favorite,
                       size: 25,
@@ -155,11 +158,14 @@ class _PostScreenState extends State<PostScreen> {
           margin: EdgeInsets.only(left: 20, right: 2),
           height: 100,
           child: FutureBuilder(
-              future: _hotelStore.countFilesInFolder(HotelStore
+              future: _hotelStore.countFilesInFolder(
+                HotelStore.mapHotelInformation[widget.whichHotel]![2],
+              ),
+              /* HotelStore
                   .mapHotelInformation.entries
                   .elementAt(widget.whichHotel)
                   .value
-                  .elementAt(2)),
+                  .elementAt(2)), */
               initialData: 0,
               builder: (context, snapshot) {
                 return ListView.builder(
@@ -179,7 +185,8 @@ class _PostScreenState extends State<PostScreen> {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(
-                            '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotel$index.jpg', //rewrote
+                            '${HotelStore.mapHotelInformation[widget.whichHotel]?[2]}hotel$index.jpg',
+                            /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotel$index.jpg', */ //rewrote
                           ),
                         ),
                       ),
@@ -197,9 +204,10 @@ class _PostScreenState extends State<PostScreen> {
       padding: EdgeInsets.all(20),
       alignment: Alignment.centerLeft,
       child: Text(
-        HotelStore.mapHotelInformation.entries
+        widget.whichHotel,
+        /* HotelStore.mapHotelInformation.entries
             .elementAt(widget.whichHotel)
-            .key, // rewrote
+            .key, */ // rewrote
         style: GoogleFonts.frankRuhlLibre(
           fontSize: 43,
           fontWeight: FontWeight.w400,
@@ -283,10 +291,11 @@ class _PostScreenState extends State<PostScreen> {
             right: 20,
           ),
           child: Text(
-            HotelStore.mapHotelInformation.entries
+            HotelStore.mapHotelInformation[widget.whichHotel]![5],
+            /* HotelStore.mapHotelInformation.entries
                 .elementAt(widget.whichHotel)
                 .value
-                .elementAt(5), //rewrote
+                .elementAt(5), */ //rewrote
             style: GoogleFonts.roboto(
               fontWeight: FontWeight.w300,
               fontSize: 20,
@@ -316,10 +325,11 @@ class _PostScreenState extends State<PostScreen> {
             margin: EdgeInsets.symmetric(horizontal: 20),
             alignment: Alignment.center,
             child: Text(
-              HotelStore.mapHotelInformation.entries
+              HotelStore.mapHotelInformation[widget.whichHotel]![4],
+              /* HotelStore.mapHotelInformation.entries
                   .elementAt(widget.whichHotel)
                   .value
-                  .elementAt(4),
+                  .elementAt(4), */
               style: GoogleFonts.lobster(
                   fontSize: 25, fontWeight: FontWeight.normal),
             ),

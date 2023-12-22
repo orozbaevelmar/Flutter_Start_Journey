@@ -5,7 +5,7 @@ import 'package:start_journey/home_categories/hotel/hotel_post_screen.dart';
 import 'package:start_journey/home_categories/hotel/store/hotel_store.dart';
 
 class HotelsScreen extends StatefulWidget {
-  HotelsScreen({super.key});
+  const HotelsScreen({super.key});
 
   @override
   State<HotelsScreen> createState() => _HotelsScreenState();
@@ -53,18 +53,16 @@ class _HotelsScreenState extends State<HotelsScreen> {
         //crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            child: IconButton(
-              iconSize: 35,
-              padding: EdgeInsets.zero,
-              constraints: BoxConstraints(),
-              icon: Icon(
-                Icons.arrow_back_ios_new_outlined,
-                size: 35,
-                color: Colors.black,
-              ),
-              onPressed: () => Navigator.pop(context),
+          IconButton(
+            iconSize: 35,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: const Icon(
+              Icons.arrow_back_ios_new_outlined,
+              size: 35,
+              color: Colors.black,
             ),
+            onPressed: () => Navigator.pop(context),
           ),
           Container(
             height: 60,
@@ -87,7 +85,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
   Widget _hotelTagline() {
     return Container(
       alignment: Alignment.centerLeft,
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Text(
         'Hotels for all Desires', //'Best Hotels is here',// hospitable hotels are waiting for you //hotels for all desires
         style: GoogleFonts.frankRuhlLibre(
@@ -100,9 +98,9 @@ class _HotelsScreenState extends State<HotelsScreen> {
 
   Widget _hotelSearch() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 17),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 17),
       child: TextField(
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18,
         ),
         controller: _searchController,
@@ -111,10 +109,10 @@ class _HotelsScreenState extends State<HotelsScreen> {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          prefixIcon: Icon(Icons.search_outlined),
+          prefixIcon: const Icon(Icons.search_outlined),
           hintText: 'Search for Hotels',
           suffixIcon: IconButton(
-            icon: Icon(Icons.clear),
+            icon: const Icon(Icons.clear),
             onPressed: () {
               _searchController.clear();
             },
@@ -133,150 +131,166 @@ class _HotelsScreenState extends State<HotelsScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Container(
-        height: 285,
-        padding: EdgeInsets.only(
-          left: 15,
-          right: 2,
-        ),
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemCount: HotelStore.mapHotelInformation.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PostScreen(index),
-                    ),
-                  );
-                },
-                child: Container(
-                  width: 250,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                      image: AssetImage(
-                        '${HotelStore.mapHotelInformation.entries.elementAt(index).value.elementAt(2)}hotel$index.jpg',
+          height: 285,
+          padding: const EdgeInsets.only(
+            left: 15,
+            right: 2,
+          ),
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            //itemCount: HotelStore.mapHotelInformation.length,
+            children: [
+              for (var mapKey in HotelStore.mapHotelInformation.keys)
+                Padding(
+                  padding: EdgeInsets.only(right: 20),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PostScreen(mapKey),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: 250,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(20),
+                        image: DecorationImage(
+                          image: AssetImage(
+                              '${HotelStore.mapHotelInformation[mapKey]?.elementAt(2)}hotel0.jpg'),
+                          fit: BoxFit.cover,
+                          opacity: 0.9,
+                        ),
                       ),
-                      fit: BoxFit.cover,
-                      opacity: 0.9,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(
-                                HotelStore.mapHotelInformation.entries
-                                    .elementAt(index)
-                                    .value
-                                    .elementAt(3),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-
-                            // Favourite Icon
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  _favouriteStore
-                                      .addToFavouriteElement(index); //
-                                });
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                //alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 6,
+                      child: Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    HotelStore.mapHotelInformation[mapKey]
+                                            ?.elementAt(3) ??
+                                        '5',
+                                    style: TextStyle(
+                                      color: Colors.white,
                                     ),
-                                  ],
+                                  ),
                                 ),
-                                child: _favouriteStore
-                                    .checkFavoureIconRedOrOutlined(index),
+
+                                // Favourite Icon
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _favouriteStore
+                                              .checkRedFavouriteIcon(mapKey)
+                                          ? _favouriteStore
+                                              .deleteFromFavouriteElement(
+                                                  mapKey)
+                                          : _favouriteStore
+                                              .addToFavouriteElement(mapKey);
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(10),
+                                    //alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 6,
+                                        ),
+                                      ],
+                                    ),
+                                    child: _favouriteStore
+                                            .checkRedFavouriteIcon(mapKey)
+                                        ? Icon(
+                                            Icons.favorite,
+                                            color: Colors.red,
+                                          )
+                                        : Icon(
+                                            Icons.favorite_outline_outlined,
+                                            color: Colors.black,
+                                          ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Spacer(),
+                            Container(
+                              alignment: Alignment.bottomLeft,
+                              //color: Colors.black12.withOpacity(0.2),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Text(
+                                      mapKey,
+                                      /* HotelStore.mapHotelInformation.entries
+                                          .elementAt(index)
+                                          .key, */
+                                      style: GoogleFonts.acme(
+                                        // acme // yeonsung
+                                        fontSize: 25,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 3),
+                                          child: Icon(
+                                            Icons.location_on,
+                                            size: 18,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        Text(
+                                          HotelStore.mapHotelInformation[mapKey]
+                                                  ?[0] ??
+                                              'Error at Hotels Location',
+                                          /* HotelStore.mapHotelInformation.entries
+                                              .elementAt(index)
+                                              .value
+                                              .elementAt(0), */
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
-                        Spacer(),
-                        Container(
-                          alignment: Alignment.bottomLeft,
-                          //color: Colors.black12.withOpacity(0.2),
-                          child: Column(
-                            children: [
-                              Container(
-                                alignment: Alignment.bottomLeft,
-                                child: Text(
-                                  HotelStore.mapHotelInformation.entries
-                                      .elementAt(index)
-                                      .key,
-                                  style: GoogleFonts.acme(
-                                    // acme // yeonsung
-                                    fontSize: 25,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 5),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 3),
-                                      child: Icon(
-                                        Icons.location_on,
-                                        size: 18,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    Text(
-                                      HotelStore.mapHotelInformation.entries
-                                          .elementAt(index)
-                                          .value
-                                          .elementAt(0),
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
-        ),
-      ),
+            ],
+          )),
     );
   }
 

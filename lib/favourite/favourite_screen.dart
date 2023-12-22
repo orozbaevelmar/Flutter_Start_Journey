@@ -64,7 +64,10 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PostScreen(index),
+                      builder: (context) => PostScreen(FavouriteStore
+                              .favouriteElementsInLinkedHashSet
+                              .elementAt(index) ??
+                          'Not Found in Favourite Screen PostScreen'),
                     ),
                   );
                 },
@@ -117,7 +120,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
               child: Column(
                 children: [
                   _buildElementsName(index),
-                  _buildElementsLocation(),
+                  _buildElementsLocation(index),
                 ],
               ),
             )
@@ -135,18 +138,11 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
-        //mapHotelInformation[favouriteElementsInLinkedHashMap.elementAt(0)]?.elementAt(3)
-        // favouriteElementsInLinkedHashMap
         HotelStore.mapHotelInformation[FavouriteStore
                     .favouriteElementsInLinkedHashSet
                     .elementAt(index)]
                 ?.elementAt(3) ??
             '5',
-
-        /*  HotelStore.mapHotelInformation.entries
-                                    .elementAt()
-                                    .value
-                                    .elementAt(3), */
         style: TextStyle(
           color: Colors.white,
         ),
@@ -157,11 +153,23 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   Widget _buildFavouriteIcon(index) {
     return InkWell(
       onTap: () {
-        setState(() {});
+        setState(() {
+          _favouriteStore.checkRedFavouriteIcon(FavouriteStore
+                      .favouriteElementsInLinkedHashSet
+                      .elementAt(index) ??
+                  'It may need fixes')
+              ? _favouriteStore.deleteFromFavouriteElement(FavouriteStore
+                      .favouriteElementsInLinkedHashSet
+                      .elementAt(index) ??
+                  'It may need fixes')
+              : _favouriteStore.addToFavouriteElement(FavouriteStore
+                      .favouriteElementsInLinkedHashSet
+                      .elementAt(index) ??
+                  'It may need fixes');
+        });
       },
       child: Container(
         padding: EdgeInsets.all(10),
-        //alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: Colors.white,
@@ -172,7 +180,19 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
             ),
           ],
         ),
-        child: _favouriteStore.checkFavoureIconRedOrOutlined(index),
+        // It may need fixes
+        child: _favouriteStore.checkRedFavouriteIcon(FavouriteStore
+                    .favouriteElementsInLinkedHashSet
+                    .elementAt(index) ??
+                'abc')
+            ? Icon(
+                Icons.favorite,
+                color: Colors.red,
+              )
+            : Icon(
+                Icons.favorite_outline_outlined,
+                color: Colors.black,
+              ),
       ),
     );
   }
@@ -181,9 +201,12 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     return Container(
       alignment: Alignment.bottomLeft,
       child: Text(
-        HotelStore.mapHotelInformation.entries
+        // it may need fixes
+        FavouriteStore.favouriteElementsInLinkedHashSet.elementAt(index) ??
+            'It may need fixes',
+        /* HotelStore.mapHotelInformation.entries
             .elementAt(index)
-            .key, //hotelsName[index],
+            .key, //hotelsName[index], */
         style: GoogleFonts.acme(
           // acme // yeonsung
           fontSize: 25,
@@ -194,7 +217,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     );
   }
 
-  Widget _buildElementsLocation() {
+  Widget _buildElementsLocation(index) {
     return Container(
       margin: EdgeInsets.only(top: 5),
       child: Row(
@@ -208,7 +231,11 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
             ),
           ),
           Text(
-            'Bishkek, Kyrgyzstan',
+            HotelStore.mapHotelInformation[FavouriteStore
+                    .favouriteElementsInLinkedHashSet
+                    .elementAt(index)]?[0] ??
+                "It may need fixes",
+            /* FavouriteStore.favouriteElementsInLinkedHashSet.elementAt(1) */
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.bold,

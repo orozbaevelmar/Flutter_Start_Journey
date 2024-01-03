@@ -3,26 +3,30 @@ import 'package:flutter/material.dart';
 class Ysyk_Kol extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Container(
-        alignment: Alignment.topLeft,
-        color: Colors.white,
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.all(20),
-            child: Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Icon(Icons.arrow_back_ios),
-                ),
-              ],
+    return Scaffold(
+      body: Column(
+        children: [
+          /*  Container(
+            height: 100.0,
+            color: Colors.blue,
+            child: Center(
+              child: Text('Above ListView'),
             ),
+          ), */
+
+          Container(
+            color: Colors.red,
+            height: MediaQuery.of(context).padding.top,
           ),
-        ),
-        //),
+
+          /* Container(
+            height: 100.0,
+            color: Colors.green,
+            child: Center(
+              child: Text('Below ListView'),
+            ),
+          ), */
+        ],
       ),
     );
   }

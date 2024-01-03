@@ -11,7 +11,7 @@ class HotelStore {
   ]; */
 
   // values: 1.hotels location
-  //        2.hotels favourite icon = red or black
+  //        2.hotels favourite icon = red or outlined
   //        3.hotels photos
   //        4.hotels stars
   //        5.hotels price
@@ -48,7 +48,22 @@ class HotelStore {
         .toList();
 
     debugPrint('Number of files in the $path folder: ${assetPaths.length}');
-    return assetPaths.length - 1; // -1 because HotelDoor.jpg
+    return assetPaths.length - 1; // -1 because of HotelDoor.jpg in images
   }
-  //
+
+  static String query = '';
+
+  void onQueryChanged(String newQuery) {
+    query = newQuery;
+  }
+
+  static List<String> searchResultsList = [];
+
+  void searchResult(String newQuery) {
+    query = newQuery;
+
+    searchResultsList = HotelStore.mapHotelInformation.keys
+        .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+  }
 }

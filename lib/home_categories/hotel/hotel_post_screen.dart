@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:start_journey/favourite/store/favourite_store.dart';
 import 'package:start_journey/home_categories/hotel/store/hotel_store.dart';
 
 class PostScreen extends StatefulWidget {
@@ -20,6 +21,7 @@ class _PostScreenState extends State<PostScreen> {
   ];
 
   HotelStore _hotelStore = HotelStore();
+  FavouriteStore _favouriteStore = FavouriteStore();
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +88,15 @@ class _PostScreenState extends State<PostScreen> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      _favouriteStore.checkRedFavouriteIcon(widget.whichHotel)
+                          ? _favouriteStore
+                              .deleteFromFavouriteElement(widget.whichHotel)
+                          : _favouriteStore
+                              .addToFavouriteElement(widget.whichHotel);
+                    });
+                  },
                   child: Container(
                     padding: EdgeInsets.all(10),
                     //alignment: Alignment.center,
@@ -100,18 +110,18 @@ class _PostScreenState extends State<PostScreen> {
                         ),
                       ],
                     ),
-                    child: Icon(
-                      HotelStore.mapHotelInformation[widget.whichHotel]![1]
-                              .startsWith('u')
-                          /* HotelStore.mapHotelInformation.entries
-                              .elementAt(widget.whichHotel)
-                              .value
-                              .elementAt(1)
-                              .startsWith('u') */
-                          ? Icons.favorite_outline_outlined
-                          : Icons.favorite,
-                      size: 25,
-                    ),
+                    child:
+                        _favouriteStore.checkRedFavouriteIcon(widget.whichHotel)
+                            ? Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                                size: 25,
+                              )
+                            : Icon(
+                                Icons.favorite_outline_outlined,
+                                color: Colors.black,
+                                size: 25,
+                              ),
                   ),
                 ),
               ],

@@ -13,6 +13,13 @@ class HotelsScreen extends StatefulWidget {
 
 class _HotelsScreenState extends State<HotelsScreen> {
   FavouriteStore _favouriteStore = FavouriteStore();
+  HotelStore _hotelStore = HotelStore();
+
+  void _searchResult(String newQuery) {
+    setState(() {
+      _hotelStore.searchResult(newQuery);
+    });
+  }
 
   List<String> yourWishes = [
     'Near You',
@@ -21,6 +28,12 @@ class _HotelsScreenState extends State<HotelsScreen> {
   ];
 
   TextEditingController _searchController = TextEditingController();
+
+  double remainingHeight = 0;
+  double _height(double height) {
+    remainingHeight += height;
+    return height;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +46,20 @@ class _HotelsScreenState extends State<HotelsScreen> {
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             _hotelAppBar(),
             _hotelTagline(),
             _hotelSearch(),
-            _hotelsTopLocatedOfScreen(),
-            _hotelCategory(),
-            _hotelsBottomLocatedOfScreen(),
+            HotelStore.query.isEmpty
+                ? Column(
+                    children: [
+                      _hotelsTopLocatedOfScreen(),
+                      _hotelCategory(),
+                      _hotelsBottomLocatedOfScreen(),
+                    ],
+                  )
+                : _hotelSearchScreen(),
           ],
         ),
       ),
@@ -65,7 +85,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
             onPressed: () => Navigator.pop(context),
           ),
           Container(
-            height: 60,
+            height: _height(60), // _height
             width: 60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -85,6 +105,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
   Widget _hotelTagline() {
     return Container(
       alignment: Alignment.centerLeft,
+      height: _height(65), // _height
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Text(
         'Hotels for all Desires', //'Best Hotels is here',// hospitable hotels are waiting for you //hotels for all desires
@@ -98,11 +119,13 @@ class _HotelsScreenState extends State<HotelsScreen> {
 
   Widget _hotelSearch() {
     return Container(
+      height: _height(87), // _height
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 17),
       child: TextField(
         style: const TextStyle(
           fontSize: 18,
         ),
+
         controller: _searchController,
         decoration: InputDecoration(
           isDense: true,
@@ -115,6 +138,9 @@ class _HotelsScreenState extends State<HotelsScreen> {
             icon: const Icon(Icons.clear),
             onPressed: () {
               _searchController.clear();
+              setState(() {
+                _hotelStore.onQueryChanged('');
+              });
             },
           ),
         ),
@@ -122,7 +148,190 @@ class _HotelsScreenState extends State<HotelsScreen> {
           //FocusScope.of(context).unfocus();
           FocusManager.instance.primaryFocus?.unfocus();
         },
-        onTap: () {},
+        //onTap: () {},
+        onChanged: _searchResult, //onQueryChanged,
+      ),
+    );
+  }
+
+  Widget _hotelSearchScreen() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height -
+          MediaQuery.of(context).padding.top -
+          60 -
+          65 -
+          87 -
+          15,
+      child: ListView.builder(
+        physics: AlwaysScrollableScrollPhysics(),
+        itemCount: HotelStore.searchResultsList.length,
+        //primary: true,
+        //shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: InkWell(
+              onTap: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        PostScreen(HotelStore.searchResultsList[index]),
+                  ),
+                );
+                setState(() {
+                  // I set this setState, because when I in
+                  // hotel_post_screen click arrow_back -> Navigator.pop(),
+                  // Icon in HotelScreen will be changed.
+                });
+              },
+              child: Container(
+                height: 250, //width: 250,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(20),
+                  image: DecorationImage(
+                    image: AssetImage(
+                        '${HotelStore.mapHotelInformation[HotelStore.searchResultsList[index]]?.elementAt(2)}hotel0.jpg'),
+                    fit: BoxFit.cover,
+                    opacity: 0.9,
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              HotelStore.mapHotelInformation[
+                                          HotelStore.searchResultsList[index]]
+                                      ?.elementAt(3) ??
+                                  '5',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+
+                          // Favourite Icon
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                _favouriteStore.checkRedFavouriteIcon(
+                                        HotelStore.searchResultsList[index])
+                                    ? _favouriteStore
+                                        .deleteFromFavouriteElement(
+                                            HotelStore.searchResultsList[index])
+                                    : _favouriteStore.addToFavouriteElement(
+                                        HotelStore.searchResultsList[index]);
+                              });
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              //alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 6,
+                                  ),
+                                ],
+                              ),
+                              child: _favouriteStore.checkRedFavouriteIcon(
+                                      HotelStore.searchResultsList[index])
+                                  ? Icon(
+                                      Icons.favorite,
+                                      color: Colors.red,
+                                    )
+                                  : Icon(
+                                      Icons.favorite_outline_outlined,
+                                      color: Colors.black,
+                                    ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Spacer(),
+                      Container(
+                        alignment: Alignment.bottomLeft,
+                        //color: Colors.black12.withOpacity(0.2),
+                        child: Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                HotelStore.searchResultsList[index],
+                                /* HotelStore.mapHotelInformation.entries
+                                          .elementAt(index)
+                                          .key, */
+                                style: GoogleFonts.acme(
+                                  // acme // yeonsung
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 5),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 3),
+                                    child: Icon(
+                                      Icons.location_on,
+                                      size: 18,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    HotelStore.mapHotelInformation[HotelStore
+                                            .searchResultsList[index]]?[0] ??
+                                        'Error at Hotels Location',
+                                    /* HotelStore.mapHotelInformation.entries
+                                              .elementAt(index)
+                                              .value
+                                              .elementAt(0), */
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+
+          /* Container(
+            margin: EdgeInsets.symmetric(vertical: 15),
+            height: 200,
+            color: Colors.amber,
+            //child: Image(image: AssetImage('images/nature.jpg')));
+          ); */
+        },
       ),
     );
   }
@@ -145,13 +354,18 @@ class _HotelsScreenState extends State<HotelsScreen> {
                 Padding(
                   padding: EdgeInsets.only(right: 20),
                   child: InkWell(
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => PostScreen(mapKey),
                         ),
                       );
+                      setState(() {
+                        // I set this setState, because when I in
+                        // hotel_post_screen click arrow_back -> Navigator.pop(),
+                        // Icon in HotelScreen will be changed.
+                      });
                     },
                     child: Container(
                       width: 250,

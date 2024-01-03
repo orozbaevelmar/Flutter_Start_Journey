@@ -61,7 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Padding(
         padding: EdgeInsets.zero,
         child: SingleChildScrollView(
-          //physics: NeverScrollableScrollPhysics(),
           child: Column(
             children: <Widget>[
               //

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:start_journey/home_categories/hotel/hotels_screen.dart';
+import 'package:start_journey/home_categories/sights/sights_screen.dart';
 import 'package:start_journey/home_regions/batken.dart';
 import 'package:start_journey/home_regions/chuy.dart';
 import 'package:start_journey/home_regions/jalal_abad.dart';
@@ -16,6 +17,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var categoryPush = [
+    HotelsScreen(),
+    SightsScreen(),
+  ];
+
   // hotel, snow sports, nature, sights,
   // nature --> waterfall, river, camping, mountain, lake,
   var category = [
@@ -203,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HotelsScreen(),
+                            builder: (context) => categoryPush[i],
                           ),
                         );
                       },

@@ -64,7 +64,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PostScreen(FavouriteStore
+                      builder: (context) => HotelPostScreen(FavouriteStore
                               .favouriteElementsInLinkedHashSet
                               .elementAt(index) ??
                           'Not Found in Favourite Screen PostScreen'),

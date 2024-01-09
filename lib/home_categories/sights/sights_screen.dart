@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:start_journey/favourite/store/favourite_store.dart';
-import 'package:start_journey/home_categories/hotel/hotel_post_screen.dart';
-import 'package:start_journey/home_categories/hotel/store/hotel_store.dart';
+import 'package:start_journey/home_categories/sights/sights_post_screen.dart';
+import 'package:start_journey/home_categories/sights/store/sights_store.dart';
 
-class HotelsScreen extends StatefulWidget {
-  const HotelsScreen({super.key});
+class SightsScreen extends StatefulWidget {
+  const SightsScreen({super.key});
 
   @override
-  State<HotelsScreen> createState() => _HotelsScreenState();
+  State<SightsScreen> createState() => _SightsScreenState();
 }
 
-class _HotelsScreenState extends State<HotelsScreen> {
+class _SightsScreenState extends State<SightsScreen> {
   FavouriteStore _favouriteStore = FavouriteStore();
-  HotelStore _hotelStore = HotelStore();
+  SightsStore _sightsStore = SightsStore();
 
   void _searchResult(String newQuery) {
     setState(() {
-      _hotelStore.searchResultHotel(newQuery);
+      _sightsStore.searchResultSights(newQuery);
     });
   }
 
@@ -45,7 +45,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
             _hotelAppBar(),
             _hotelTagline(),
             _hotelSearch(),
-            HotelStore.queryHotel.isEmpty
+            SightsStore.querySights.isEmpty
                 ? Column(
                     children: [
                       _hotelsTopLocatedOfScreen(),
@@ -77,7 +77,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
               color: Colors.black,
             ),
             onPressed: () {
-              _hotelStore.onQueryChangedHotel('');
+              _sightsStore.onQueryChangedSights('');
               Navigator.pop(context);
             },
           ),
@@ -105,7 +105,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
       height: 65, // _height
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Text(
-        'Hotels for all Desires', // hospitable hotels are waiting for you //hotels for all desires
+        'Sights for all Desires', // hospitable hotels are waiting for you //hotels for all desires
         style: GoogleFonts.frankRuhlLibre(
           fontSize: 35,
           fontWeight: FontWeight.w500,
@@ -130,13 +130,13 @@ class _HotelsScreenState extends State<HotelsScreen> {
             borderRadius: BorderRadius.circular(20),
           ),
           prefixIcon: const Icon(Icons.search_outlined),
-          hintText: 'Search for Hotels',
+          hintText: 'Search for Sights',
           suffixIcon: IconButton(
             icon: const Icon(Icons.clear),
             onPressed: () {
               _searchController.clear();
               setState(() {
-                _hotelStore.onQueryChangedHotel('');
+                _sightsStore.onQueryChangedSights('');
               });
             },
           ),
@@ -163,7 +163,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
           15, // the height of _hotelAppBar(),_hotelTagline(),_hotelSearch() and padding(15)
       child: ListView.builder(
         physics: AlwaysScrollableScrollPhysics(),
-        itemCount: HotelStore.searchResultsList.length,
+        itemCount: SightsStore.searchResultsListSights.length,
         //primary: true,
         //shrinkWrap: true,
         scrollDirection: Axis.vertical,
@@ -175,8 +175,8 @@ class _HotelsScreenState extends State<HotelsScreen> {
                 await Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        HotelPostScreen(HotelStore.searchResultsList[index]),
+                    builder: (context) => SightsPostScreen(
+                        SightsStore.searchResultsListSights[index]),
                   ),
                 );
                 setState(() {
@@ -192,7 +192,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
                     image: AssetImage(
-                        '${HotelStore.mapHotelInformation[HotelStore.searchResultsList[index]]?.elementAt(2)}hotel0.jpg'),
+                        '${SightsStore.mapSightsInformation[SightsStore.searchResultsListSights[index]]?.elementAt(2)}sights0.jpg'),
                     fit: BoxFit.cover,
                     opacity: 0.9,
                   ),
@@ -212,8 +212,8 @@ class _HotelsScreenState extends State<HotelsScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
-                              HotelStore.mapHotelInformation[
-                                          HotelStore.searchResultsList[index]]
+                              SightsStore.mapSightsInformation[SightsStore
+                                          .searchResultsListSights[index]]
                                       ?.elementAt(3) ??
                                   '5',
                               style: TextStyle(
@@ -227,12 +227,14 @@ class _HotelsScreenState extends State<HotelsScreen> {
                             onTap: () {
                               setState(() {
                                 _favouriteStore.checkRedFavouriteIcon(
-                                        HotelStore.searchResultsList[index])
+                                        SightsStore
+                                            .searchResultsListSights[index])
                                     ? _favouriteStore
-                                        .deleteFromFavouriteElement(
-                                            HotelStore.searchResultsList[index])
+                                        .deleteFromFavouriteElement(SightsStore
+                                            .searchResultsListSights[index])
                                     : _favouriteStore.addToFavouriteElement(
-                                        HotelStore.searchResultsList[index]);
+                                        SightsStore
+                                            .searchResultsListSights[index]);
                               });
                             },
                             child: Container(
@@ -249,7 +251,8 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                 ],
                               ),
                               child: _favouriteStore.checkRedFavouriteIcon(
-                                      HotelStore.searchResultsList[index])
+                                      SightsStore
+                                          .searchResultsListSights[index])
                                   ? Icon(
                                       Icons.favorite,
                                       color: Colors.red,
@@ -271,7 +274,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                             Container(
                               alignment: Alignment.bottomLeft,
                               child: Text(
-                                HotelStore.searchResultsList[index],
+                                SightsStore.searchResultsListSights[index],
                                 /* HotelStore.mapHotelInformation.entries
                                           .elementAt(index)
                                           .key, */
@@ -296,8 +299,9 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                     ),
                                   ),
                                   Text(
-                                    HotelStore.mapHotelInformation[HotelStore
-                                            .searchResultsList[index]]?[0] ??
+                                    SightsStore.mapSightsInformation[SightsStore
+                                                .searchResultsListSights[index]]
+                                            ?[0] ??
                                         'Error at Hotels Location',
                                     /* HotelStore.mapHotelInformation.entries
                                               .elementAt(index)
@@ -347,7 +351,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
             shrinkWrap: true,
             //itemCount: HotelStore.mapHotelInformation.length,
             children: [
-              for (var mapKey in HotelStore.mapHotelInformation.keys)
+              for (var mapKey in SightsStore.mapSightsInformation.keys)
                 Padding(
                   padding: EdgeInsets.only(right: 20),
                   child: InkWell(
@@ -355,7 +359,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                       await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HotelPostScreen(mapKey),
+                          builder: (context) => SightsPostScreen(mapKey),
                         ),
                       );
                       setState(() {
@@ -371,7 +375,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                         borderRadius: BorderRadius.circular(20),
                         image: DecorationImage(
                           image: AssetImage(
-                              '${HotelStore.mapHotelInformation[mapKey]?.elementAt(2)}hotel0.jpg'),
+                              '${SightsStore.mapSightsInformation[mapKey]?.elementAt(2)}sights0.jpg'),
                           fit: BoxFit.cover,
                           opacity: 0.9,
                         ),
@@ -391,7 +395,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Text(
-                                    HotelStore.mapHotelInformation[mapKey]
+                                    SightsStore.mapSightsInformation[mapKey]
                                             ?.elementAt(3) ??
                                         '5',
                                     style: TextStyle(
@@ -475,8 +479,8 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                           ),
                                         ),
                                         Text(
-                                          HotelStore.mapHotelInformation[mapKey]
-                                                  ?[0] ??
+                                          SightsStore.mapSightsInformation[
+                                                  mapKey]?[0] ??
                                               'Error at Hotels Location',
                                           /* HotelStore.mapHotelInformation.entries
                                               .elementAt(index)
@@ -600,7 +604,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                     borderRadius: BorderRadius.circular(20),
                     image: DecorationImage(
                       image: AssetImage(
-                        'images/hotels/sheraton_bishkek/hotel0.jpg',
+                        'images/sights/ruh_ordo/sights0.jpg',
                       ),
                       fit: BoxFit.cover,
                       opacity: 0.9,

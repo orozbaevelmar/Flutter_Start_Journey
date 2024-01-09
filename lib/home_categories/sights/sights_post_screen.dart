@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:start_journey/favourite/store/favourite_store.dart';
-import 'package:start_journey/home_categories/hotel/store/hotel_store.dart';
+import 'package:start_journey/home_categories/sights/store/sights_store.dart';
 
-class HotelPostScreen extends StatefulWidget {
+class SightsPostScreen extends StatefulWidget {
   final String whichHotel;
-  HotelPostScreen(this.whichHotel);
+  SightsPostScreen(this.whichHotel);
 
   @override
-  State<HotelPostScreen> createState() => _HotelPostScreenState();
+  State<SightsPostScreen> createState() => _SightsPostScreenState();
 }
 
-class _HotelPostScreenState extends State<HotelPostScreen> {
+class _SightsPostScreenState extends State<SightsPostScreen> {
   final category = [
     'Wi-Fi',
     'Gym',
@@ -20,8 +20,8 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
     'Air conditioning',
   ];
 
-  HotelStore _hotelStore = HotelStore();
   FavouriteStore _favouriteStore = FavouriteStore();
+  SightsStore _sightsStore = SightsStore();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(
-            '${HotelStore.mapHotelInformation[widget.whichHotel]?[2]}hotelDoor.jpg',
+            '${SightsStore.mapSightsInformation[widget.whichHotel]?[2]}sightsDoor.jpg',
             /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotelDoor.jpg', */
           ),
           fit: BoxFit.cover,
@@ -168,8 +168,8 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
           margin: EdgeInsets.only(left: 20, right: 2),
           height: 100,
           child: FutureBuilder(
-              future: _hotelStore.countFilesInFolder(
-                HotelStore.mapHotelInformation[widget.whichHotel]![2],
+              future: _sightsStore.countFilesInFolder(
+                SightsStore.mapSightsInformation[widget.whichHotel]![2],
               ),
               /* HotelStore
                   .mapHotelInformation.entries
@@ -195,7 +195,7 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(
-                            '${HotelStore.mapHotelInformation[widget.whichHotel]?[2]}hotel$index.jpg',
+                            '${SightsStore.mapSightsInformation[widget.whichHotel]?[2]}sights$index.jpg',
                             /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotel$index.jpg', */ //rewrote
                           ),
                         ),
@@ -301,7 +301,7 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
             right: 20,
           ),
           child: Text(
-            HotelStore.mapHotelInformation[widget.whichHotel]![5],
+            SightsStore.mapSightsInformation[widget.whichHotel]![5],
             /* HotelStore.mapHotelInformation.entries
                 .elementAt(widget.whichHotel)
                 .value
@@ -335,7 +335,7 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
             margin: EdgeInsets.symmetric(horizontal: 20),
             alignment: Alignment.center,
             child: Text(
-              HotelStore.mapHotelInformation[widget.whichHotel]![4],
+              SightsStore.mapSightsInformation[widget.whichHotel]![4],
               /* HotelStore.mapHotelInformation.entries
                   .elementAt(widget.whichHotel)
                   .value

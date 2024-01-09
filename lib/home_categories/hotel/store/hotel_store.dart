@@ -10,6 +10,7 @@ class HotelStore {
     'TES Hotel',
   ]; */
 
+  // key: Hotel's name
   // values: 1.hotels location
   //        2.hotels favourite icon = red or outlined
   //        3.hotels photos
@@ -22,7 +23,7 @@ class HotelStore {
     'Sheraton Bishkek': [
       // key: hotels name
       'Bishkek, Kyrgyzstan', // 0.hotels loacation
-      'u', // 1.hotel = favourite or unfavourite
+      'u', // 1.hotel = favourite or unfavourite respectively 'f' and 'u'
       'images/hotels/sheraton_bishkek/', // 2.hotels photos
       '4.3*', // 3.hotels star
       '\$450 / Night', // 4.hotels price
@@ -51,19 +52,19 @@ class HotelStore {
     return assetPaths.length - 1; // -1 because of HotelDoor.jpg in images
   }
 
-  static String query = '';
+  static String queryHotel = '';
 
-  void onQueryChanged(String newQuery) {
-    query = newQuery;
+  void onQueryChangedHotel(String newQuery) {
+    queryHotel = newQuery;
   }
 
   static List<String> searchResultsList = [];
 
-  void searchResult(String newQuery) {
-    query = newQuery;
+  void searchResultHotel(String newQuery) {
+    queryHotel = newQuery;
 
     searchResultsList = HotelStore.mapHotelInformation.keys
-        .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+        .where((item) => item.toLowerCase().contains(queryHotel.toLowerCase()))
         .toList();
   }
 }

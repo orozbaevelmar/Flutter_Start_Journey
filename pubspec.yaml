@@ -69,6 +69,9 @@ flutter:
       - images/amenitiesIcon/
       - images/hotels/sheraton_bishkek/
       - images/hotels/jannat_resort/
+      - images/sights/ruh_ordo/
+      - images/sights/uzgen_minaret_tower/
+
       
   #   - images/a_dot_ham.jpeg
 

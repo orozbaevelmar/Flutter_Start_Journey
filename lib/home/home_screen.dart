@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:start_journey/home_categories/hotel/hotels_screen.dart';
+import 'package:start_journey/home_categories/nature/nature_screen.dart';
 import 'package:start_journey/home_categories/sights/sights_screen.dart';
+import 'package:start_journey/home_categories/snow_sport/snow_sport_screen.dart';
 import 'package:start_journey/home_regions/batken.dart';
 import 'package:start_journey/home_regions/chuy.dart';
 import 'package:start_journey/home_regions/jalal_abad.dart';
@@ -20,6 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
   var categoryPush = [
     HotelsScreen(),
     SightsScreen(),
+    NatureScreen(),
+    SnowSportScreen(),
   ];
 
   // hotel, snow sports, nature, sights,

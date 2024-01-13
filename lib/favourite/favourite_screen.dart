@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:start_journey/favourite/store/favourite_store.dart';
-import 'package:start_journey/home_categories/hotel/hotel_post_screen.dart';
-import 'package:start_journey/home_categories/hotel/store/hotel_store.dart';
 
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});
@@ -22,7 +20,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   }
 
   Widget _buildBody() {
-    return FavouriteStore.favouriteElementsInLinkedHashSet.isEmpty
+    return FavouriteStore.favouriteElementsInLinkedHashMap.isEmpty
         ? _noFavouriteElement()
         : _hasFavouriteElements();
   }
@@ -54,33 +52,39 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
       child: Padding(
         padding: EdgeInsets.all(15),
         child: Container(
-          child: ListView.builder(
+          child: ListView(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
-            itemCount: FavouriteStore.favouriteElementsInLinkedHashSet.length,
-            itemBuilder: (BuildContext context, int index) {
-              return InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HotelPostScreen(FavouriteStore
-                              .favouriteElementsInLinkedHashSet
-                              .elementAt(index) ??
-                          'Not Found in Favourite Screen PostScreen'),
-                    ),
-                  );
-                },
-                child: _favouriteElementBody(index),
-              );
-            },
+            children: [
+              for (var mapKey
+                  in FavouriteStore.favouriteElementsInLinkedHashMap.keys)
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FavouriteStore
+                            .favouriteElementsInLinkedHashMap[mapKey]
+                            ?.elementAt(1)(mapKey),
+                        /* FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]?.elementAt(1) --> PostScreen */
+
+                        /* HotelPostScreen(FavouriteStore
+                              .favouriteElementsInLinkedHashMap.
+                                .elementAt(index) ??
+                            'Not Found in Favourite Screen PostScreen') */
+                      ),
+                    );
+                  },
+                  child: _favouriteElementBody(mapKey),
+                ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _favouriteElementBody(index) {
+  Widget _favouriteElementBody(mapKey) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20),
       height: 300,
@@ -89,14 +93,18 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
           image: AssetImage(
-            //HotelStore.mapHotelInformation[FavouriteStore
-            // .favouriteElementsInLinkedHashSet
-            //   .elementAt(index)]!
-            //  .elementAt(3),
+              //HotelStore.mapHotelInformation[FavouriteStore
+              // .favouriteElementsInLinkedHashSet
+              //   .elementAt(index)]!
+              //  .elementAt(3),
 
-            //  '${HotelStore.mapHotelInformation.entries.elementAt(index).value.elementAt(2)}hotelDoor.jpg'
-            '${HotelStore.mapHotelInformation[FavouriteStore.favouriteElementsInLinkedHashSet.elementAt(index)]?.elementAt(2)}hotelDoor.jpg',
-          ),
+              //  '${HotelStore.mapHotelInformation.entries.elementAt(index).value.elementAt(2)}hotelDoor.jpg'
+
+              /* '${HotelStore.mapHotelInformation[FavouriteStore.favouriteElementsInLinkedHashSet.elementAt(index)]?.elementAt(2)}hotelDoor.jpg', */
+
+              '${FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]?.elementAt(0)[mapKey][2]}hotelDoor.jpg'
+              /* FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]?.elementAt(0) --> CategoryStore.mapCategoryInformation */
+              ),
           fit: BoxFit.cover,
           opacity: 0.9,
         ),
@@ -109,8 +117,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildElementsRating(index),
-                _buildFavouriteIcon(index),
+                _buildElementsRating(mapKey),
+                _buildFavouriteIcon(mapKey),
               ],
             ),
             Spacer(),
@@ -119,8 +127,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
               //color: Colors.black12.withOpacity(0.2),
               child: Column(
                 children: [
-                  _buildElementsName(index),
-                  _buildElementsLocation(index),
+                  _buildElementsName(mapKey),
+                  _buildElementsLocation(mapKey),
                 ],
               ),
             )
@@ -130,7 +138,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     );
   }
 
-  Widget _buildElementsRating(index) {
+  Widget _buildElementsRating(mapKey) {
     return Container(
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -138,11 +146,13 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
-        HotelStore.mapHotelInformation[FavouriteStore
+        FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]
+            ?.elementAt(0)[mapKey][3],
+        /* HotelStore.mapHotelInformation[FavouriteStore
                     .favouriteElementsInLinkedHashSet
                     .elementAt(index)]
                 ?.elementAt(3) ??
-            '5',
+            '5', */
         style: TextStyle(
           color: Colors.white,
         ),
@@ -150,22 +160,31 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     );
   }
 
-  Widget _buildFavouriteIcon(index) {
+  Widget _buildFavouriteIcon(mapKey) {
     return InkWell(
       onTap: () {
         setState(() {
-          _favouriteStore.checkRedFavouriteIcon(FavouriteStore
+          _favouriteStore.checkRedFavouriteIcon(
+                  FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]
+                      ?.elementAt(0),
+                  mapKey /* FavouriteStore
                       .favouriteElementsInLinkedHashSet
-                      .elementAt(index) ??
-                  'It may need fixes')
-              ? _favouriteStore.deleteFromFavouriteElement(FavouriteStore
+                      .elementAt(index) */
+                      ??
+                      'It may need fixes')
+              ? _favouriteStore
+                  .deleteFromFavouriteElement(mapKey ?? 'It may need fixes')
+              : _favouriteStore.addToFavouriteElement(
+                  FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]
+                      ?.elementAt(0),
+                  mapKey,
+                  FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]
+                          ?.elementAt(1)
+                      /* FavouriteStore
                       .favouriteElementsInLinkedHashSet
-                      .elementAt(index) ??
-                  'It may need fixes')
-              : _favouriteStore.addToFavouriteElement(FavouriteStore
-                      .favouriteElementsInLinkedHashSet
-                      .elementAt(index) ??
-                  'It may need fixes');
+                      .elementAt(index) */
+                      ??
+                      'It may need fixes');
         });
       },
       child: Container(
@@ -181,10 +200,10 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           ],
         ),
         // It may need fixes
-        child: _favouriteStore.checkRedFavouriteIcon(FavouriteStore
-                    .favouriteElementsInLinkedHashSet
-                    .elementAt(index) ??
-                'abc')
+        child: _favouriteStore.checkRedFavouriteIcon(
+                FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]
+                    ?.elementAt(0),
+                mapKey ?? 'abc')
             ? Icon(
                 Icons.favorite,
                 color: Colors.red,
@@ -197,13 +216,12 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     );
   }
 
-  Widget _buildElementsName(index) {
+  Widget _buildElementsName(mapKey) {
     return Container(
       alignment: Alignment.bottomLeft,
       child: Text(
         // it may need fixes
-        FavouriteStore.favouriteElementsInLinkedHashSet.elementAt(index) ??
-            'It may need fixes',
+        mapKey ?? 'It may need fixes',
         /* HotelStore.mapHotelInformation.entries
             .elementAt(index)
             .key, //hotelsName[index], */
@@ -217,7 +235,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     );
   }
 
-  Widget _buildElementsLocation(index) {
+  Widget _buildElementsLocation(mapKey) {
     return Container(
       margin: EdgeInsets.only(top: 5),
       child: Row(
@@ -231,9 +249,12 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
             ),
           ),
           Text(
-            HotelStore.mapHotelInformation[FavouriteStore
+            FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]
+                    ?.elementAt(0)[mapKey][0]
+                /* HotelStore.mapHotelInformation[FavouriteStore
                     .favouriteElementsInLinkedHashSet
-                    .elementAt(index)]?[0] ??
+                    .elementAt(index)]?[0] */
+                ??
                 "It may need fixes",
             /* FavouriteStore.favouriteElementsInLinkedHashSet.elementAt(1) */
             style: TextStyle(

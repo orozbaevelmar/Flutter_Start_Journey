@@ -8,7 +8,7 @@ class SightsStore {
       'Yssyk-Kol, Kyrgyzstan', // 0.hotels loacation
       'u', // 1.hotel = favourite or unfavourite respectively 'f' and 'u'
       'images/sights/ruh_ordo/', // 2.hotels photos
-      '4.3*', // 3.hotels star
+      '2.2*', // 3.hotels star
       '\$0 / Night', // 4.hotels price
       'Ruh Ordo, nestled along the shores of Lake Issyk-Kul in Cholpon-Ata, Kyrgyzstan, is a cultural and spiritual center founded by Askar Akayev, the country\'s first president. The name, meaning "Spiritual Center" in Kyrgyz, reflects its purpose of promoting cultural diversity and religious harmony.' // hotels description
       // 5.hotel's description
@@ -17,7 +17,7 @@ class SightsStore {
       'Osh, Kyrgyzstan',
       'u',
       'images/sights/uzgen_minaret_tower/',
-      '5*',
+      '2.1*',
       '\$1000 / Night',
       'Jannat Resort is beautiful place',
     ],

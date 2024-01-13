@@ -19,7 +19,7 @@ class HotelStore {
   //        6.hotels description
 
   // all informations about hotel:----------------------------------------------
-  static final Map<String, List<String>> mapHotelInformation = {
+  static final Map<String, List<String>> mapInformation = {
     'Sheraton Bishkek': [
       // key: hotels name
       'Bishkek, Kyrgyzstan', // 0.hotels loacation
@@ -39,6 +39,39 @@ class HotelStore {
       'Jannat Resort is beautiful place',
     ],
   };
+
+  // favouriteMap == key: favourite element's name
+  //               value: [0]=HotelStore
+  //                      [1]=HotelPostScreen
+
+  String getDescription(String favouriteElementsName) {
+    return mapInformation[favouriteElementsName]?.elementAt(5) ??
+        'It may need fixes';
+  }
+
+  String getPrice(String favouriteElementsName) {
+    return mapInformation[favouriteElementsName]?.elementAt(4) ??
+        'It may need fixes';
+  }
+
+  String getRating(String favouriteElementsName) {
+    return mapInformation[favouriteElementsName]?.elementAt(3) ??
+        'It may need fixes';
+  }
+
+  String getPictureOfFacade(String favouriteElementsName) {
+    return '${mapInformation[favouriteElementsName]?.elementAt(2)}hotelDoor.jpg';
+  }
+
+  String getPictures(String favouriteElementsName) {
+    return mapInformation[favouriteElementsName]?.elementAt(2) ??
+        'It may need Fixes';
+  }
+
+  String getLocation(String favouriteElementsName) {
+    return mapInformation[favouriteElementsName]?.elementAt(0) ??
+        'It may need Fixes';
+  }
 
   // method which counts images in folder:--------------------------------------
   Future<int> countFilesInFolder(String path) async {
@@ -63,7 +96,7 @@ class HotelStore {
   void searchResultHotel(String newQuery) {
     queryHotel = newQuery;
 
-    searchResultsList = HotelStore.mapHotelInformation.keys
+    searchResultsList = HotelStore.mapInformation.keys
         .where((item) => item.toLowerCase().contains(queryHotel.toLowerCase()))
         .toList();
   }

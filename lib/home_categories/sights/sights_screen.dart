@@ -227,14 +227,17 @@ class _SightsScreenState extends State<SightsScreen> {
                             onTap: () {
                               setState(() {
                                 _favouriteStore.checkRedFavouriteIcon(
+                                        SightsStore.mapSightsInformation,
                                         SightsStore
                                             .searchResultsListSights[index])
                                     ? _favouriteStore
                                         .deleteFromFavouriteElement(SightsStore
                                             .searchResultsListSights[index])
                                     : _favouriteStore.addToFavouriteElement(
+                                        SightsStore.mapSightsInformation,
                                         SightsStore
-                                            .searchResultsListSights[index]);
+                                            .searchResultsListSights[index],
+                                        SightsPostScreen);
                               });
                             },
                             child: Container(
@@ -251,6 +254,7 @@ class _SightsScreenState extends State<SightsScreen> {
                                 ],
                               ),
                               child: _favouriteStore.checkRedFavouriteIcon(
+                                      SightsStore.mapSightsInformation,
                                       SightsStore
                                           .searchResultsListSights[index])
                                   ? Icon(
@@ -408,13 +412,18 @@ class _SightsScreenState extends State<SightsScreen> {
                                 InkWell(
                                   onTap: () {
                                     setState(() {
-                                      _favouriteStore
-                                              .checkRedFavouriteIcon(mapKey)
+                                      _favouriteStore.checkRedFavouriteIcon(
+                                              SightsStore.mapSightsInformation,
+                                              mapKey)
                                           ? _favouriteStore
                                               .deleteFromFavouriteElement(
                                                   mapKey)
                                           : _favouriteStore
-                                              .addToFavouriteElement(mapKey);
+                                              .addToFavouriteElement(
+                                                  SightsStore
+                                                      .mapSightsInformation,
+                                                  mapKey,
+                                                  SightsPostScreen);
                                     });
                                   },
                                   child: Container(
@@ -430,16 +439,19 @@ class _SightsScreenState extends State<SightsScreen> {
                                         ),
                                       ],
                                     ),
-                                    child: _favouriteStore
-                                            .checkRedFavouriteIcon(mapKey)
-                                        ? Icon(
-                                            Icons.favorite,
-                                            color: Colors.red,
-                                          )
-                                        : Icon(
-                                            Icons.favorite_outline_outlined,
-                                            color: Colors.black,
-                                          ),
+                                    child:
+                                        _favouriteStore.checkRedFavouriteIcon(
+                                                SightsStore
+                                                    .mapSightsInformation,
+                                                mapKey)
+                                            ? Icon(
+                                                Icons.favorite,
+                                                color: Colors.red,
+                                              )
+                                            : Icon(
+                                                Icons.favorite_outline_outlined,
+                                                color: Colors.black,
+                                              ),
                                   ),
                                 ),
                               ],

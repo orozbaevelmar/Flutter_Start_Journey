@@ -90,11 +90,15 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      _favouriteStore.checkRedFavouriteIcon(widget.whichHotel)
+                      _favouriteStore.checkRedFavouriteIcon(
+                              SightsStore.mapSightsInformation,
+                              widget.whichHotel)
                           ? _favouriteStore
                               .deleteFromFavouriteElement(widget.whichHotel)
-                          : _favouriteStore
-                              .addToFavouriteElement(widget.whichHotel);
+                          : _favouriteStore.addToFavouriteElement(
+                              SightsStore.mapSightsInformation,
+                              widget.whichHotel,
+                              SightsPostScreen);
                     });
                   },
                   child: Container(
@@ -110,18 +114,18 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
                         ),
                       ],
                     ),
-                    child:
-                        _favouriteStore.checkRedFavouriteIcon(widget.whichHotel)
-                            ? Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                                size: 25,
-                              )
-                            : Icon(
-                                Icons.favorite_outline_outlined,
-                                color: Colors.black,
-                                size: 25,
-                              ),
+                    child: _favouriteStore.checkRedFavouriteIcon(
+                            SightsStore.mapSightsInformation, widget.whichHotel)
+                        ? Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                            size: 25,
+                          )
+                        : Icon(
+                            Icons.favorite_outline_outlined,
+                            color: Colors.black,
+                            size: 25,
+                          ),
                   ),
                 ),
               ],
@@ -142,7 +146,7 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
       child: Column(
         children: [
           _buildPostRoomImages(),
-          _buildHotelsName(),
+          _buildSightsName(),
           _buildAmenities(),
           _buildDescription(),
         ],
@@ -209,7 +213,7 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
     );
   }
 
-  Widget _buildHotelsName() {
+  Widget _buildSightsName() {
     return Container(
       padding: EdgeInsets.all(20),
       alignment: Alignment.centerLeft,

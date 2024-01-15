@@ -91,14 +91,11 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      _favouriteStore.checkRedFavouriteIcon(
-                              HotelStore.mapInformation, widget.whichHotel)
+                      _favouriteStore.checkRedFavouriteIcon(widget.whichHotel)
                           ? _favouriteStore
                               .deleteFromFavouriteElement(widget.whichHotel)
                           : _favouriteStore.addToFavouriteElement(
-                              HotelStore.mapInformation,
-                              widget.whichHotel,
-                              HotelPostScreen);
+                              widget.whichHotel, HotelStore());
                     });
                   },
                   child: Container(
@@ -114,18 +111,18 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
                         ),
                       ],
                     ),
-                    child: _favouriteStore.checkRedFavouriteIcon(
-                            HotelStore.mapInformation, widget.whichHotel)
-                        ? Icon(
-                            Icons.favorite,
-                            color: Colors.red,
-                            size: 25,
-                          )
-                        : Icon(
-                            Icons.favorite_outline_outlined,
-                            color: Colors.black,
-                            size: 25,
-                          ),
+                    child:
+                        _favouriteStore.checkRedFavouriteIcon(widget.whichHotel)
+                            ? Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                                size: 25,
+                              )
+                            : Icon(
+                                Icons.favorite_outline_outlined,
+                                color: Colors.black,
+                                size: 25,
+                              ),
                   ),
                 ),
               ],
@@ -173,7 +170,7 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
           height: 100,
           child: FutureBuilder(
               future: _hotelStore.countFilesInFolder(
-                HotelStore.mapInformation[widget.whichHotel]![2],
+                _hotelStore.getMapInformation[widget.whichHotel]![2],
               ),
               /* HotelStore
                   .mapHotelInformation.entries

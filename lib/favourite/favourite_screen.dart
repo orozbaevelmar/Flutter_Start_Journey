@@ -63,16 +63,16 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FavouriteStore
-                            .favouriteElementsInLinkedHashMap[mapKey]
-                            ?.elementAt(1)(mapKey),
-                        /* FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]?.elementAt(1) --> PostScreen */
+                          builder: (context) => FavouriteStore
+                              .favouriteElementsInLinkedHashMap[mapKey]!
+                              .getPostScreen(mapKey)
+                          /* FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]?.elementAt(1)(mapkey) --> PostScreen */
 
-                        /* HotelPostScreen(FavouriteStore
+                          /* HotelPostScreen(FavouriteStore
                               .favouriteElementsInLinkedHashMap.
                                 .elementAt(index) ??
                             'Not Found in Favourite Screen PostScreen') */
-                      ),
+                          ),
                     );
                   },
                   child: _favouriteElementBody(mapKey),
@@ -102,7 +102,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
 
               /* '${HotelStore.mapHotelInformation[FavouriteStore.favouriteElementsInLinkedHashSet.elementAt(index)]?.elementAt(2)}hotelDoor.jpg', */
 
-              '${FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]?.elementAt(0)[mapKey][2]}hotelDoor.jpg'
+              FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]
+                      ?.getPictureOfFacade(mapKey) ??
+                  'It may need fixes'
               /* FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]?.elementAt(0) --> CategoryStore.mapCategoryInformation */
               ),
           fit: BoxFit.cover,
@@ -146,8 +148,10 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
+        /* FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]?.getPictureOfFacade(mapKey) ?? 'It may need fixes' */
         FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]
-            ?.elementAt(0)[mapKey][3],
+                ?.getRating(mapKey) ??
+            'It may need fixes',
         /* HotelStore.mapHotelInformation[FavouriteStore
                     .favouriteElementsInLinkedHashSet
                     .elementAt(index)]
@@ -164,19 +168,13 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     return InkWell(
       onTap: () {
         setState(() {
-          _favouriteStore.checkRedFavouriteIcon(
-                  FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]
-                      ?.elementAt(0),
-                  mapKey /* FavouriteStore
-                      .favouriteElementsInLinkedHashSet
-                      .elementAt(index) */
-                      ??
-                      'It may need fixes')
+          /* _favouriteStore.checkRedFavouriteIcon(mapKey)
               ? _favouriteStore
-                  .deleteFromFavouriteElement(mapKey ?? 'It may need fixes')
-              : _favouriteStore.addToFavouriteElement(
-                  FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]
-                      ?.elementAt(0),
+                  . */
+          if (_favouriteStore.checkRedFavouriteIcon(mapKey))
+            _favouriteStore
+                .deleteFromFavouriteElement(mapKey ?? 'It may need fixes');
+          /* : _favouriteStore.addToFavouriteElement(
                   mapKey,
                   FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]
                           ?.elementAt(1)
@@ -184,7 +182,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                       .favouriteElementsInLinkedHashSet
                       .elementAt(index) */
                       ??
-                      'It may need fixes');
+                      'It may need fixes'); */
         });
       },
       child: Container(
@@ -200,10 +198,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           ],
         ),
         // It may need fixes
-        child: _favouriteStore.checkRedFavouriteIcon(
-                FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]
-                    ?.elementAt(0),
-                mapKey ?? 'abc')
+        child: _favouriteStore.checkRedFavouriteIcon(mapKey)
             ? Icon(
                 Icons.favorite,
                 color: Colors.red,
@@ -250,7 +245,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           ),
           Text(
             FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]
-                    ?.elementAt(0)[mapKey][0]
+                    ?.getLocation(mapKey)
+                /* ?.elementAt(0)[mapKey][0] */
                 /* HotelStore.mapHotelInformation[FavouriteStore
                     .favouriteElementsInLinkedHashSet
                     .elementAt(index)]?[0] */

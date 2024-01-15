@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:start_journey/home_categories/hotel/hotel_post_screen.dart';
+import 'package:start_journey/home_categories/store_abstract_class/attraction.dart';
 
-class HotelStore {
+class HotelStore implements Attraction {
   /* static List<String> hotelsName = [
     'Sheraton Bishkek',
     'Grand Hotel',
@@ -19,7 +21,8 @@ class HotelStore {
   //        6.hotels description
 
   // all informations about hotel:----------------------------------------------
-  static final Map<String, List<String>> mapInformation = {
+
+  static final Map<String, List<String>> _mapInformation = {
     'Sheraton Bishkek': [
       // key: hotels name
       'Bishkek, Kyrgyzstan', // 0.hotels loacation
@@ -40,36 +43,52 @@ class HotelStore {
     ],
   };
 
+  @override
+  Map<String, List<String>> get getMapInformation => _mapInformation;
+
+  /* void changeFavouriteIcon(String favouriteElement) {
+    _mapInformation[favouriteElement]?[1] = 'f';
+  } */
+
   // favouriteMap == key: favourite element's name
   //               value: [0]=HotelStore
   //                      [1]=HotelPostScreen
 
+  @override
+  dynamic getPostScreen = HotelPostScreen;
+
+  @override
   String getDescription(String favouriteElementsName) {
-    return mapInformation[favouriteElementsName]?.elementAt(5) ??
+    return _mapInformation[favouriteElementsName]?.elementAt(5) ??
         'It may need fixes';
   }
 
+  @override
   String getPrice(String favouriteElementsName) {
-    return mapInformation[favouriteElementsName]?.elementAt(4) ??
+    return _mapInformation[favouriteElementsName]?.elementAt(4) ??
         'It may need fixes';
   }
 
+  @override
   String getRating(String favouriteElementsName) {
-    return mapInformation[favouriteElementsName]?.elementAt(3) ??
+    return _mapInformation[favouriteElementsName]?.elementAt(3) ??
         'It may need fixes';
   }
 
+  @override
   String getPictureOfFacade(String favouriteElementsName) {
-    return '${mapInformation[favouriteElementsName]?.elementAt(2)}hotelDoor.jpg';
+    return '${_mapInformation[favouriteElementsName]?.elementAt(2)}hotelDoor.jpg';
   }
 
+  @override
   String getPictures(String favouriteElementsName) {
-    return mapInformation[favouriteElementsName]?.elementAt(2) ??
+    return _mapInformation[favouriteElementsName]?.elementAt(2) ??
         'It may need Fixes';
   }
 
+  @override
   String getLocation(String favouriteElementsName) {
-    return mapInformation[favouriteElementsName]?.elementAt(0) ??
+    return _mapInformation[favouriteElementsName]?.elementAt(0) ??
         'It may need Fixes';
   }
 
@@ -96,7 +115,7 @@ class HotelStore {
   void searchResultHotel(String newQuery) {
     queryHotel = newQuery;
 
-    searchResultsList = HotelStore.mapInformation.keys
+    searchResultsList = _mapInformation.keys
         .where((item) => item.toLowerCase().contains(queryHotel.toLowerCase()))
         .toList();
   }

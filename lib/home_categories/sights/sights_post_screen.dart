@@ -51,10 +51,9 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
       height: 400,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(
-            '${SightsStore.mapSightsInformation[widget.whichHotel]?[2]}sightsDoor.jpg',
-            /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotelDoor.jpg', */
-          ),
+          image: AssetImage(_sightsStore.getPictureOfFacade(widget.whichHotel)
+              /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotelDoor.jpg', */
+              ),
           fit: BoxFit.cover,
         ),
       ),
@@ -90,15 +89,11 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      _favouriteStore.checkRedFavouriteIcon(
-                              SightsStore.mapSightsInformation,
-                              widget.whichHotel)
+                      _favouriteStore.checkRedFavouriteIcon(widget.whichHotel)
                           ? _favouriteStore
                               .deleteFromFavouriteElement(widget.whichHotel)
                           : _favouriteStore.addToFavouriteElement(
-                              SightsStore.mapSightsInformation,
-                              widget.whichHotel,
-                              SightsPostScreen);
+                              widget.whichHotel, SightsStore());
                     });
                   },
                   child: Container(
@@ -114,18 +109,18 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
                         ),
                       ],
                     ),
-                    child: _favouriteStore.checkRedFavouriteIcon(
-                            SightsStore.mapSightsInformation, widget.whichHotel)
-                        ? Icon(
-                            Icons.favorite,
-                            color: Colors.red,
-                            size: 25,
-                          )
-                        : Icon(
-                            Icons.favorite_outline_outlined,
-                            color: Colors.black,
-                            size: 25,
-                          ),
+                    child:
+                        _favouriteStore.checkRedFavouriteIcon(widget.whichHotel)
+                            ? Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                                size: 25,
+                              )
+                            : Icon(
+                                Icons.favorite_outline_outlined,
+                                color: Colors.black,
+                                size: 25,
+                              ),
                   ),
                 ),
               ],
@@ -173,7 +168,7 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
           height: 100,
           child: FutureBuilder(
               future: _sightsStore.countFilesInFolder(
-                SightsStore.mapSightsInformation[widget.whichHotel]![2],
+                _sightsStore.getMapInformation[widget.whichHotel]![2],
               ),
               /* HotelStore
                   .mapHotelInformation.entries
@@ -199,7 +194,7 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(
-                            '${SightsStore.mapSightsInformation[widget.whichHotel]?[2]}sights$index.jpg',
+                            '${_sightsStore.getMapInformation[widget.whichHotel]?[2]}sights$index.jpg',
                             /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotel$index.jpg', */ //rewrote
                           ),
                         ),
@@ -305,7 +300,7 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
             right: 20,
           ),
           child: Text(
-            SightsStore.mapSightsInformation[widget.whichHotel]![5],
+            _sightsStore.getDescription(widget.whichHotel),
             /* HotelStore.mapHotelInformation.entries
                 .elementAt(widget.whichHotel)
                 .value
@@ -339,7 +334,7 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
             margin: EdgeInsets.symmetric(horizontal: 20),
             alignment: Alignment.center,
             child: Text(
-              SightsStore.mapSightsInformation[widget.whichHotel]![4],
+              _sightsStore.getPrice(widget.whichHotel),
               /* HotelStore.mapHotelInformation.entries
                   .elementAt(widget.whichHotel)
                   .value

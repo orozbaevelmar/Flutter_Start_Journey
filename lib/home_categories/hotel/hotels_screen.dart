@@ -192,8 +192,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
                     image: AssetImage(
-                      _hotelStore
-                          .getPictures(HotelStore.searchResultsList[index]),
+                      '${_hotelStore.getPictures(HotelStore.searchResultsList[index])}hotel0.jpg',
                       /* '${HotelStore.mapHotelInformation[HotelStore.searchResultsList[index]]?.elementAt(2)}hotel0.jpg', */
                     ),
                     fit: BoxFit.cover,
@@ -232,15 +231,13 @@ class _HotelsScreenState extends State<HotelsScreen> {
                             onTap: () {
                               setState(() {
                                 _favouriteStore.checkRedFavouriteIcon(
-                                        HotelStore.mapInformation,
                                         HotelStore.searchResultsList[index])
                                     ? _favouriteStore
                                         .deleteFromFavouriteElement(
                                             HotelStore.searchResultsList[index])
                                     : _favouriteStore.addToFavouriteElement(
-                                        HotelStore.mapInformation,
                                         HotelStore.searchResultsList[index],
-                                        HotelPostScreen);
+                                        HotelStore());
                               });
                             },
                             child: Container(
@@ -257,7 +254,6 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                 ],
                               ),
                               child: _favouriteStore.checkRedFavouriteIcon(
-                                      HotelStore.mapInformation,
                                       HotelStore.searchResultsList[index])
                                   ? Icon(
                                       Icons.favorite,
@@ -358,7 +354,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
             shrinkWrap: true,
             //itemCount: HotelStore.mapHotelInformation.length,
             children: [
-              for (var mapKey in HotelStore.mapInformation.keys)
+              for (var mapKey in _hotelStore.getMapInformation.keys)
                 Padding(
                   padding: EdgeInsets.only(right: 20),
                   child: InkWell(
@@ -418,16 +414,14 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                 InkWell(
                                   onTap: () {
                                     setState(() {
-                                      _favouriteStore.checkRedFavouriteIcon(
-                                              HotelStore.mapInformation, mapKey)
+                                      _favouriteStore
+                                              .checkRedFavouriteIcon(mapKey)
                                           ? _favouriteStore
                                               .deleteFromFavouriteElement(
                                                   mapKey)
                                           : _favouriteStore
                                               .addToFavouriteElement(
-                                                  HotelStore.mapInformation,
-                                                  mapKey,
-                                                  HotelPostScreen);
+                                                  mapKey, HotelStore());
                                     });
                                   },
                                   child: Container(
@@ -443,18 +437,16 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                         ),
                                       ],
                                     ),
-                                    child:
-                                        _favouriteStore.checkRedFavouriteIcon(
-                                                HotelStore.mapInformation,
-                                                mapKey)
-                                            ? Icon(
-                                                Icons.favorite,
-                                                color: Colors.red,
-                                              )
-                                            : Icon(
-                                                Icons.favorite_outline_outlined,
-                                                color: Colors.black,
-                                              ),
+                                    child: _favouriteStore
+                                            .checkRedFavouriteIcon(mapKey)
+                                        ? Icon(
+                                            Icons.favorite,
+                                            color: Colors.red,
+                                          )
+                                        : Icon(
+                                            Icons.favorite_outline_outlined,
+                                            color: Colors.black,
+                                          ),
                                   ),
                                 ),
                               ],

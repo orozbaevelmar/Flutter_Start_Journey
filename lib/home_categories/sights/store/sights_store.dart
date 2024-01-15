@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:start_journey/home_categories/sights/sights_post_screen.dart';
+import 'package:start_journey/home_categories/store_abstract_class/attraction.dart';
 
-class SightsStore {
-  static final Map<String, List<String>> mapSightsInformation = {
+class SightsStore implements Attraction {
+  static final Map<String, List<String>> _mapSightsInformation = {
     'Ruh Ordo': [
       // key: hotels name
       'Yssyk-Kol, Kyrgyzstan', // 0.hotels loacation
@@ -22,6 +24,47 @@ class SightsStore {
       'Jannat Resort is beautiful place',
     ],
   };
+
+  @override
+  Map<String, List<String>> get getMapInformation => _mapSightsInformation;
+
+  @override
+  dynamic getPostScreen = SightsPostScreen;
+
+  @override
+  String getDescription(String favouriteElementsName) {
+    return _mapSightsInformation[favouriteElementsName]?.elementAt(5) ??
+        'It may need fixes';
+  }
+
+  @override
+  String getPrice(String favouriteElementsName) {
+    return _mapSightsInformation[favouriteElementsName]?.elementAt(4) ??
+        'It may need fixes';
+  }
+
+  @override
+  String getRating(String favouriteElementsName) {
+    return _mapSightsInformation[favouriteElementsName]?.elementAt(3) ??
+        'It may need fixes';
+  }
+
+  @override
+  String getPictureOfFacade(String favouriteElementsName) {
+    return '${_mapSightsInformation[favouriteElementsName]?.elementAt(2)}sightsDoor.jpg';
+  }
+
+  @override
+  String getPictures(String favouriteElementsName) {
+    return _mapSightsInformation[favouriteElementsName]?.elementAt(2) ??
+        'It may need Fixes';
+  }
+
+  @override
+  String getLocation(String favouriteElementsName) {
+    return _mapSightsInformation[favouriteElementsName]?.elementAt(0) ??
+        'It may need Fixes';
+  }
 
   Future<int> countFilesInFolder(String path) async {
     final assetManifest = await AssetManifest.loadFromAssetBundle(rootBundle);
@@ -45,7 +88,7 @@ class SightsStore {
   void searchResultSights(String newQuery) {
     querySights = newQuery;
 
-    searchResultsListSights = SightsStore.mapSightsInformation.keys
+    searchResultsListSights = SightsStore._mapSightsInformation.keys
         .where((item) => item.toLowerCase().contains(querySights.toLowerCase()))
         .toList();
   }

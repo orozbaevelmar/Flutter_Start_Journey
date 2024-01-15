@@ -192,7 +192,8 @@ class _SightsScreenState extends State<SightsScreen> {
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
                     image: AssetImage(
-                        '${SightsStore.mapSightsInformation[SightsStore.searchResultsListSights[index]]?.elementAt(2)}sights0.jpg'),
+                      '${_sightsStore.getPictures(SightsStore.searchResultsListSights[index])}sights0.jpg',
+                    ),
                     fit: BoxFit.cover,
                     opacity: 0.9,
                   ),
@@ -212,10 +213,8 @@ class _SightsScreenState extends State<SightsScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
-                              SightsStore.mapSightsInformation[SightsStore
-                                          .searchResultsListSights[index]]
-                                      ?.elementAt(3) ??
-                                  '5',
+                              _sightsStore.getRating(
+                                  SightsStore.searchResultsListSights[index]),
                               style: TextStyle(
                                 color: Colors.white,
                               ),
@@ -227,17 +226,15 @@ class _SightsScreenState extends State<SightsScreen> {
                             onTap: () {
                               setState(() {
                                 _favouriteStore.checkRedFavouriteIcon(
-                                        SightsStore.mapSightsInformation,
                                         SightsStore
                                             .searchResultsListSights[index])
                                     ? _favouriteStore
                                         .deleteFromFavouriteElement(SightsStore
                                             .searchResultsListSights[index])
                                     : _favouriteStore.addToFavouriteElement(
-                                        SightsStore.mapSightsInformation,
                                         SightsStore
                                             .searchResultsListSights[index],
-                                        SightsPostScreen);
+                                        SightsStore());
                               });
                             },
                             child: Container(
@@ -254,7 +251,6 @@ class _SightsScreenState extends State<SightsScreen> {
                                 ],
                               ),
                               child: _favouriteStore.checkRedFavouriteIcon(
-                                      SightsStore.mapSightsInformation,
                                       SightsStore
                                           .searchResultsListSights[index])
                                   ? Icon(
@@ -303,10 +299,8 @@ class _SightsScreenState extends State<SightsScreen> {
                                     ),
                                   ),
                                   Text(
-                                    SightsStore.mapSightsInformation[SightsStore
-                                                .searchResultsListSights[index]]
-                                            ?[0] ??
-                                        'Error at Hotels Location',
+                                    _sightsStore.getLocation(SightsStore
+                                        .searchResultsListSights[index]),
                                     /* HotelStore.mapHotelInformation.entries
                                               .elementAt(index)
                                               .value
@@ -355,7 +349,7 @@ class _SightsScreenState extends State<SightsScreen> {
             shrinkWrap: true,
             //itemCount: HotelStore.mapHotelInformation.length,
             children: [
-              for (var mapKey in SightsStore.mapSightsInformation.keys)
+              for (var mapKey in _sightsStore.getMapInformation.keys)
                 Padding(
                   padding: EdgeInsets.only(right: 20),
                   child: InkWell(
@@ -379,7 +373,7 @@ class _SightsScreenState extends State<SightsScreen> {
                         borderRadius: BorderRadius.circular(20),
                         image: DecorationImage(
                           image: AssetImage(
-                              '${SightsStore.mapSightsInformation[mapKey]?.elementAt(2)}sights0.jpg'),
+                              '${_sightsStore.getPictures(mapKey)}sights0.jpg'),
                           fit: BoxFit.cover,
                           opacity: 0.9,
                         ),
@@ -399,9 +393,7 @@ class _SightsScreenState extends State<SightsScreen> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Text(
-                                    SightsStore.mapSightsInformation[mapKey]
-                                            ?.elementAt(3) ??
-                                        '5',
+                                    _sightsStore.getRating(mapKey),
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
@@ -412,18 +404,14 @@ class _SightsScreenState extends State<SightsScreen> {
                                 InkWell(
                                   onTap: () {
                                     setState(() {
-                                      _favouriteStore.checkRedFavouriteIcon(
-                                              SightsStore.mapSightsInformation,
-                                              mapKey)
+                                      _favouriteStore
+                                              .checkRedFavouriteIcon(mapKey)
                                           ? _favouriteStore
                                               .deleteFromFavouriteElement(
                                                   mapKey)
                                           : _favouriteStore
                                               .addToFavouriteElement(
-                                                  SightsStore
-                                                      .mapSightsInformation,
-                                                  mapKey,
-                                                  SightsPostScreen);
+                                                  mapKey, SightsStore());
                                     });
                                   },
                                   child: Container(
@@ -439,19 +427,16 @@ class _SightsScreenState extends State<SightsScreen> {
                                         ),
                                       ],
                                     ),
-                                    child:
-                                        _favouriteStore.checkRedFavouriteIcon(
-                                                SightsStore
-                                                    .mapSightsInformation,
-                                                mapKey)
-                                            ? Icon(
-                                                Icons.favorite,
-                                                color: Colors.red,
-                                              )
-                                            : Icon(
-                                                Icons.favorite_outline_outlined,
-                                                color: Colors.black,
-                                              ),
+                                    child: _favouriteStore
+                                            .checkRedFavouriteIcon(mapKey)
+                                        ? Icon(
+                                            Icons.favorite,
+                                            color: Colors.red,
+                                          )
+                                        : Icon(
+                                            Icons.favorite_outline_outlined,
+                                            color: Colors.black,
+                                          ),
                                   ),
                                 ),
                               ],
@@ -491,9 +476,7 @@ class _SightsScreenState extends State<SightsScreen> {
                                           ),
                                         ),
                                         Text(
-                                          SightsStore.mapSightsInformation[
-                                                  mapKey]?[0] ??
-                                              'Error at Hotels Location',
+                                          _sightsStore.getLocation(mapKey),
                                           /* HotelStore.mapHotelInformation.entries
                                               .elementAt(index)
                                               .value

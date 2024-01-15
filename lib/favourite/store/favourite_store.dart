@@ -1,20 +1,19 @@
 import 'dart:collection';
-import 'package:start_journey/home_categories/hotel/store/hotel_store.dart';
+import 'package:start_journey/home_categories/store_abstract_class/attraction.dart';
 
 class FavouriteStore {
-  static final LinkedHashMap<String?, List> favouriteElementsInLinkedHashMap =
-      LinkedHashMap();
+  static final LinkedHashMap<String?, Attraction>
+      favouriteElementsInLinkedHashMap = LinkedHashMap();
 
   // favouriteMap == key: favourite element's name
-  //               value: [0]=HotelStore   or    SightsStore
-  //                      [1]=HotelPostScreen or SightsPostScreen
+  //               value: HotelStore()   or    SightsStore()
 
-  // String: favourite element's name
-  // List: [0] = HotelStore.mapHotelInformation or Sighstore.mapSightsInformation
-  //       [1] = PostScreen     // category
-
-  bool checkRedFavouriteIcon(Map mapInformation, String checkElement) {
-    return mapInformation[checkElement]?[1].startsWith('f') ?? false;
+  bool checkRedFavouriteIcon(String checkElement) {
+    return favouriteElementsInLinkedHashMap[checkElement]
+            ?.getMapInformation[checkElement]?[1]
+            .startsWith('f') ??
+        false;
+    /* mapInformation[checkElement]?[1].startsWith('f') ?? false; */
   }
 
   /* Icon changeFavoureIconRedOrOutlined(String checkElement) {
@@ -46,21 +45,27 @@ class FavouriteStore {
           ); */
   } */
 
-  void addToFavouriteElement(Map mapCategoryInformation,
-      String favouriteElementKey, Object postScreen) {
+  void addToFavouriteElement(
+      String favouriteElementKey, Attraction attraction) {
     // change favourite signature in HashMap:-----------------------------------
     // It may need fixes
-    mapCategoryInformation[favouriteElementKey]?[1] = 'f';
+
+    // favouriteMap == key: favourite element's name
+    //               value: [0]=HotelStore   or    SightsStore
+    //                      [1]=HotelPostScreen or SightsPostScreen
+
+    favouriteElementsInLinkedHashMap[favouriteElementKey]
+        ?.getMapInformation[favouriteElementKey]?[1] = 'f';
+
+    /* mapCategoryInformation[favouriteElementKey]?[1] = 'f'; */
+
     /* (HotelStore.mapHotelInformation[favouriteElement]?[1].startsWith('u') ??
                 false)
             ? 'f'
             : 'u'; */
 
     // add in LinkedHashMap elements(hotels, sights, places):-------------------
-    favouriteElementsInLinkedHashMap[favouriteElementKey] = [
-      mapCategoryInformation,
-      postScreen
-    ];
+    favouriteElementsInLinkedHashMap[favouriteElementKey] = attraction;
     //add(map, favouriteElement);
     /* favouriteElementsInLinkedHashMap
         .add(HotelStore.mapHotelInformation.entries.elementAt(index).key); */
@@ -68,7 +73,8 @@ class FavouriteStore {
 
   // delete favourite element from LinkedHashMap:-------------------------------
   void deleteFromFavouriteElement(String elementsName) {
-    HotelStore.mapInformation[elementsName]?[1] = 'u';
+    favouriteElementsInLinkedHashMap[elementsName]
+        ?.getMapInformation[elementsName]?[1] = 'u';
     /* (HotelStore.mapHotelInformation[elementsName]?[1].startsWith('f') ??
                 false)
             ? 'u'

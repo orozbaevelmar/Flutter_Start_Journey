@@ -3,13 +3,7 @@ import 'package:start_journey/home_categories/hotel/hotels_screen.dart';
 import 'package:start_journey/home_categories/nature/nature_screen.dart';
 import 'package:start_journey/home_categories/sights/sights_screen.dart';
 import 'package:start_journey/home_categories/snow_sport/snow_sport_screen.dart';
-import 'package:start_journey/home_regions/batken.dart';
-import 'package:start_journey/home_regions/chuy.dart';
-import 'package:start_journey/home_regions/jalal_abad.dart';
-import 'package:start_journey/home_regions/naryn.dart';
-import 'package:start_journey/home_regions/osh.dart';
-import 'package:start_journey/home_regions/talas.dart';
-import 'package:start_journey/home_regions/ysyk_kol.dart';
+import 'package:start_journey/home_regions/regions_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -49,16 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
     'Osh',
     'Naryn',
     'Talas'
-  ];
-
-  List<Widget> regionWidget = [
-    Ysyk_Kol(),
-    Chuy(),
-    Batken(),
-    Jalal_Abad(),
-    Osh(),
-    Naryn(),
-    Talas(),
   ];
 
   @override
@@ -134,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => regionWidget[index - 1],
+                        builder: (context) => RegionsScreen(),
                       ),
                     );
                   },

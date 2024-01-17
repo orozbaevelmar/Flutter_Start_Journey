@@ -12,7 +12,7 @@ class HotelPostScreen extends StatefulWidget {
 }
 
 class _HotelPostScreenState extends State<HotelPostScreen> {
-  final category = [
+  final _category = [
     'Wi-Fi',
     'Gym',
     'Parking',
@@ -188,17 +188,28 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      width: 100,
-                      margin: EdgeInsets.only(right: 25),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(
-                            '${_hotelStore.getPictures(widget.whichHotel)}hotel$index.jpg',
-                            /* {HotelStore.mapHotelInformation[widget.whichHotel]?[2]} */
-                            /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotel$index.jpg', */ //rewrote
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ShowImageOnTap(widget.whichHotel, index),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: 100,
+                        margin: EdgeInsets.only(right: 25),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              '${_hotelStore.getPictures(widget.whichHotel)}hotel$index.jpg',
+                              /* {HotelStore.mapHotelInformation[widget.whichHotel]?[2]} */
+                              /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotel$index.jpg', */ //rewrote
+                            ),
                           ),
                         ),
                       ),
@@ -370,6 +381,29 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ShowImageOnTap extends StatelessWidget {
+  int _index;
+  String _whichHotel;
+  ShowImageOnTap(this._whichHotel, this._index);
+  HotelStore _hotelStore = HotelStore();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: InkWell(
+        onTap: () => Navigator.pop(context),
+        child: Center(
+          child: Image(
+            image: AssetImage(
+              '${_hotelStore.getPictures(_whichHotel)}hotel$_index.jpg',
+            ),
+          ),
+        ),
       ),
     );
   }

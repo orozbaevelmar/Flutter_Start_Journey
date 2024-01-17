@@ -32,6 +32,16 @@ class SightsStore implements Attraction {
   dynamic getPostScreen = SightsPostScreen;
 
   @override
+  void changeFavouriteIconToRed(String mapKey) {
+    _mapSightsInformation[mapKey]?[1] = 'f';
+  }
+
+  @override
+  void changeFavouriteIconToOutlined(String mapKey) {
+    _mapSightsInformation[mapKey]?[1] = 'u';
+  }
+
+  @override
   String getDescription(String favouriteElementsName) {
     return _mapSightsInformation[favouriteElementsName]?.elementAt(5) ??
         'It may need fixes';

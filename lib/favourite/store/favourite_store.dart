@@ -49,13 +49,14 @@ class FavouriteStore {
       String favouriteElementKey, Attraction attraction) {
     // change favourite signature in HashMap:-----------------------------------
     // It may need fixes
+    attraction.changeFavouriteIconToRed(favouriteElementKey);
 
     // favouriteMap == key: favourite element's name
     //               value: [0]=HotelStore   or    SightsStore
     //                      [1]=HotelPostScreen or SightsPostScreen
 
-    favouriteElementsInLinkedHashMap[favouriteElementKey]
-        ?.getMapInformation[favouriteElementKey]?[1] = 'f';
+    /* favouriteElementsInLinkedHashMap[favouriteElementKey]
+        ?.getMapInformation[favouriteElementKey]?[1] = 'f'; */
 
     /* mapCategoryInformation[favouriteElementKey]?[1] = 'f'; */
 
@@ -74,7 +75,9 @@ class FavouriteStore {
   // delete favourite element from LinkedHashMap:-------------------------------
   void deleteFromFavouriteElement(String elementsName) {
     favouriteElementsInLinkedHashMap[elementsName]
-        ?.getMapInformation[elementsName]?[1] = 'u';
+        ?.changeFavouriteIconToOutlined(elementsName);
+    /* favouriteElementsInLinkedHashMap[elementsName]
+        ?.getMapInformation[elementsName]?[1] = 'u'; */
     /* (HotelStore.mapHotelInformation[elementsName]?[1].startsWith('f') ??
                 false)
             ? 'u'

@@ -44,6 +44,16 @@ class HotelStore implements Attraction {
   };
 
   @override
+  void changeFavouriteIconToRed(String mapKey) {
+    _mapInformation[mapKey]?[1] = 'f';
+  }
+
+  @override
+  void changeFavouriteIconToOutlined(String mapKey) {
+    _mapInformation[mapKey]?[1] = 'u';
+  }
+
+  @override
   Map<String, List<String>> get getMapInformation => _mapInformation;
 
   /* void changeFavouriteIcon(String favouriteElement) {

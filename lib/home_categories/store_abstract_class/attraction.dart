@@ -8,6 +8,8 @@ abstract class Attraction {
   /* void addToFavouriteElement1(String favouriteElement) {
     getMapInformation[favouriteElement]?[1] = 'f';
   } */
+  void changeFavouriteIconToRed(String mapKey);
+  void changeFavouriteIconToOutlined(String mapKey);
 
   String getDescription(String favouriteElementsName);
 

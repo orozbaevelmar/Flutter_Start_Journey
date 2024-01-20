@@ -63,16 +63,16 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => FavouriteStore
-                              .favouriteElementsInLinkedHashMap[mapKey]!
-                              .getPostScreen(mapKey)
-                          /* FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]?.elementAt(1)(mapkey) --> PostScreen */
+                        builder: (context) => FavouriteStore
+                            .favouriteElementsInLinkedHashMap[mapKey]!
+                            .getPostScreen(mapKey ?? 'It may need fixes'),
+                        /* FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]?.elementAt(1)(mapkey) --> PostScreen */
 
-                          /* HotelPostScreen(FavouriteStore
+                        /* HotelPostScreen(FavouriteStore
                               .favouriteElementsInLinkedHashMap.
                                 .elementAt(index) ??
                             'Not Found in Favourite Screen PostScreen') */
-                          ),
+                      ),
                     );
                   },
                   child: _favouriteElementBody(mapKey),

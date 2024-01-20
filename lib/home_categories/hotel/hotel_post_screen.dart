@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:start_journey/favourite/store/favourite_store.dart';
 import 'package:start_journey/home_categories/hotel/store/hotel_store.dart';
+import 'package:start_journey/support/show_image_on_tap.dart';
 
 class HotelPostScreen extends StatefulWidget {
   final String whichHotel;
@@ -12,13 +13,13 @@ class HotelPostScreen extends StatefulWidget {
 }
 
 class _HotelPostScreenState extends State<HotelPostScreen> {
-  final _category = [
+  /* var _category = [
     'Wi-Fi',
     'Gym',
     'Parking',
     'Bar',
     'Air conditioning',
-  ];
+  ]; */
 
   HotelStore _hotelStore = HotelStore();
   FavouriteStore _favouriteStore = FavouriteStore();
@@ -193,8 +194,8 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                ShowImageOnTap(widget.whichHotel, index),
+                            builder: (context) => ShowImageOnTap(HotelStore(),
+                                widget.whichHotel, index, snapshot.data),
                           ),
                         );
                       },
@@ -381,29 +382,6 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class ShowImageOnTap extends StatelessWidget {
-  int _index;
-  String _whichHotel;
-  ShowImageOnTap(this._whichHotel, this._index);
-  HotelStore _hotelStore = HotelStore();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: InkWell(
-        onTap: () => Navigator.pop(context),
-        child: Center(
-          child: Image(
-            image: AssetImage(
-              '${_hotelStore.getPictures(_whichHotel)}hotel$_index.jpg',
-            ),
-          ),
-        ),
       ),
     );
   }

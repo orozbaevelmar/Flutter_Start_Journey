@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:start_journey/favourite/store/favourite_store.dart';
 import 'package:start_journey/home_categories/sights/store/sights_store.dart';
+import 'package:start_journey/support/show_image_on_tap.dart';
 
 class SightsPostScreen extends StatefulWidget {
-  final String whichHotel;
-  SightsPostScreen(this.whichHotel);
+  final String whichSight;
+  SightsPostScreen(this.whichSight);
 
   @override
   State<SightsPostScreen> createState() => _SightsPostScreenState();
@@ -51,8 +52,8 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
       height: 400,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(_sightsStore.getPictureOfFacade(widget.whichHotel)
-              /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotelDoor.jpg', */
+          image: AssetImage(_sightsStore.getPictureOfFacade(widget.whichSight)
+              /* '${SightStore.mapSightInformation.entries.elementAt(widget.whichSight).value.elementAt(2)}SightDoor.jpg', */
               ),
           fit: BoxFit.cover,
         ),
@@ -89,11 +90,11 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      _favouriteStore.checkRedFavouriteIcon(widget.whichHotel)
+                      _favouriteStore.checkRedFavouriteIcon(widget.whichSight)
                           ? _favouriteStore
-                              .deleteFromFavouriteElement(widget.whichHotel)
+                              .deleteFromFavouriteElement(widget.whichSight)
                           : _favouriteStore.addToFavouriteElement(
-                              widget.whichHotel, SightsStore());
+                              widget.whichSight, SightsStore());
                     });
                   },
                   child: Container(
@@ -110,7 +111,7 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
                       ],
                     ),
                     child:
-                        _favouriteStore.checkRedFavouriteIcon(widget.whichHotel)
+                        _favouriteStore.checkRedFavouriteIcon(widget.whichSight)
                             ? Icon(
                                 Icons.favorite,
                                 color: Colors.red,
@@ -167,26 +168,36 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
           margin: EdgeInsets.only(left: 20, right: 2),
           height: 100,
           child: FutureBuilder(
-              future: _sightsStore.countFilesInFolder(
-                _sightsStore.getMapInformation[widget.whichHotel]![2],
-              ),
-              /* HotelStore
+            future: _sightsStore.countFilesInFolder(
+              _sightsStore.getMapInformation[widget.whichSight]![2],
+            ),
+            /* HotelStore
                   .mapHotelInformation.entries
                   .elementAt(widget.whichHotel)
                   .value
                   .elementAt(2)), */
-              initialData: 0,
-              builder: (context, snapshot) {
-                return ListView.builder(
-                  itemCount: snapshot.data,
-                  /* HotelsScreen.map.entries
+            initialData: 0,
+            builder: (context, snapshot) {
+              return ListView.builder(
+                itemCount: snapshot.data,
+                /* HotelsScreen.map.entries
                                 .elementAt(whichHotel)
                                 .value
                                 .length, //rewrote */
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ShowImageOnTap(SightsStore(),
+                              widget.whichSight, index, snapshot.data),
+                        ),
+                      );
+                    },
+                    child: Container(
                       width: 100,
                       margin: EdgeInsets.only(right: 25),
                       decoration: BoxDecoration(
@@ -194,15 +205,17 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(
-                            '${_sightsStore.getMapInformation[widget.whichHotel]?[2]}sights$index.jpg',
+                            '${_sightsStore.getMapInformation[widget.whichSight]?[2]}sights$index.jpg',
                             /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotel$index.jpg', */ //rewrote
                           ),
                         ),
                       ),
-                    );
-                  },
-                );
-              }),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ],
     );
@@ -213,7 +226,7 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
       padding: EdgeInsets.all(20),
       alignment: Alignment.centerLeft,
       child: Text(
-        widget.whichHotel,
+        widget.whichSight,
         /* HotelStore.mapHotelInformation.entries
             .elementAt(widget.whichHotel)
             .key, */ // rewrote
@@ -300,7 +313,7 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
             right: 20,
           ),
           child: Text(
-            _sightsStore.getDescription(widget.whichHotel),
+            _sightsStore.getDescription(widget.whichSight),
             /* HotelStore.mapHotelInformation.entries
                 .elementAt(widget.whichHotel)
                 .value
@@ -334,9 +347,9 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
             margin: EdgeInsets.symmetric(horizontal: 20),
             alignment: Alignment.center,
             child: Text(
-              _sightsStore.getPrice(widget.whichHotel),
-              /* HotelStore.mapHotelInformation.entries
-                  .elementAt(widget.whichHotel)
+              _sightsStore.getPrice(widget.whichSight),
+              /* HotelStore.mapSightInformation.entries
+                  .elementAt(widget.whichSight)
                   .value
                   .elementAt(4), */
               style: GoogleFonts.lobster(

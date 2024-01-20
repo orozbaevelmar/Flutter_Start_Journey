@@ -9,6 +9,7 @@ abstract class Attraction {
     getMapInformation[favouriteElement]?[1] = 'f';
   } */
   void changeFavouriteIconToRed(String mapKey);
+
   void changeFavouriteIconToOutlined(String mapKey);
 
   String getDescription(String favouriteElementsName);
@@ -23,5 +24,7 @@ abstract class Attraction {
 
   String getLocation(String favouriteElementsName);
 
-  dynamic getPostScreen;
+  dynamic getPostScreen(String mapkey);
+
+  String showImageOnTap(String nameOfElement, int indexOfImage);
 }

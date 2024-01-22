@@ -7,7 +7,7 @@ class SightsStore implements Attraction {
   static final Map<String, List<String>> _mapSightsInformation = {
     'Ruh Ordo': [
       // key: Sights name
-      'Yssyk-Kol, Kyrgyzstan', // 0.Sights loacation
+      'Ysyk-Kol, Kyrgyzstan', // 0.Sights loacation
       'u', // 1.Sights = favourite or unfavourite respectively 'f' and 'u'
       'images/sights/ruh_ordo/', // 2.Sights photos
       '2.2*', // 3.Sights star
@@ -16,7 +16,7 @@ class SightsStore implements Attraction {
       // 5.Sights's description
     ],
     'Canyon Fairy Tale': [
-      'Yssyk-Kol, Kyrgyzstan',
+      'Ysyk-Kol, Kyrgyzstan',
       'u',
       'images/sights/canyon_fairy_tale/',
       '2.1*',

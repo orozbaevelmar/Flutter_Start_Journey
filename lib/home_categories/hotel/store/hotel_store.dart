@@ -65,7 +65,9 @@ class HotelStore implements Attraction {
   //                      [1]=HotelPostScreen
 
   @override
-  dynamic getPostScreen = HotelPostScreen;
+  dynamic getPostScreen(String mapkey) {
+    return HotelPostScreen(mapkey);
+  }
 
   @override
   String getDescription(String favouriteElementsName) {
@@ -128,5 +130,10 @@ class HotelStore implements Attraction {
     searchResultsList = _mapInformation.keys
         .where((item) => item.toLowerCase().contains(queryHotel.toLowerCase()))
         .toList();
+  }
+
+  @override
+  String showImageOnTap(String nameOfElement, int indexOfImage) {
+    return '${_mapInformation[nameOfElement]?.elementAt(2) ?? 'It may need fixes'}hotel$indexOfImage.jpg';
   }
 }

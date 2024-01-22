@@ -6,30 +6,32 @@ import 'package:start_journey/home_categories/store_abstract_class/attraction.da
 class SightsStore implements Attraction {
   static final Map<String, List<String>> _mapSightsInformation = {
     'Ruh Ordo': [
-      // key: hotels name
-      'Yssyk-Kol, Kyrgyzstan', // 0.hotels loacation
-      'u', // 1.hotel = favourite or unfavourite respectively 'f' and 'u'
-      'images/sights/ruh_ordo/', // 2.hotels photos
-      '2.2*', // 3.hotels star
-      '\$0 / Night', // 4.hotels price
-      'Ruh Ordo, nestled along the shores of Lake Issyk-Kul in Cholpon-Ata, Kyrgyzstan, is a cultural and spiritual center founded by Askar Akayev, the country\'s first president. The name, meaning "Spiritual Center" in Kyrgyz, reflects its purpose of promoting cultural diversity and religious harmony.' // hotels description
-      // 5.hotel's description
+      // key: Sights name
+      'Ysyk-Kol, Kyrgyzstan', // 0.Sights loacation
+      'u', // 1.Sights = favourite or unfavourite respectively 'f' and 'u'
+      'images/sights/ruh_ordo/', // 2.Sights photos
+      '2.2*', // 3.Sights star
+      '\$0 / Night', // 4.Sights price
+      'Ruh Ordo, nestled along the shores of Lake Issyk-Kul in Cholpon-Ata, Kyrgyzstan, is a cultural and spiritual center founded by Askar Akayev, the country\'s first president. The name, meaning "Spiritual Center" in Kyrgyz, reflects its purpose of promoting cultural diversity and religious harmony.' // Sights description
+      // 5.Sights's description
     ],
-    'Uzgen Minaret Tower': [
-      'Osh, Kyrgyzstan',
+    'Canyon Fairy Tale': [
+      'Ysyk-Kol, Kyrgyzstan',
       'u',
-      'images/sights/uzgen_minaret_tower/',
+      'images/sights/canyon_fairy_tale/',
       '2.1*',
       '\$1000 / Night',
-      'Jannat Resort is beautiful place',
+      'It gets its name from the fantasy-like shapes carved into the red sandstone from centuries of wind and water. You can see dragons, snakes, castles, and whatever else your mind’s eye can see. It’s located on the southern side of Issyk-Kul Lake, between Kaji-Say and Tosor. Mid-way between the east and west side of the lake.',
     ],
   };
 
   @override
-  Map<String, List<String>> get getMapInformation => _mapSightsInformation;
+  dynamic getPostScreen(String mapkey) {
+    return SightsPostScreen(mapkey);
+  }
 
   @override
-  dynamic getPostScreen = SightsPostScreen;
+  Map<String, List<String>> get getMapInformation => _mapSightsInformation;
 
   @override
   void changeFavouriteIconToRed(String mapKey) {
@@ -84,7 +86,7 @@ class SightsStore implements Attraction {
         .toList();
 
     debugPrint('Number of files in the $path folder: ${assetPaths.length}');
-    return assetPaths.length - 1; // -1 because of HotelDoor.jpg in images
+    return assetPaths.length - 1; // -1 because of SightsDoor.jpg in images
   }
 
   static String querySights = '';
@@ -101,5 +103,10 @@ class SightsStore implements Attraction {
     searchResultsListSights = SightsStore._mapSightsInformation.keys
         .where((item) => item.toLowerCase().contains(querySights.toLowerCase()))
         .toList();
+  }
+
+  @override
+  String showImageOnTap(String nameOfElement, int indexOfImage) {
+    return '${_mapSightsInformation[nameOfElement]?.elementAt(2) ?? 'It may need fixes'}sights$indexOfImage.jpg';
   }
 }

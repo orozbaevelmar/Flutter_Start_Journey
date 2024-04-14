@@ -12,11 +12,12 @@ class FavouriteScreen extends StatefulWidget {
 class _FavouriteScreenState extends State<FavouriteScreen> {
   FavouriteStore _favouriteStore = FavouriteStore();
 
+  double fontSize = 18;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildBody(),
-    );
+    fontSize = MediaQuery.of(context).size.width * 0.04;
+    return _buildBody();
   }
 
   Widget _buildBody() {
@@ -26,21 +27,24 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   }
 
   Widget _noFavouriteElement() {
-    return Center(
-      child: Container(
-        padding: EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.black26,
-            width: 2.0,
+    return Padding(
+      padding: const EdgeInsets.all(15),
+      child: Center(
+        child: Container(
+          padding: EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.black26,
+              width: 2.0,
+            ),
+            borderRadius: BorderRadius.circular(8.0),
           ),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Text(
-          'You don\'t have favorite elements yet.',
-          style: GoogleFonts.frankRuhlLibre(
-            fontSize: 20,
-            fontWeight: FontWeight.w500,
+          child: Text(
+            'You don\'t have favorite elements yet.',
+            style: GoogleFonts.frankRuhlLibre(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),

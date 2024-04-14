@@ -45,8 +45,15 @@ class _HomeScreenState extends State<HomeScreen> {
     'Talas'
   ];
 
+  double fontSizeBig = 35;
+  double fontSizeMedium = 25;
+  double fontSizeSmall = 15;
+
   @override
   Widget build(BuildContext context) {
+    fontSizeBig = MediaQuery.of(context).size.width * 0.07;
+    fontSizeMedium = MediaQuery.of(context).size.width * 0.055;
+    fontSizeSmall = MediaQuery.of(context).size.width * 0.035;
     return _buildBody(context);
   }
 
@@ -89,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Text(
             "KYRGYZSTAN",
             style: TextStyle(
-              fontSize: 28,
+              fontSize: fontSizeBig,
             ),
           ),
           Icon(
@@ -154,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             "${nameOfRegions[index++]}",
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: fontSizeSmall,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -185,11 +192,6 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: Container(
                 margin: EdgeInsets.all(3),
-                //padding: EdgeInsets.all(),
-                /* decoration: BoxDecoration(
-                              //borderRadius: BorderRadius.circular(10),
-                              //border: Border.all(color: Colors.black26),
-                              ), */
                 child: Column(
                   children: [
                     InkWell(
@@ -223,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         '${category[i]}',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 16,
+                          fontSize: fontSizeSmall,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -272,13 +274,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text(
                       'City Name',
                       style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
+                        fontSize: fontSizeSmall,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     Icon(
                       Icons.more_vert,
-                      size: 30,
+                      size: 20,
                     ),
                   ],
                 ),

@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:start_journey/account/account.dart';
 import 'package:start_journey/favourite/favourite_screen.dart';
 import 'package:start_journey/home/home_screen.dart';
 import 'package:start_journey/settings/settings_screen.dart';
@@ -15,7 +16,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
   int _selectedIndex = 2;
 
   final List<Widget> _widgetOptions = [
-    Scaffold(),
+    AccountScreen(),
     FavouriteScreen(),
     HomeScreen(),
     Scaffold(),

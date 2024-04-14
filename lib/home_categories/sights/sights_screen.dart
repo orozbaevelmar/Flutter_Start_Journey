@@ -31,8 +31,13 @@ class _SightsScreenState extends State<SightsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildBody(),
+    return PopScope(
+      onPopInvoked: (bool didPop) {
+        _sightsStore.onQueryChangedSights('');
+      },
+      child: Scaffold(
+        body: _buildBody(),
+      ),
     );
   }
 

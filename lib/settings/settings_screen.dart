@@ -22,7 +22,8 @@ class Settings_Screen extends StatelessWidget {
                 title: Text(
                   "Orozbaev Elmarbek",
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: MediaQuery.of(context).size.width * 0.045,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 trailing: Icon(
@@ -45,12 +46,12 @@ class Settings_Screen extends StatelessWidget {
               child: ListTile(
                 leading: Icon(
                   Icons.dark_mode_outlined,
-                  size: 30,
+                  size: 25,
                 ),
                 title: Text(
                   'Dark Mode',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 16,
                   ),
                 ),
 
@@ -69,12 +70,12 @@ class Settings_Screen extends StatelessWidget {
               child: ListTile(
                 leading: Icon(
                   Icons.language_outlined,
-                  size: 30,
+                  size: 25,
                 ),
                 title: Text(
                   'Language',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 16,
                   ),
                 ),
               ),

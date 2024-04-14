@@ -29,10 +29,22 @@ class _HotelsScreenState extends State<HotelsScreen> {
 
   TextEditingController _searchController = TextEditingController();
 
+  double fontSizeBig = 35;
+  double fontSizeMedium = 25;
+  double fontSizeSmall = 15;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildBody(),
+    fontSizeBig = MediaQuery.of(context).size.width * 0.07;
+    fontSizeMedium = MediaQuery.of(context).size.width * 0.055;
+    fontSizeSmall = MediaQuery.of(context).size.width * 0.035;
+    return PopScope(
+      onPopInvoked: (bool didPop) {
+        _hotelStore.onQueryChangedHotel('');
+      },
+      child: Scaffold(
+        body: _buildBody(),
+      ),
     );
   }
 
@@ -107,7 +119,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
       child: Text(
         'Hotels for all Desires', // hospitable hotels are waiting for you //hotels for all desires
         style: GoogleFonts.frankRuhlLibre(
-          fontSize: 35,
+          fontSize: fontSizeBig,
           fontWeight: FontWeight.w500,
         ),
       ),
@@ -119,8 +131,8 @@ class _HotelsScreenState extends State<HotelsScreen> {
       height: 87, // _height
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 17),
       child: TextField(
-        style: const TextStyle(
-          fontSize: 18,
+        style: TextStyle(
+          fontSize: fontSizeSmall,
         ),
 
         controller: _searchController,
@@ -461,12 +473,9 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                     alignment: Alignment.bottomLeft,
                                     child: Text(
                                       mapKey,
-                                      /* HotelStore.mapHotelInformation.entries
-                                          .elementAt(index)
-                                          .key, */
                                       style: GoogleFonts.acme(
                                         // acme // yeonsung
-                                        fontSize: 25,
+                                        fontSize: fontSizeMedium,
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -487,15 +496,8 @@ class _HotelsScreenState extends State<HotelsScreen> {
                                         ),
                                         Text(
                                           _hotelStore.getLocation(mapKey),
-                                          /* HotelStore.mapHotelInformation[mapKey]
-                                                  ?[0] ??
-                                              'Error at Hotels Location', */
-                                          /* HotelStore.mapHotelInformation.entries
-                                              .elementAt(index)
-                                              .value
-                                              .elementAt(0), */
                                           style: TextStyle(
-                                            fontSize: 15,
+                                            fontSize: fontSizeSmall,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white,
                                           ),
@@ -548,7 +550,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                 child: Text(
                   "Near You",
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: fontSizeSmall,
                     color: Colors.white, // rewrote
                     fontWeight: FontWeight.bold,
                   ),
@@ -575,7 +577,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                   child: Text(
                     yourWishes[i],
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: fontSizeSmall,
                         color: Colors.black54,
                         fontWeight: FontWeight.bold),
                   ),
@@ -669,7 +671,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                             'Blue Jazz',
                             style: GoogleFonts.acme(
                               // acme // yeonsung
-                              fontSize: 25,
+                              fontSize: fontSizeMedium,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),

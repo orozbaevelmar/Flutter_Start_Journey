@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/home_categories/hotel/hotels_screen.dart';
-import 'package:start_journey/home_categories/nature/nature_screen.dart';
-import 'package:start_journey/home_categories/sights/sights_screen.dart';
-import 'package:start_journey/home_categories/snow_sport/snow_sport_screen.dart';
-import 'package:start_journey/home_regions/regions_screen.dart';
+import 'package:start_journey/presentation/screen/home/home_categories/hotel/hotels_screen.dart';
+import 'package:start_journey/presentation/screen/home/home_categories/nature/nature_screen.dart';
+import 'package:start_journey/presentation/screen/home/home_categories/sights/sights_screen.dart';
+import 'package:start_journey/presentation/screen/home/home_categories/snow_sport/snow_sport_screen.dart';
+import 'package:start_journey/presentation/screen/home/home_regions/regions_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,20 +22,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // hotel, snow sports, nature, sights,
   // nature --> waterfall, river, camping, mountain, lake,
-  var category = [
+  final category = [
     'Hotel',
     'Sights',
     'Nature',
     'Snow Sport',
   ];
-  var categoryColor = [
+  final categoryColor = [
     Colors.amber.shade300,
     Colors.green.shade300,
     Colors.red.shade200,
     Colors.blue.shade300,
   ];
 
-  var nameOfRegions = [
+  final nameOfRegions = [
     'Ysyk - Kol',
     'Chuy',
     'Batken',
@@ -64,7 +64,6 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              //
               _homeAppBar(),
               _regionsTopLocatedOfScreen(),
               _homeCategories(context),

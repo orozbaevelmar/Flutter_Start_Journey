@@ -1,9 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:start_journey/account/account.dart';
-import 'package:start_journey/favourite/favourite_screen.dart';
-import 'package:start_journey/home/home_screen.dart';
-import 'package:start_journey/settings/settings_screen.dart';
+import 'package:start_journey/presentation/screen/account/account.dart';
+import 'package:start_journey/presentation/screen/favourite/favourite_screen.dart';
+import 'package:start_journey/presentation/screen/home/home_screen.dart';
+import 'package:start_journey/presentation/screen/settings/settings_screen.dart';
 
 class NavigationBarScreen extends StatefulWidget {
   const NavigationBarScreen({super.key});

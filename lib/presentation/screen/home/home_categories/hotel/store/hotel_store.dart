@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:start_journey/home_categories/hotel/hotel_post_screen.dart';
-import 'package:start_journey/home_categories/store_abstract_class/attraction.dart';
+import 'package:start_journey/presentation/screen/home/home_categories/hotel/hotel_post_screen.dart';
+import 'package:start_journey/utils/store_abstract_class/attraction.dart';
 
 class HotelStore implements Attraction {
   /* static List<String> hotelsName = [

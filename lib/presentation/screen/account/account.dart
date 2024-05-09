@@ -5,7 +5,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 class AccountScreen extends StatelessWidget {
   AccountScreen({super.key});
 
-  TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

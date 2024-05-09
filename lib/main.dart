@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:start_journey/enter/welcome.dart';
+import 'package:start_journey/presentation/screen/enter/welcome.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(

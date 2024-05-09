@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:start_journey/favourite/store/favourite_store.dart';
-import 'package:start_journey/home_categories/sights/sights_post_screen.dart';
-import 'package:start_journey/home_categories/sights/store/sights_store.dart';
+import 'package:start_journey/presentation/screen/favourite/store/favourite_store.dart';
+import 'package:start_journey/presentation/screen/home/home_categories/sights/sights_post_screen.dart';
+import 'package:start_journey/presentation/screen/home/home_categories/sights/store/sights_store.dart';
+import 'package:start_journey/presentation/widget/app_bar.dart';
 
 class SightsScreen extends StatefulWidget {
   const SightsScreen({super.key});
@@ -47,7 +48,10 @@ class _SightsScreenState extends State<SightsScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            _hotelAppBar(),
+            CustomAppBar(backButtonPressed: () {
+              _sightsStore.onQueryChangedSights('');
+              Navigator.pop(context);
+            }),
             _hotelTagline(),
             _hotelSearch(),
             SightsStore.querySights.isEmpty
@@ -61,45 +65,6 @@ class _SightsScreenState extends State<SightsScreen> {
                 : _hotelSearchScreen(),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _hotelAppBar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Row(
-        //crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-            iconSize: 35,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            icon: const Icon(
-              Icons.arrow_back_ios_new_outlined,
-              size: 35,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              _sightsStore.onQueryChangedSights('');
-              Navigator.pop(context);
-            },
-          ),
-          Container(
-            height: 60, // _height
-            width: 60,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(
-                  'images/nature.jpg',
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

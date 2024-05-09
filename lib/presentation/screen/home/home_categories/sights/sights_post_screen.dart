@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:start_journey/favourite/store/favourite_store.dart';
-import 'package:start_journey/home_categories/sights/store/sights_store.dart';
-import 'package:start_journey/support/show_image_on_tap.dart';
+import 'package:start_journey/presentation/screen/favourite/store/favourite_store.dart';
+import 'package:start_journey/presentation/screen/home/home_categories/sights/store/sights_store.dart';
+import 'package:start_journey/presentation/widget/show_image_on_tap.dart';
 
 class SightsPostScreen extends StatefulWidget {
   final String whichSight;

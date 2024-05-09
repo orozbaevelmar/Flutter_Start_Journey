@@ -1,5 +1,5 @@
 import 'dart:collection';
-import 'package:start_journey/home_categories/store_abstract_class/attraction.dart';
+import 'package:start_journey/utils/store_abstract_class/attraction.dart';
 
 class FavouriteStore {
   static final LinkedHashMap<String?, Attraction>

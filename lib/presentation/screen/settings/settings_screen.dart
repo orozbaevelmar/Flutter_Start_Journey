@@ -67,7 +67,7 @@ class Settings_Screen extends StatelessWidget {
                 color: Colors.green.shade100,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: ListTile(
+              child: const ListTile(
                 leading: Icon(
                   Icons.language_outlined,
                   size: 25,

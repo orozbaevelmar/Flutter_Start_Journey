@@ -38,7 +38,7 @@ class HotelStore implements Attraction {
       'u',
       'images/hotels/jannat_resort/',
       '5*',
-      '\$1000 / Night',
+      '\$100000 / Night',
       'Jannat Resort is beautiful place',
     ],
   };

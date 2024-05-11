@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:start_journey/utils/constants/adaptive_font_size.dart';
 import 'package:start_journey/utils/constants/text_style_const.dart';
 import 'package:start_journey/presentation/screen/favourite/store/favourite_store.dart';
 import 'package:start_journey/presentation/screen/home/home_categories/hotel/store/hotel_store.dart';
@@ -227,7 +228,7 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
 
   Widget _buildHotelsName() {
     return Container(
-      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       alignment: Alignment.centerLeft,
       child: Text(
         widget.attractionsName,
@@ -242,6 +243,7 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
             fontWeight: FontWeight.w400,
           ), */
             ),
+        textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
       ),
     );
   }
@@ -359,22 +361,26 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.all(3),
+              padding: EdgeInsets.all(3),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: Colors.green.shade300,
-                  borderRadius: BorderRadius.circular(50),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 4,
-                    )
-                  ]),
+                color: Colors.green.shade300,
+                borderRadius: BorderRadius.circular(50),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 4,
+                  )
+                ],
+              ),
               child: Text(
                 'Book Now',
+                textAlign: TextAlign.center,
                 style: GoogleFonts.libreBaskerville(
-                  fontSize: 28,
+                  textStyle: Theme.of(context).textTheme.headlineLarge,
                 ),
+                textScaler:
+                    TextScaler.linear(ScaleSize.textScaleFactor(context)),
               ),
             ),
           ),

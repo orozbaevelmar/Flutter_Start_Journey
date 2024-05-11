@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Container(
                           alignment: Alignment.bottomLeft,
                           child: Text(
-                            "${nameOfRegions[index++]}",
+                            nameOfRegions[index++],
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: fontSizeSmall,

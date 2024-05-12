@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-class HotelsModel {
+class SightsModel {
   int? count;
   String? next;
   String? previous;
   List<Results>? results;
-  HotelsModel({
+  SightsModel({
     this.count,
     this.next,
     this.previous,
@@ -22,8 +21,8 @@ class HotelsModel {
     };
   }
 
-  factory HotelsModel.fromMap(Map<String, dynamic> map) {
-    return HotelsModel(
+  factory SightsModel.fromMap(Map<String, dynamic> map) {
+    return SightsModel(
       count: map['count'],
       next: map['next'],
       previous: map['previous'],
@@ -39,26 +38,26 @@ class HotelsModel {
 
   String toJson() => json.encode(toMap());
 
-  factory HotelsModel.fromJson(String response) =>
-      HotelsModel.fromMap(json.decode(response) as Map<String, dynamic>);
+  factory SightsModel.fromJson(String response) =>
+      SightsModel.fromMap(json.decode(response) as Map<String, dynamic>);
 }
 
 class Results {
   String? name;
   String? location;
   bool? isFavorite;
-  double? rating;
+  List<Photos>? photos;
+  String? rating;
   String? price;
   String? description;
-  List<Photos>? photos;
   Results({
     this.name,
     this.location,
     this.isFavorite,
+    this.photos,
     this.rating,
     this.price,
     this.description,
-    this.photos,
   });
 
   Map<String, dynamic> toMap() {

@@ -24,7 +24,7 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
     String url = '';
     if (isInitial) {
       url = '<--MString.BASE_URL-->/hotel/';
-      emit(HotelInitialLoading(message: 'Fetching products....'));
+      emit(HotelInitialLoading(message: 'Loading hotels....'));
     } else {
       url = hotelsModel.next ?? '';
 
@@ -36,10 +36,10 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
     final response = await HotelRepository.getHotels(url: url);
     response.fold(
       (l) => isInitial
-          ? emit(HotelInitialError(message: 'Failed to load products'))
+          ? emit(HotelInitialError(message: 'Failed to load hotels'))
           : emit(HotelLoaded(
               hotelsModel: hotelsModel,
-              error: LoadMoreError(message: 'Failed to load more products'))),
+              error: LoadMoreError(message: 'Failed to load more hotels'))),
       (r) {
         if (isInitial) {
           hotelsModel = HotelsModel(
@@ -53,7 +53,6 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
             emit(HotelEmpty());
           }
         } else {
-          //Adding products to existing list
           List<Results> res = r.results ?? [];
 
           hotelsModel = HotelsModel(

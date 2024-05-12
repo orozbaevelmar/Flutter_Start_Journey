@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:start_journey/presentation/screen/enter/welcome.dart';
 import 'package:start_journey/utils/dependency_injection.dart';
 
@@ -9,6 +10,7 @@ void main() async {
   );
   WidgetsFlutterBinding.ensureInitialized();
   await configureDi();
+
   runApp(const MyApp());
 }
 

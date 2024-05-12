@@ -9,7 +9,6 @@ sealed class HotelState extends Equatable {
 
 class HotelInitial extends HotelState {}
 
-//State for initial Loading when current page will be 1
 class HotelInitialLoading extends HotelState {
   final String message;
   const HotelInitialLoading({required this.message});

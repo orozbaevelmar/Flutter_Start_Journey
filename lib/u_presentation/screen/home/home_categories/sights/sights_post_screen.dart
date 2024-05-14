@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:start_journey/utils/constants/adaptive_font_size.dart';
-import 'package:start_journey/utils/constants/text_style_const.dart';
-import 'package:start_journey/presentation/screen/favourite/store/favourite_store.dart';
-import 'package:start_journey/presentation/screen/home/home_categories/hotel/store/hotel_store.dart';
-import 'package:start_journey/presentation/widget/show_image_on_tap.dart';
-import 'package:start_journey/utils/store_abstract_class/attraction.dart';
+import 'package:start_journey/u_presentation/screen/favourite/store/favourite_store.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/sights/store/sights_store.dart';
+import 'package:start_journey/u_presentation/widget/show_image_on_tap.dart';
 
-class HotelPostScreen extends StatefulWidget {
-  final String attractionsName;
-
-  HotelPostScreen(this.attractionsName);
+class SightsPostScreen extends StatefulWidget {
+  final String whichSight;
+  SightsPostScreen(this.whichSight);
 
   @override
-  State<HotelPostScreen> createState() => _HotelPostScreenState();
+  State<SightsPostScreen> createState() => _SightsPostScreenState();
 }
 
-class _HotelPostScreenState extends State<HotelPostScreen> {
-  /* var _category = [
+class _SightsPostScreenState extends State<SightsPostScreen> {
+  final category = [
     'Wi-Fi',
     'Gym',
     'Parking',
     'Bar',
     'Air conditioning',
-  ]; */
+  ];
 
-  HotelStore _hotelStore = HotelStore();
   FavouriteStore _favouriteStore = FavouriteStore();
+  SightsStore _sightsStore = SightsStore();
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +52,9 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
       height: 400,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(
-            _hotelStore.getPictureOfFacade(widget.attractionsName),
-          ),
+          image: AssetImage(_sightsStore.getPictureOfFacade(widget.whichSight)
+              /* '${SightStore.mapSightInformation.entries.elementAt(widget.whichSight).value.elementAt(2)}SightDoor.jpg', */
+              ),
           fit: BoxFit.cover,
         ),
       ),
@@ -94,12 +90,11 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      _favouriteStore
-                              .checkRedFavouriteIcon(widget.attractionsName)
-                          ? _favouriteStore.deleteFromFavouriteElement(
-                              widget.attractionsName)
+                      _favouriteStore.checkRedFavouriteIcon(widget.whichSight)
+                          ? _favouriteStore
+                              .deleteFromFavouriteElement(widget.whichSight)
                           : _favouriteStore.addToFavouriteElement(
-                              widget.attractionsName, HotelStore());
+                              widget.whichSight, SightsStore());
                     });
                   },
                   child: Container(
@@ -115,18 +110,18 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
                         ),
                       ],
                     ),
-                    child: _favouriteStore
-                            .checkRedFavouriteIcon(widget.attractionsName)
-                        ? Icon(
-                            Icons.favorite,
-                            color: Colors.red,
-                            size: 25,
-                          )
-                        : Icon(
-                            Icons.favorite_outline_outlined,
-                            color: Colors.black,
-                            size: 25,
-                          ),
+                    child:
+                        _favouriteStore.checkRedFavouriteIcon(widget.whichSight)
+                            ? Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                                size: 25,
+                              )
+                            : Icon(
+                                Icons.favorite_outline_outlined,
+                                color: Colors.black,
+                                size: 25,
+                              ),
                   ),
                 ),
               ],
@@ -147,7 +142,7 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
       child: Column(
         children: [
           _buildPostRoomImages(),
-          _buildHotelsName(),
+          _buildSightsName(),
           _buildAmenities(),
           _buildDescription(),
         ],
@@ -173,77 +168,72 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
           margin: EdgeInsets.only(left: 20, right: 2),
           height: 100,
           child: FutureBuilder(
-              future: _hotelStore.countFilesInFolder(
-                _hotelStore.getMapInformation[widget.attractionsName]![2],
-              ),
-              /* HotelStore
+            future: _sightsStore.countFilesInFolder(
+              _sightsStore.getMapInformation[widget.whichSight]![2],
+            ),
+            /* HotelStore
                   .mapHotelInformation.entries
                   .elementAt(widget.whichHotel)
                   .value
                   .elementAt(2)), */
-              initialData: 0,
-              builder: (context, snapshot) {
-                return ListView.builder(
-                  itemCount: snapshot.data,
-                  /* HotelsScreen.map.entries
+            initialData: 0,
+            builder: (context, snapshot) {
+              return ListView.builder(
+                itemCount: snapshot.data,
+                /* HotelsScreen.map.entries
                                 .elementAt(whichHotel)
                                 .value
                                 .length, //rewrote */
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ShowImageOnTap(HotelStore(),
-                                widget.attractionsName, index, snapshot.data),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        width: 100,
-                        margin: EdgeInsets.only(right: 25),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              '${_hotelStore.getPictures(widget.attractionsName)}hotel$index.jpg',
-                              /* {HotelStore.mapHotelInformation[widget.whichHotel]?[2]} */
-                              /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotel$index.jpg', */ //rewrote
-                            ),
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ShowImageOnTap(SightsStore(),
+                              widget.whichSight, index, snapshot.data),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      width: 100,
+                      margin: EdgeInsets.only(right: 25),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: AssetImage(
+                            '${_sightsStore.getMapInformation[widget.whichSight]?[2]}sights$index.jpg',
+                            /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotel$index.jpg', */ //rewrote
                           ),
                         ),
                       ),
-                    );
-                  },
-                );
-              }),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
         ),
       ],
     );
   }
 
-  Widget _buildHotelsName() {
+  Widget _buildSightsName() {
     return Container(
-      margin: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       alignment: Alignment.centerLeft,
       child: Text(
-        widget.attractionsName,
+        widget.whichSight,
         /* HotelStore.mapHotelInformation.entries
             .elementAt(widget.whichHotel)
             .key, */ // rewrote
         style: GoogleFonts.frankRuhlLibre(
-            textStyle: Theme.of(context).textTheme.headlineLarge
-
-            /* const TextStyle(
-            fontSize: 43,
-            fontWeight: FontWeight.w400,
-          ), */
-            ),
-        textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
+          fontSize: 43,
+          fontWeight: FontWeight.w400,
+        ),
       ),
     );
   }
@@ -323,13 +313,16 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
             right: 20,
           ),
           child: Text(
-            _hotelStore.getDescription(widget.attractionsName),
-            /* HotelStore.mapHotelInformation[widget.whichHotel]![5], */
+            _sightsStore.getDescription(widget.whichSight),
             /* HotelStore.mapHotelInformation.entries
                 .elementAt(widget.whichHotel)
                 .value
                 .elementAt(5), */ //rewrote
-            style: MTextStyle.description(Colors.black),
+            style: GoogleFonts.roboto(
+              fontWeight: FontWeight.w300,
+              fontSize: 20,
+              height: 1.5,
+            ),
             textAlign: TextAlign.justify,
           ),
         ),
@@ -354,33 +347,33 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
             margin: EdgeInsets.symmetric(horizontal: 20),
             alignment: Alignment.center,
             child: Text(
-              _hotelStore.getPrice(widget.attractionsName),
+              _sightsStore.getPrice(widget.whichSight),
+              /* HotelStore.mapSightInformation.entries
+                  .elementAt(widget.whichSight)
+                  .value
+                  .elementAt(4), */
               style: GoogleFonts.lobster(
                   fontSize: 25, fontWeight: FontWeight.normal),
             ),
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.all(3),
+              margin: EdgeInsets.all(3),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Colors.green.shade300,
-                borderRadius: BorderRadius.circular(50),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 4,
-                  )
-                ],
-              ),
+                  color: Colors.green.shade300,
+                  borderRadius: BorderRadius.circular(50),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 4,
+                    )
+                  ]),
               child: Text(
                 'Book Now',
-                textAlign: TextAlign.center,
                 style: GoogleFonts.libreBaskerville(
-                  textStyle: Theme.of(context).textTheme.headlineLarge,
+                  fontSize: 28,
                 ),
-                textScaler:
-                    TextScaler.linear(ScaleSize.textScaleFactor(context)),
               ),
             ),
           ),

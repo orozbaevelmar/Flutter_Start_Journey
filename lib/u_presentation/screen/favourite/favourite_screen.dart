@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:start_journey/presentation/screen/favourite/store/favourite_store.dart';
+import 'package:start_journey/u_presentation/screen/favourite/store/favourite_store.dart';
 
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});

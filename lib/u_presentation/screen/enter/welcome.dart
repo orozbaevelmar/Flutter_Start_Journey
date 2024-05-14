@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/presentation/screen/enter/navigation_bar.dart';
+import 'package:start_journey/u_presentation/screen/enter/navigation_bar.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override

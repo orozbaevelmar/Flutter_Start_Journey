@@ -7,4 +7,4 @@ sealed class HotelEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ProductsLoadEvent extends HotelEvent {}
+class HotelLoadEvent extends HotelEvent {}

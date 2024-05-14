@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:start_journey/presentation/screen/home/home_categories/sights/sights_post_screen.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/sights/sights_post_screen.dart';
 import 'package:start_journey/utils/store_abstract_class/attraction.dart';
 
 class SightsStore implements Attraction {

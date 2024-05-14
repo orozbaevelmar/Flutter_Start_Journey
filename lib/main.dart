@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:start_journey/bloc/hotel/bloc.dart';
 
-import 'package:start_journey/presentation/screen/enter/welcome.dart';
+import 'package:start_journey/u_presentation/screen/enter/welcome.dart';
 import 'package:start_journey/utils/dependency_injection.dart';
 
 void main() async {
@@ -19,10 +21,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      color: Colors.grey.shade100,
-      debugShowCheckedModeBanner: false,
-      home: WelcomeScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (c) => HotelBloc()),
+      ],
+      child: MaterialApp(
+        color: Colors.grey.shade100,
+        debugShowCheckedModeBanner: false,
+        home: WelcomeScreen(),
+      ),
     );
   }
 }

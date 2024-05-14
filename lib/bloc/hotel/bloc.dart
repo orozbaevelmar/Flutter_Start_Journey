@@ -9,7 +9,7 @@ part 'state.dart';
 
 class HotelBloc extends Bloc<HotelEvent, HotelState> {
   HotelBloc() : super(HotelInitial()) {
-    on<ProductsLoadEvent>(_getHotels);
+    on<HotelLoadEvent>(_getHotels);
   }
 
   HotelsModel hotelsModel = HotelsModel(
@@ -19,7 +19,7 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
     results: [],
   );
 
-  _getHotels(ProductsLoadEvent event, emit) async {
+  _getHotels(HotelLoadEvent event, emit) async {
     bool isInitial = hotelsModel.next == null;
     String url = '';
     if (isInitial) {

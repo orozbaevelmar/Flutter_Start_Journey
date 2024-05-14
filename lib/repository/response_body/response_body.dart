@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class HowLooksFetchedData {
   final howLooksJsonFormatData = {
     "count": 10,
@@ -52,10 +54,12 @@ class HowLooksFetchedData {
 //----------------------------------------------------------------------------//
 //----------------------------------------------------------------------------//
 //----------------------------------------------------------------------------//
-  static final fetchedResponseBody = _fetchedDataVisualisation.toString();
-  static final _fetchedDataVisualisation = {
+  static final String fetchedResponseBody =
+      json.encode(_fetchedDataVisualisation);
+
+  static final Map<String, dynamic> _fetchedDataVisualisation = {
     "count": 2,
-    "next": "<MString.BASE_URL>/hotels/?page=2",
+    "next": null,
     "previous": null,
     "results": [
       {

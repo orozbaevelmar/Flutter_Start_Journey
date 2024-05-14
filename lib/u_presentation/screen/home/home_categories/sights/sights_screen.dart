@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:start_journey/presentation/screen/favourite/store/favourite_store.dart';
-import 'package:start_journey/presentation/screen/home/home_categories/sights/sights_post_screen.dart';
-import 'package:start_journey/presentation/screen/home/home_categories/sights/store/sights_store.dart';
-import 'package:start_journey/presentation/widget/app_bar.dart';
+import 'package:start_journey/u_presentation/screen/favourite/store/favourite_store.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/sights/sights_post_screen.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/sights/store/sights_store.dart';
+import 'package:start_journey/u_presentation/widget/app_bar.dart';
 
 class SightsScreen extends StatefulWidget {
   const SightsScreen({super.key});

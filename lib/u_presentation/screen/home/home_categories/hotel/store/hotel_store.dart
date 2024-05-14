@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:start_journey/presentation/screen/home/home_categories/hotel/hotel_post_screen.dart';
+import 'package:start_journey/model/hotel.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/hotel/hotel_post_screen.dart';
 import 'package:start_journey/utils/store_abstract_class/attraction.dart';
 
 class HotelStore implements Attraction {
@@ -66,7 +67,9 @@ class HotelStore implements Attraction {
 
   @override
   dynamic getPostScreen(String mapkey) {
-    return HotelPostScreen(mapkey);
+    return HotelPostScreen(
+      results: Results(),
+    );
   }
 
   @override

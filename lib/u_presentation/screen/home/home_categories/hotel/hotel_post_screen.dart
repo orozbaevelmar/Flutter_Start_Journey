@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:start_journey/presentation/screen/favourite/store/favourite_store.dart';
-import 'package:start_journey/presentation/screen/home/home_categories/sights/store/sights_store.dart';
-import 'package:start_journey/presentation/widget/show_image_on_tap.dart';
+import 'package:start_journey/model/hotel.dart';
+import 'package:start_journey/utils/constants/adaptive_font_size.dart';
+import 'package:start_journey/utils/constants/text_style_const.dart';
+import 'package:start_journey/u_presentation/screen/favourite/store/favourite_store.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/hotel/store/hotel_store.dart';
+import 'package:start_journey/u_presentation/widget/show_image_on_tap.dart';
+import 'package:start_journey/utils/store_abstract_class/attraction.dart';
 
-class SightsPostScreen extends StatefulWidget {
-  final String whichSight;
-  SightsPostScreen(this.whichSight);
+class HotelPostScreen extends StatefulWidget {
+  final Results results;
+
+  const HotelPostScreen({super.key, required this.results});
 
   @override
-  State<SightsPostScreen> createState() => _SightsPostScreenState();
+  State<HotelPostScreen> createState() => _HotelPostScreenState();
 }
 
-class _SightsPostScreenState extends State<SightsPostScreen> {
-  final category = [
+class _HotelPostScreenState extends State<HotelPostScreen> {
+  /* var _category = [
     'Wi-Fi',
     'Gym',
     'Parking',
     'Bar',
     'Air conditioning',
-  ];
+  ]; */
 
+  HotelStore _hotelStore = HotelStore();
   FavouriteStore _favouriteStore = FavouriteStore();
-  SightsStore _sightsStore = SightsStore();
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +57,10 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
       height: 400,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(_sightsStore.getPictureOfFacade(widget.whichSight)
-              /* '${SightStore.mapSightInformation.entries.elementAt(widget.whichSight).value.elementAt(2)}SightDoor.jpg', */
-              ),
+          image: AssetImage(
+            widget.results.photos?[0].photo ?? '',
+            //_hotelStore.getPictureOfFacade(widget.attractionsName),
+          ),
           fit: BoxFit.cover,
         ),
       ),
@@ -90,11 +96,12 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
                 InkWell(
                   onTap: () {
                     setState(() {
-                      _favouriteStore.checkRedFavouriteIcon(widget.whichSight)
-                          ? _favouriteStore
-                              .deleteFromFavouriteElement(widget.whichSight)
+                      /* _favouriteStore
+                              .checkRedFavouriteIcon(widget.attractionsName)
+                          ? _favouriteStore.deleteFromFavouriteElement(
+                              widget.attractionsName)
                           : _favouriteStore.addToFavouriteElement(
-                              widget.whichSight, SightsStore());
+                              widget.attractionsName, HotelStore()); */
                     });
                   },
                   child: Container(
@@ -110,18 +117,17 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
                         ),
                       ],
                     ),
-                    child:
-                        _favouriteStore.checkRedFavouriteIcon(widget.whichSight)
-                            ? Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                                size: 25,
-                              )
-                            : Icon(
-                                Icons.favorite_outline_outlined,
-                                color: Colors.black,
-                                size: 25,
-                              ),
+                    child: widget.results.isFavorite ?? false
+                        ? Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                            size: 25,
+                          )
+                        : Icon(
+                            Icons.favorite_outline_outlined,
+                            color: Colors.black,
+                            size: 25,
+                          ),
                   ),
                 ),
               ],
@@ -141,8 +147,8 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
       ),
       child: Column(
         children: [
-          _buildPostRoomImages(),
-          _buildSightsName(),
+          //_buildPostRoomImages(),
+          _buildHotelsName(),
           _buildAmenities(),
           _buildDescription(),
         ],
@@ -150,7 +156,7 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
     );
   }
 
-  Widget _buildPostRoomImages() {
+  /* Widget _buildPostRoomImages() {
     return Column(
       children: [
         Container(
@@ -168,72 +174,82 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
           margin: EdgeInsets.only(left: 20, right: 2),
           height: 100,
           child: FutureBuilder(
-            future: _sightsStore.countFilesInFolder(
-              _sightsStore.getMapInformation[widget.whichSight]![2],
-            ),
-            /* HotelStore
+              future: _hotelStore.countFilesInFolder(
+                _hotelStore.getMapInformation[widget.attractionsName]![2],
+              ),
+              /* HotelStore
                   .mapHotelInformation.entries
                   .elementAt(widget.whichHotel)
                   .value
                   .elementAt(2)), */
-            initialData: 0,
-            builder: (context, snapshot) {
-              return ListView.builder(
-                itemCount: snapshot.data,
-                /* HotelsScreen.map.entries
+              initialData: 0,
+              builder: (context, snapshot) {
+                return ListView.builder(
+                  itemCount: snapshot.data,
+                  /* HotelsScreen.map.entries
                                 .elementAt(whichHotel)
                                 .value
                                 .length, //rewrote */
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ShowImageOnTap(SightsStore(),
-                              widget.whichSight, index, snapshot.data),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      width: 100,
-                      margin: EdgeInsets.only(right: 25),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: AssetImage(
-                            '${_sightsStore.getMapInformation[widget.whichSight]?[2]}sights$index.jpg',
-                            /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotel$index.jpg', */ //rewrote
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ShowImageOnTap(
+                                HotelStore(),
+                                widget.results.name ?? '',
+                                index,
+                                snapshot.data),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: 100,
+                        margin: EdgeInsets.only(right: 25),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              widget.results.photos?[index].photo ?? '',
+                              //'${_hotelStore.getPictures(widget.attractionsName)}hotel$index.jpg',
+                              /* {HotelStore.mapHotelInformation[widget.whichHotel]?[2]} */
+                              /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotel$index.jpg', */ //rewrote
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              );
-            },
-          ),
+                    );
+                  },
+                );
+              }),
         ),
       ],
     );
-  }
+  } */
 
-  Widget _buildSightsName() {
+  Widget _buildHotelsName() {
     return Container(
-      padding: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       alignment: Alignment.centerLeft,
       child: Text(
-        widget.whichSight,
+        widget.results.name ?? '',
+        //widget.attractionsName,
         /* HotelStore.mapHotelInformation.entries
             .elementAt(widget.whichHotel)
             .key, */ // rewrote
         style: GoogleFonts.frankRuhlLibre(
-          fontSize: 43,
-          fontWeight: FontWeight.w400,
-        ),
+            textStyle: Theme.of(context).textTheme.headlineLarge
+
+            /* const TextStyle(
+            fontSize: 43,
+            fontWeight: FontWeight.w400,
+          ), */
+            ),
+        textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
       ),
     );
   }
@@ -313,16 +329,14 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
             right: 20,
           ),
           child: Text(
-            _sightsStore.getDescription(widget.whichSight),
+            widget.results.description ?? '',
+            // _hotelStore.getDescription(widget.attractionsName),
+            /* HotelStore.mapHotelInformation[widget.whichHotel]![5], */
             /* HotelStore.mapHotelInformation.entries
                 .elementAt(widget.whichHotel)
                 .value
                 .elementAt(5), */ //rewrote
-            style: GoogleFonts.roboto(
-              fontWeight: FontWeight.w300,
-              fontSize: 20,
-              height: 1.5,
-            ),
+            style: MTextStyle.description(Colors.black),
             textAlign: TextAlign.justify,
           ),
         ),
@@ -347,33 +361,34 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
             margin: EdgeInsets.symmetric(horizontal: 20),
             alignment: Alignment.center,
             child: Text(
-              _sightsStore.getPrice(widget.whichSight),
-              /* HotelStore.mapSightInformation.entries
-                  .elementAt(widget.whichSight)
-                  .value
-                  .elementAt(4), */
+              widget.results.price ?? '',
+              // _hotelStore.getPrice(widget.attractionsName),
               style: GoogleFonts.lobster(
                   fontSize: 25, fontWeight: FontWeight.normal),
             ),
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.all(3),
+              padding: EdgeInsets.all(3),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: Colors.green.shade300,
-                  borderRadius: BorderRadius.circular(50),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 4,
-                    )
-                  ]),
+                color: Colors.green.shade300,
+                borderRadius: BorderRadius.circular(50),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 4,
+                  )
+                ],
+              ),
               child: Text(
                 'Book Now',
+                textAlign: TextAlign.center,
                 style: GoogleFonts.libreBaskerville(
-                  fontSize: 28,
+                  textStyle: Theme.of(context).textTheme.headlineLarge,
                 ),
+                textScaler:
+                    TextScaler.linear(ScaleSize.textScaleFactor(context)),
               ),
             ),
           ),

@@ -12,11 +12,16 @@ class HotelInitial extends HotelState {}
 class HotelInitialLoading extends HotelState {
   final String message;
   const HotelInitialLoading({required this.message});
+
+  @override
+  List<Object> get props => [message];
 }
 
 class HotelInitialError extends HotelState {
   final String message;
   const HotelInitialError({required this.message});
+  @override
+  List<Object> get props => [message];
 }
 
 class HotelEmpty extends HotelState {}
@@ -30,4 +35,7 @@ class HotelLoaded extends HotelState {
     this.loading,
     this.error,
   });
+
+  @override
+  List<Object> get props => [hotelsModel];
 }

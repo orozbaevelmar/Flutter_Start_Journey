@@ -23,31 +23,24 @@ class HotelsModel {
   }
 
   factory HotelsModel.fromMap(Map<String, dynamic> map) {
-    print('Success==1');
-    final abc = HotelsModel(
+    return HotelsModel(
       count: map['count'],
       next: map['next'],
       previous: map['previous'],
       results: map['results'] != null
           ? List<Results>.from(
-              (map['results'] as List<dynamic>).map<Results?>(
-                (x) => Results.fromMap(x as Map<String, dynamic>),
+              map['results'].map(
+                (x) => Results.fromMap(x),
               ),
             )
           : [],
     );
-    print('RESULTS +++___+++$abc');
-    return abc;
   }
 
   String toJson() => json.encode(toMap());
 
   factory HotelsModel.fromJson(String response) {
-    print('SUccess ===1');
-    final abc =
-        HotelsModel.fromMap(json.decode(response) as Map<String, dynamic>);
-    print('SUCCESS ===333');
-    return abc;
+    return HotelsModel.fromMap(json.decode(response) as Map<String, dynamic>);
   }
 }
 
@@ -86,7 +79,7 @@ class Results {
   }
 
   factory Results.fromMap(Map<String, dynamic> map) {
-    final abc = Results(
+    return Results(
       name: map['name'],
       location: map['location'],
       isFavorite: map['is_favorite'],
@@ -101,9 +94,6 @@ class Results {
             )
           : [],
     );
-    print("RESULTS +++ ___++${abc.name}");
-
-    return abc;
   }
 
   String toJson() => json.encode(toMap());
@@ -128,7 +118,6 @@ class Photos {
   }
 
   factory Photos.fromMap(Map<String, dynamic> map) {
-    print('Name ===${map['id']}');
     return Photos(
       id: map['id'],
       photo: map['photo'],

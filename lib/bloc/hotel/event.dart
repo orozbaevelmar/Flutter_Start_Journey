@@ -8,3 +8,13 @@ sealed class HotelEvent extends Equatable {
 }
 
 class HotelLoadEvent extends HotelEvent {}
+
+class HotelSearchEvent extends HotelEvent {
+  final String hotelsNameContains;
+  final bool isInitial;
+
+  const HotelSearchEvent({
+    required this.hotelsNameContains,
+    required this.isInitial,
+  });
+}

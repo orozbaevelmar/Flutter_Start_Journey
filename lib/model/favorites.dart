@@ -1,17 +1,12 @@
 import 'dart:convert';
 
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-class HotelsModel {
+class FavoritesModel {
   int? count;
   String? next;
   String? previous;
   List<Results>? results;
-  HotelsModel({
-    this.count,
-    this.next,
-    this.previous,
-    this.results,
-  });
+
+  FavoritesModel({this.count, this.next, this.previous, this.results});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -22,8 +17,8 @@ class HotelsModel {
     };
   }
 
-  factory HotelsModel.fromMap(Map<String, dynamic> map) {
-    return HotelsModel(
+  factory FavoritesModel.fromMap(Map<String, dynamic> map) {
+    return FavoritesModel(
       count: map['count'],
       next: map['next'],
       previous: map['previous'],
@@ -39,12 +34,42 @@ class HotelsModel {
 
   String toJson() => json.encode(toMap());
 
-  factory HotelsModel.fromJson(String response) {
-    return HotelsModel.fromMap(json.decode(response) as Map<String, dynamic>);
+  factory FavoritesModel.fromJson(String response) {
+    return FavoritesModel.fromMap(
+        json.decode(response) as Map<String, dynamic>);
   }
 }
 
 class Results {
+  int? id;
+  FavoriteId? drugId;
+  Results({
+    this.id,
+    this.drugId,
+  });
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'drug_id': drugId,
+    };
+  }
+
+  factory Results.fromMap(Map<String, dynamic> map) {
+    return Results(
+      id: map['id'],
+      drugId: map['drug_id'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Results.fromJson(String response) {
+    return Results.fromMap(json.decode(response) as Map<String, dynamic>);
+  }
+}
+
+class FavoriteId {
   int? id;
   String? name;
   String? location;
@@ -53,7 +78,7 @@ class Results {
   String? price;
   String? description;
   List<Photos>? photos;
-  Results({
+  FavoriteId({
     this.id,
     this.name,
     this.location,
@@ -80,8 +105,8 @@ class Results {
     return map;
   }
 
-  factory Results.fromMap(Map<String, dynamic> map) {
-    return Results(
+  factory FavoriteId.fromMap(Map<String, dynamic> map) {
+    return FavoriteId(
       id: map['id'],
       name: map['name'],
       location: map['location'],
@@ -101,8 +126,8 @@ class Results {
 
   String toJson() => json.encode(toMap());
 
-  factory Results.fromJson(String response) =>
-      Results.fromMap(json.decode(response) as Map<String, dynamic>);
+  factory FavoriteId.fromJson(String response) =>
+      FavoriteId.fromMap(json.decode(response) as Map<String, dynamic>);
 }
 
 class Photos {

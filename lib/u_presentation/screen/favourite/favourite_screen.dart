@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:start_journey/bloc/favorites/bloc.dart';
+import 'package:start_journey/model/hotel.dart';
+import 'package:start_journey/repository/favorites.dart';
 import 'package:start_journey/u_presentation/screen/favourite/store/favourite_store.dart';
+import 'package:start_journey/u_presentation/widget/components_attraction_screen/name_and_location.dart';
+import 'package:start_journey/u_presentation/widget/components_attraction_screen/rating_and_fav_icon.dart';
 
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});
@@ -13,6 +19,11 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   FavouriteStore _favouriteStore = FavouriteStore();
 
   double fontSize = 18;
+  @override
+  void initState() {
+    context.read<FavoritesBloc>().add(FavoritesLoadEvent());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +32,11 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   }
 
   Widget _buildBody() {
-    return FavouriteStore.favouriteElementsInLinkedHashMap.isEmpty
-        ? _noFavouriteElement()
-        : _hasFavouriteElements();
+    return _hasFavouriteElements1();
   }
 
   Widget _noFavouriteElement() {
+    print("TRUE");
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Center(
@@ -51,7 +61,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     );
   }
 
-  Widget _hasFavouriteElements() {
+  /* Widget _hasFavouriteElements() {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.all(15),
@@ -86,9 +96,82 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         ),
       ),
     );
+  } */
+
+  Widget _hasFavouriteElements1() {
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.all(15),
+        child: BlocBuilder<FavoritesBloc, FavoritesState>(
+          builder: (context, state) {
+            return switch (state) {
+              FavoritesLoaded() => state.favoritesModel.results!.isNotEmpty
+                  ? _buildListView(state)
+                  : _noFavouriteElement(),
+              FavoritesInitialLoading() ||
+              FavoritesInitial() =>
+                const Center(child: CircularProgressIndicator()),
+              FavoritesEmpty() => const Center(child: Text('Empty Widget2')),
+              FavoritesInitialError() => Center(child: Text(state.message)),
+            };
+          },
+        ),
+      ),
+    );
   }
 
-  Widget _favouriteElementBody(mapKey) {
+  Widget _buildListView(FavoritesLoaded state) {
+    final favoritesModel = state.favoritesModel;
+    bool isNotLastPage = state.favoritesModel.next != null;
+    return NotificationListener<ScrollEndNotification>(
+      onNotification: (scrollInfo) {
+        scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent &&
+                isNotLastPage
+            ? context.read<FavoritesBloc>().add(FavoritesLoadEvent())
+            : null;
+        return true;
+      },
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: favoritesModel.results?.length,
+              itemBuilder: (context, index) {
+                final model = favoritesModel.results![index];
+                return InkWell(
+                  onTap: () {
+                    /* Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FavouriteStore
+                            .favouriteElementsInLinkedHashMap[mapKey]!
+                            .getPostScreen(mapKey ?? 'It may need fixes'),
+                        /* FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]?.elementAt(1)(mapkey) --> PostScreen */
+            
+                        /* HotelPostScreen(FavouriteStore
+                                          .favouriteElementsInLinkedHashMap.
+                                            .elementAt(index) ??
+                                        'Not Found in Favourite Screen PostScreen') */
+                      ),
+                    ); */
+                  },
+                  child: _favouriteElementBody(model, index),
+                );
+              },
+            ),
+          ),
+          if (state.error != null)
+            const Center(
+              child: Text('On load more error'),
+            ),
+          if (state.loading != null) const CircularProgressIndicator(),
+        ],
+      ),
+    );
+  }
+
+  Widget _favouriteElementBody(Results result, int index) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20),
       height: 300,
@@ -97,20 +180,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
           image: AssetImage(
-              //HotelStore.mapHotelInformation[FavouriteStore
-              // .favouriteElementsInLinkedHashSet
-              //   .elementAt(index)]!
-              //  .elementAt(3),
-
-              //  '${HotelStore.mapHotelInformation.entries.elementAt(index).value.elementAt(2)}hotelDoor.jpg'
-
-              /* '${HotelStore.mapHotelInformation[FavouriteStore.favouriteElementsInLinkedHashSet.elementAt(index)]?.elementAt(2)}hotelDoor.jpg', */
-
-              FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]
-                      ?.getPictureOfFacade(mapKey) ??
-                  'It may need fixes'
-              /* FavouriteStore.favouriteElementsInLinkedHashMap[mapKey]?.elementAt(0) --> CategoryStore.mapCategoryInformation */
-              ),
+            result.photos?[0].photo ?? '',
+          ),
           fit: BoxFit.cover,
           opacity: 0.9,
         ),
@@ -118,26 +189,43 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
       child: Padding(
         padding: EdgeInsets.all(20),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildElementsRating(mapKey),
-                _buildFavouriteIcon(mapKey),
-              ],
+            RatingAndFavoriteIcon(
+              rating: result.rating.toString(),
+              isFavorite: result.isFavorite ?? false,
+              onTapChangeFavoriteIcon: () async {
+                if (result.isFavorite ?? false) {
+                  bool isDeleted =
+                      await FavoritesRepository.deleteFavoritesVisualisation(
+                          result.id ?? -1);
+
+                  if (isDeleted) {
+                    setState(() {
+                      result.isFavorite = false;
+                    });
+                  }
+                } else if (result.isFavorite == false) {
+                  bool isPosted =
+                      await FavoritesRepository.postFavoritesVisualisation(
+                          result.id ?? -1);
+
+                  if (isPosted) {
+                    setState(
+                      () {
+                        result.isFavorite = true;
+                      },
+                    );
+                  }
+                }
+              },
             ),
-            Spacer(),
-            Container(
-              alignment: Alignment.bottomLeft,
-              //color: Colors.black12.withOpacity(0.2),
-              child: Column(
-                children: [
-                  _buildElementsName(mapKey),
-                  _buildElementsLocation(mapKey),
-                ],
-              ),
-            )
+            AttractionNameAndLocation(
+              fontSizeMedium: 30, //fontSizeMedium,
+              fontSizeSmall: 20, //fontSizeSmall,
+              location: result.location ?? '',
+              name: result.name ?? '',
+            ),
           ],
         ),
       ),

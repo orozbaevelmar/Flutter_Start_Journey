@@ -7,6 +7,7 @@ class HowLooksFetchedData {
     "previous": null,
     "results": [
       {
+        "id": 1,
         "name": 'Sheraton Bishkek',
         "location": 'Bishkek, Kyrgyzstan',
         "is_favorite": true,
@@ -28,6 +29,7 @@ class HowLooksFetchedData {
         ],
       },
       {
+        "id": 2,
         "name": 'Jannat Resort',
         "location": 'Osh, Kyrgyzstan',
         "is_favorite": true,
@@ -65,6 +67,7 @@ class HowLooksFetchedData {
     "previous": null,
     "results": [
       {
+        "id": 1,
         "name": 'Sheraton Bishkek',
         "location": 'Bishkek, Kyrgyzstan',
         "is_favorite": true,
@@ -85,6 +88,7 @@ class HowLooksFetchedData {
         ],
       },
       {
+        "id": 2,
         "name": 'Jannat Resort',
         "location": 'Osh, Kyrgyzstan',
         "is_favorite": true,
@@ -112,6 +116,7 @@ class HowLooksFetchedData {
     "previous": null,
     "results": [
       {
+        "id": 3,
         "name": 'Ilim Hotel',
         "location": 'Bishkek, Kyrgyzstan',
         "is_favorite": true,
@@ -132,6 +137,7 @@ class HowLooksFetchedData {
         ],
       },
       {
+        "id": 4,
         "name": 'Bilim Hotel',
         "location": 'Osh, Kyrgyzstan',
         "is_favorite": true,
@@ -149,4 +155,92 @@ class HowLooksFetchedData {
       },
     ],
   };
+
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+
+  void setFalseFavoriteIcon(int hotelId) {
+    if (hotelId > -1) {
+      for (int i = 0; i < _fetchedDataVisualisation.length; i++) {
+        if (_fetchedDataVisualisation['results'][i]['id'] == hotelId) {
+          _fetchedDataVisualisation['results'][i]['is_favorite'] = false;
+        }
+      }
+    }
+  }
+
+  void setTrueFavoriteIcon(int hotelId) {
+    if (hotelId > -1) {
+      for (int i = 0; i < _fetchedDataVisualisation.length; i++) {
+        if (_fetchedDataVisualisation['results'][i]['id'] == hotelId) {
+          _fetchedDataVisualisation['results'][i]['is_favorite'] = true;
+        }
+      }
+    }
+  }
+
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+
+  static String searchCompleted(String wordContains) {
+    final Map<String, dynamic> searchedFetchedDataVisualisation = {
+      "count": 2,
+      "next": null,
+      "previous": null,
+      "results": [],
+    };
+
+    for (int i = 0; i < _fetchedDataVisualisation['results'].length; i++) {
+      if ((_fetchedDataVisualisation['results'][i]['name'] as String)
+          .toLowerCase()
+          .contains(wordContains.toLowerCase())) {
+        (searchedFetchedDataVisualisation['results'] as List)
+            .add(_fetchedDataVisualisation['results'][i]);
+      }
+    }
+
+    for (int i = 0; i < _fetchedDataVisualisation2['results'].length; i++) {
+      if ((_fetchedDataVisualisation2['results'][i]['name'] as String)
+          .toLowerCase()
+          .contains(wordContains.toLowerCase())) {
+        (searchedFetchedDataVisualisation['results'] as List)
+            .add(_fetchedDataVisualisation2['results'][i]);
+      }
+    }
+    final String result = json.encode(searchedFetchedDataVisualisation);
+    return result;
+  }
+
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+
+  static String favoriteData() {
+    final Map<String, dynamic> favoriteFetchedDataVisualisation = {
+      "count": 2,
+      "next": null,
+      "previous": null,
+      "results": [],
+    };
+
+    for (int i = 0; i < _fetchedDataVisualisation['results'].length; i++) {
+      if ((_fetchedDataVisualisation['results'][i]['is_favorite'] as bool) ==
+          true) {
+        (favoriteFetchedDataVisualisation['results'] as List)
+            .add(_fetchedDataVisualisation['results'][i]);
+      }
+    }
+
+    for (int i = 0; i < _fetchedDataVisualisation2['results'].length; i++) {
+      if ((_fetchedDataVisualisation2['results'][i]['is_favorite'] as bool) ==
+          true) {
+        (favoriteFetchedDataVisualisation['results'] as List)
+            .add(_fetchedDataVisualisation2['results'][i]);
+      }
+    }
+    final String result = json.encode(favoriteFetchedDataVisualisation);
+    return result;
+  }
 }

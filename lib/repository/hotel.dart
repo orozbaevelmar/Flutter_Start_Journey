@@ -10,7 +10,7 @@ class HotelRepository {
   static Future<Either<Failure, HotelsModel>> getHotelsVisualisation(
       {required String url}) async {
     try {
-      final responseBody = url;
+      final String responseBody = url;
 
       if (4 > 3 /* response.statusCode == 200 */) {
         return Right(HotelsModel.fromJson(responseBody));
@@ -21,7 +21,13 @@ class HotelRepository {
       return Left(Failure(message: 'Something went wrong'));
     }
   }
+}
 
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+
+class HotelRepositoryInReality {
   static Future<Either<Failure, HotelsModel>> getHotelsInReality(
       {required String url}) async {
     try {

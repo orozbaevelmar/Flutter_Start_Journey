@@ -5,8 +5,6 @@ import 'package:start_journey/utils/constants/adaptive_font_size.dart';
 import 'package:start_journey/utils/constants/text_style_const.dart';
 import 'package:start_journey/u_presentation/screen/favourite/store/favourite_store.dart';
 import 'package:start_journey/u_presentation/screen/home/home_categories/hotel/store/hotel_store.dart';
-import 'package:start_journey/u_presentation/widget/show_image_on_tap.dart';
-import 'package:start_journey/utils/store_abstract_class/attraction.dart';
 
 class HotelPostScreen extends StatefulWidget {
   final Results results;
@@ -25,9 +23,6 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
     'Bar',
     'Air conditioning',
   ]; */
-
-  HotelStore _hotelStore = HotelStore();
-  FavouriteStore _favouriteStore = FavouriteStore();
 
   @override
   Widget build(BuildContext context) {

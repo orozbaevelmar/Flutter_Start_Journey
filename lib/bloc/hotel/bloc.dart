@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:start_journey/bloc/load_more/load_more.dart';
 import 'package:start_journey/model/hotel.dart';
 import 'package:start_journey/repository/hotel.dart';
 import 'package:start_journey/repository/response_body/response_body.dart';
+import 'package:start_journey/utils/constants/m_strings.dart';
 
 part 'event.dart';
 part 'state.dart';
@@ -11,6 +14,7 @@ part 'state.dart';
 class HotelBloc extends Bloc<HotelEvent, HotelState> {
   HotelBloc() : super(HotelInitial()) {
     on<HotelLoadEvent>(_getHotelsVisual);
+    on<HotelSearchEvent>(_getSearchedHotelsVisualisation);
   }
 
   HotelsModel hotelsModel = HotelsModel(
@@ -24,8 +28,8 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
     bool isInitial = hotelsModel.next == null;
     String url = '';
     if (isInitial) {
-      url = HowLooksFetchedData
-          .fetchedResponseBodyVisualisation; //'<--MString.BASE_URL-->/hotel/';
+      url = HowLooksFetchedData.fetchedResponseBodyVisualisation;
+      //'<--MString.BASE_URL-->/hotel/';
       emit(HotelInitialLoading(message: 'Loading hotels....'));
     } else {
       url = hotelsModel.next ?? '';
@@ -72,6 +76,131 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
     );
   }
 
+  HotelsModel searchedHotels = HotelsModel(
+    count: 0,
+    next: null,
+    previous: null,
+    results: [],
+  );
+  _getSearchedHotelsVisualisation(HotelSearchEvent event, emit) async {
+    bool isInitial = event.isInitial;
+    String url = '';
+    if (isInitial) {
+      searchedHotels = HotelsModel(
+        count: 0,
+        next: null,
+        previous: null,
+        results: [],
+      );
+      url = HowLooksFetchedData.searchCompleted(event.hotelsNameContains);
+      //url = "${MString.BASE_URL}/hotels/&name=${event.hotelsNameContains}";
+      emit(HotelInitialLoading(message: 'Fetching hotels....'));
+    } else {
+      url = searchedHotels.next ?? '';
+
+      emit(HotelLoaded(
+          hotelsModel: searchedHotels,
+          loading: LoadingMore(message: 'Fetching more hotels...')));
+    }
+
+    final response = await HotelRepository.getHotelsVisualisation(url: url);
+    response.fold(
+      (l) => isInitial
+          ? emit(HotelInitialError(message: 'Failed to load hotels'))
+          : emit(HotelLoaded(
+              hotelsModel: searchedHotels,
+              error: LoadMoreError(message: 'Failed to load more hotels'))),
+      (r) {
+        if (isInitial) {
+          searchedHotels = HotelsModel(
+            count: r.count,
+            next: r.next,
+            previous: r.previous,
+            results: r.results,
+          );
+          bool isListEmpty = searchedHotels.results?.isEmpty ?? true;
+
+          if (isListEmpty) {
+            emit(HotelEmpty());
+            return;
+          }
+        } else {
+          //Adding products to existing list
+          List<Results> res = r.results ?? [];
+
+          searchedHotels = HotelsModel(
+            count: r.count,
+            next: r.next,
+            previous: r.previous,
+            results: searchedHotels.results! + res,
+          );
+        }
+        emit(HotelLoaded(hotelsModel: searchedHotels));
+      },
+    );
+  }
+
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+//----------------------------------------------------------------------------//
+
+  _getSearchedHotelsInReality(HotelSearchEvent event, emit) async {
+    bool isInitial = event.isInitial;
+    String url = '';
+    if (isInitial) {
+      searchedHotels = HotelsModel(
+        count: 0,
+        next: null,
+        previous: null,
+        results: [],
+      );
+      url = "${MString.BASE_URL}/hotels/&name=${event.hotelsNameContains}";
+      emit(HotelInitialLoading(message: 'Fetching hotels....'));
+    } else {
+      url = searchedHotels.next ?? '';
+
+      emit(HotelLoaded(
+          hotelsModel: searchedHotels,
+          loading: LoadingMore(message: 'Fetching more hotels...')));
+    }
+
+    final response = await HotelRepository.getHotelsVisualisation(url: url);
+    response.fold(
+      (l) => isInitial
+          ? emit(HotelInitialError(message: 'Failed to load hotels'))
+          : emit(HotelLoaded(
+              hotelsModel: searchedHotels,
+              error: LoadMoreError(message: 'Failed to load more hotels'))),
+      (r) {
+        if (isInitial) {
+          searchedHotels = HotelsModel(
+            count: r.count,
+            next: r.next,
+            previous: r.previous,
+            results: r.results,
+          );
+          bool isListEmpty = searchedHotels.results?.isEmpty ?? true;
+
+          if (isListEmpty) {
+            emit(HotelEmpty());
+            return;
+          }
+        } else {
+          //Adding products to existing list
+          List<Results> res = r.results ?? [];
+
+          searchedHotels = HotelsModel(
+            count: r.count,
+            next: r.next,
+            previous: r.previous,
+            results: searchedHotels.results! + res,
+          );
+        }
+        emit(HotelLoaded(hotelsModel: searchedHotels));
+      },
+    );
+  }
+
   _getHotelsInReality(HotelLoadEvent event, emit) async {
     bool isInitial = hotelsModel.next == null;
     String url = '';
@@ -86,7 +215,8 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
           loading: LoadingMore(message: 'Loading more data...')));
     }
 
-    final response = await HotelRepository.getHotelsInReality(url: url);
+    final response =
+        await HotelRepositoryInReality.getHotelsInReality(url: url);
     response.fold(
       (l) => isInitial
           ? emit(HotelInitialError(message: 'Failed to load hotels'))

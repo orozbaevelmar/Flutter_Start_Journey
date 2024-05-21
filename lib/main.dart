@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:start_journey/bloc/favorites/bloc.dart';
 import 'package:start_journey/bloc/hotel/bloc.dart';
 
 import 'package:start_journey/u_presentation/screen/enter/welcome.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (c) => HotelBloc()),
+        BlocProvider(create: (c) => FavoritesBloc()),
       ],
       child: MaterialApp(
         color: Colors.grey.shade100,

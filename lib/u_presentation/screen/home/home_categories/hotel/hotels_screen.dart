@@ -3,13 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:start_journey/bloc/hotel/bloc.dart';
 import 'package:start_journey/model/hotel.dart';
 import 'package:start_journey/repository/favorites.dart';
-import 'package:start_journey/u_presentation/screen/favourite/store/favourite_store.dart';
 import 'package:start_journey/u_presentation/screen/home/home_categories/hotel/hotel_post_screen.dart';
-import 'package:start_journey/u_presentation/screen/home/home_categories/hotel/store/hotel_store.dart';
 import 'package:start_journey/u_presentation/widget/app_bar.dart';
 import 'package:start_journey/u_presentation/widget/components_attraction_screen/categories.dart';
 import 'package:start_journey/u_presentation/widget/components_attraction_screen/name_and_location.dart';
 import 'package:start_journey/u_presentation/widget/components_attraction_screen/rating_and_fav_icon.dart';
+import 'package:start_journey/u_presentation/widget/empty_list.dart';
 import 'package:start_journey/u_presentation/widget/search_text_field.dart';
 import 'package:start_journey/u_presentation/widget/tag_line.dart';
 
@@ -28,9 +27,6 @@ class _HotelsScreenState extends State<HotelsScreen> {
     context.read<HotelBloc>().add(HotelLoadEvent());
     super.initState();
   }
-
-  FavouriteStore _favouriteStore = FavouriteStore();
-  HotelStore _hotelStore = HotelStore();
 
   void _searchResult(String newQuery) {
     setState(() {
@@ -58,13 +54,8 @@ class _HotelsScreenState extends State<HotelsScreen> {
     fontSizeBig = MediaQuery.of(context).size.width * 0.07;
     fontSizeMedium = MediaQuery.of(context).size.width * 0.055;
     fontSizeSmall = MediaQuery.of(context).size.width * 0.035;
-    return PopScope(
-      onPopInvoked: (bool didPop) {
-        _hotelStore.onQueryChangedHotel('');
-      },
-      child: Scaffold(
-        body: _buildBody(),
-      ),
+    return Scaffold(
+      body: _buildBody(),
     );
   }
 
@@ -76,7 +67,6 @@ class _HotelsScreenState extends State<HotelsScreen> {
           children: <Widget>[
             CustomAppBar(
               backButtonPressed: () {
-                _hotelStore.onQueryChangedHotel('');
                 Navigator.pop(context);
               },
             ),
@@ -127,7 +117,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
             HotelInitialLoading() ||
             HotelInitial() =>
               const Center(child: CircularProgressIndicator()),
-            HotelEmpty() => const Center(child: Text('Empty Widget2')),
+            HotelEmpty() => EmptyListy(text: 'Not found Hotel with this name'),
             HotelInitialError() => Center(child: Text(state.message)),
           };
         },
@@ -142,158 +132,13 @@ class _HotelsScreenState extends State<HotelsScreen> {
       scrollDirection: Axis.vertical,
       itemBuilder: (context, index) {
         Results result = state.hotelsModel.results![index];
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: InkWell(
-            onTap: () async {
-              /* Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            HotelPostScreen(HotelStore.searchResultsList[index]),
-                      ),
-                    ) /* .then((value) => setState(() {})) */;
-                    /* setState(() {
-                      // I set this setState, because when I in
-                      // hotel_post_screen click arrow_back -> Navigator.pop(),
-                      // Icon in HotelScreen will be changed.
-                    }); */ */
-            },
-            child: Container(
-              height: 250, //width: 250,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                  image: AssetImage(result.photos?[0].photo ?? ''),
-                  fit: BoxFit.cover,
-                  opacity: 0.9,
-                ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            result.rating.toString(),
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-
-                        // Favourite Icon
-                        InkWell(
-                          onTap: () async {
-                            if (result.isFavorite ?? false) {
-                              bool isDeleted = await FavoritesRepository
-                                  .deleteFavoritesVisualisation(
-                                      result.id ?? -1);
-
-                              if (isDeleted) {
-                                setState(() {
-                                  result.isFavorite = false;
-                                });
-                              }
-                            } else if (result.isFavorite == false) {
-                              bool isPosted = await FavoritesRepository
-                                  .postFavoritesVisualisation(result.id ?? -1);
-
-                              if (isPosted) {
-                                setState(
-                                  () {
-                                    result.isFavorite = true;
-                                  },
-                                );
-                              }
-                            }
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            //alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  blurRadius: 6,
-                                ),
-                              ],
-                            ),
-                            child: result.isFavorite ?? false
-                                ? Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
-                                  )
-                                : Icon(
-                                    Icons.favorite_outline_outlined,
-                                    color: Colors.black,
-                                  ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Spacer(),
-                    Container(
-                      alignment: Alignment.bottomLeft,
-                      //color: Colors.black12.withOpacity(0.2),
-                      child: Column(
-                        children: [
-                          Container(
-                            alignment: Alignment.bottomLeft,
-                            child: Text(
-                              result.name ?? '',
-                              style: GoogleFonts.acme(
-                                // acme // yeonsung
-                                fontSize: 25,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 5),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 3),
-                                  child: Icon(
-                                    Icons.location_on,
-                                    size: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                Text(
-                                  result.location ?? '',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
+        return _buildCard(
+          state,
+          index,
+          250,
+          double.infinity,
+          EdgeInsets.symmetric(vertical: 10),
+        ); //_buildSearchCard(result, state, index);
       },
     );
   }
@@ -325,6 +170,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
 
   Widget _buildListView(HotelLoaded state) {
     final hotelModel = state.hotelsModel;
+
     bool isNotLastPage = state.hotelsModel.next != null;
 
     return NotificationListener<ScrollEndNotification>(
@@ -342,8 +188,13 @@ class _HotelsScreenState extends State<HotelsScreen> {
               scrollDirection: Axis.horizontal,
               itemCount: state.hotelsModel.results?.length,
               itemBuilder: (context, index) {
-                final results = hotelModel.results![index];
-                return _buildCard(results, index);
+                return _buildCard(
+                  state,
+                  index,
+                  double.infinity,
+                  250,
+                  const EdgeInsets.only(right: 20),
+                );
               },
             ),
           ),
@@ -357,9 +208,17 @@ class _HotelsScreenState extends State<HotelsScreen> {
     );
   }
 
-  Widget _buildCard(Results result, int index) {
+  Widget _buildCard(
+    HotelLoaded state, //
+    int index, //top:   search
+    double height, // top :  search:250
+    double width, // top :250  search:
+    final EdgeInsetsGeometry padding,
+  ) {
+    Results result = state.hotelsModel.results![index];
     return Padding(
-      padding: const EdgeInsets.only(right: 20),
+      padding: padding,
+      //padding: const EdgeInsets.only(right: 20),
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -373,7 +232,9 @@ class _HotelsScreenState extends State<HotelsScreen> {
               }));
         },
         child: Container(
-          width: 250,
+          width: width,
+          height: height,
+          //width: 250,
           decoration: BoxDecoration(
             color: Colors.black,
             borderRadius: BorderRadius.circular(20),
@@ -400,21 +261,19 @@ class _HotelsScreenState extends State<HotelsScreen> {
 
                       if (isDeleted) {
                         setState(() {
-                          result.isFavorite = false;
+                          state.hotelsModel.results![index].isFavorite = false;
                         });
                       }
-                    } else if (result.isFavorite == false) {
+                      return;
+                    } else {
                       bool isPosted =
                           await FavoritesRepository.postFavoritesVisualisation(
-                        result.id ?? -1,
-                      );
+                              result.id ?? -1);
 
                       if (isPosted) {
-                        setState(
-                          () {
-                            result.isFavorite = true;
-                          },
-                        );
+                        setState(() {
+                          state.hotelsModel.results![index].isFavorite = true;
+                        });
                       }
                     }
                   },

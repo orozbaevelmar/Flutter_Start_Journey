@@ -189,13 +189,13 @@ class _SightsPostScreenState extends State<SightsPostScreen> {
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
                     onTap: () {
-                      Navigator.push(
+                      /* Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => ShowImageOnTap(SightsStore(),
                               widget.whichSight, index, snapshot.data),
                         ),
-                      );
+                      ); */
                     },
                     child: Container(
                       width: 100,

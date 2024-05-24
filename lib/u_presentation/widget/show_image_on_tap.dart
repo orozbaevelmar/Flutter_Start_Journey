@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/utils/store_abstract_class/attraction.dart';
+import 'package:start_journey/model/hotel.dart';
 
 class ShowImageOnTap extends StatefulWidget {
-  final int _index;
-  final String _whichElement;
-  final Attraction _store;
-  final int? _countFilesInFolder;
-  const ShowImageOnTap(
-      this._store, this._whichElement, this._index, this._countFilesInFolder,
-      {super.key});
+  final int index;
+  final List<Photos> photos;
+  const ShowImageOnTap({
+    super.key,
+    required this.index,
+    required this.photos,
+  });
 
   @override
   State<ShowImageOnTap> createState() => _ShowImageOnTapState();
@@ -16,7 +16,7 @@ class ShowImageOnTap extends StatefulWidget {
 
 class _ShowImageOnTapState extends State<ShowImageOnTap> {
   late final PageController _pageController =
-      PageController(initialPage: widget._index);
+      PageController(initialPage: widget.index);
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +39,12 @@ class _ShowImageOnTapState extends State<ShowImageOnTap> {
           children: [
             PageView.builder(
               controller: _pageController,
-              itemCount: widget._countFilesInFolder, // FIX
+              itemCount: widget.photos.length, // FIX
               itemBuilder: (context, index) {
                 return Center(
                   child: Image(
                     image: AssetImage(
-                      widget._store.showImageOnTap(widget._whichElement, index),
+                      widget.photos[index].photo ?? '',
                     ),
                   ),
                 );
@@ -61,27 +61,3 @@ class _ShowImageOnTapState extends State<ShowImageOnTap> {
     );
   }
 }
-/* GestureDetector(
-        //onTap: () => Navigator.pop(context),
-        onHorizontalDragUpdate: (details) {
-          int sensitivity = 20;
-          if (details.delta.dx > sensitivity) {
-            setState(() {
-              //Right Swipe
-              widget._index--;
-            });
-          } else if (details.delta.dx < -sensitivity) {
-            setState(() {
-              //Left Swipe
-              widget._index++;
-            });
-          }
-        },
-        child: Center(
-          child: Image(
-            image: AssetImage(
-              widget._store.showImageOnTap(widget._whichElement, widget._index),
-            ),
-          ),
-        ),
-      ), */

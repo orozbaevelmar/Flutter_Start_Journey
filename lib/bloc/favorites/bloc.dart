@@ -94,9 +94,7 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
   _deleteFavoriteDrugInReality(FavoriteDrugRemoveEvent event, emit) {
     favoritesModel.results?.remove(event.results);
 
-    emit(FavoritesLoaded(
-        favoritesModel: favoritesModel,
-        error: LoadMoreError(message: 'Failed to load more products')));
+    emit(FavoritesLoaded(favoritesModel: favoritesModel));
   }
 
   _getFavoritesInReality(FavoritesLoadEvent event, emit) async {

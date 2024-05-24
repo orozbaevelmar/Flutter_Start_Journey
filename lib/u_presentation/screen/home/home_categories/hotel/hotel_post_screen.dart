@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:start_journey/model/hotel.dart';
+import 'package:start_journey/u_presentation/widget/show_image_on_tap.dart';
 import 'package:start_journey/utils/constants/adaptive_font_size.dart';
 import 'package:start_journey/utils/constants/text_style_const.dart';
-import 'package:start_journey/u_presentation/screen/favourite/store/favourite_store.dart';
-import 'package:start_journey/u_presentation/screen/home/home_categories/hotel/store/hotel_store.dart';
 
 class HotelPostScreen extends StatefulWidget {
   final Results results;
@@ -16,14 +15,6 @@ class HotelPostScreen extends StatefulWidget {
 }
 
 class _HotelPostScreenState extends State<HotelPostScreen> {
-  /* var _category = [
-    'Wi-Fi',
-    'Gym',
-    'Parking',
-    'Bar',
-    'Air conditioning',
-  ]; */
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,16 +80,7 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
-                    setState(() {
-                      /* _favouriteStore
-                              .checkRedFavouriteIcon(widget.attractionsName)
-                          ? _favouriteStore.deleteFromFavouriteElement(
-                              widget.attractionsName)
-                          : _favouriteStore.addToFavouriteElement(
-                              widget.attractionsName, HotelStore()); */
-                    });
-                  },
+                  onTap: () {},
                   child: Container(
                     padding: EdgeInsets.all(10),
                     //alignment: Alignment.center,
@@ -142,7 +124,7 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
       ),
       child: Column(
         children: [
-          //_buildPostRoomImages(),
+          _buildPostRoomImages(),
           _buildHotelsName(),
           _buildAmenities(),
           _buildDescription(),
@@ -151,7 +133,7 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
     );
   }
 
-  /* Widget _buildPostRoomImages() {
+  Widget _buildPostRoomImages() {
     return Column(
       children: [
         Container(
@@ -168,63 +150,43 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
         Container(
           margin: EdgeInsets.only(left: 20, right: 2),
           height: 100,
-          child: FutureBuilder(
-              future: _hotelStore.countFilesInFolder(
-                _hotelStore.getMapInformation[widget.attractionsName]![2],
-              ),
-              /* HotelStore
-                  .mapHotelInformation.entries
-                  .elementAt(widget.whichHotel)
-                  .value
-                  .elementAt(2)), */
-              initialData: 0,
-              builder: (context, snapshot) {
-                return ListView.builder(
-                  itemCount: snapshot.data,
-                  /* HotelsScreen.map.entries
-                                .elementAt(whichHotel)
-                                .value
-                                .length, //rewrote */
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ShowImageOnTap(
-                                HotelStore(),
-                                widget.results.name ?? '',
-                                index,
-                                snapshot.data),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        width: 100,
-                        margin: EdgeInsets.only(right: 25),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              widget.results.photos?[index].photo ?? '',
-                              //'${_hotelStore.getPictures(widget.attractionsName)}hotel$index.jpg',
-                              /* {HotelStore.mapHotelInformation[widget.whichHotel]?[2]} */
-                              /* '${HotelStore.mapHotelInformation.entries.elementAt(widget.whichHotel).value.elementAt(2)}hotel$index.jpg', */ //rewrote
-                            ),
-                          ),
-                        ),
+          child: ListView.builder(
+            itemCount: widget.results.photos?.length,
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ShowImageOnTap(
+                        index: index,
+                        photos: widget.results.photos ?? [],
                       ),
-                    );
-                  },
-                );
-              }),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: 100,
+                  margin: EdgeInsets.only(right: 25),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(
+                        widget.results.photos?[index].photo ?? '',
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ],
     );
-  } */
+  }
 
   Widget _buildHotelsName() {
     return Container(
@@ -232,18 +194,8 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
       alignment: Alignment.centerLeft,
       child: Text(
         widget.results.name ?? '',
-        //widget.attractionsName,
-        /* HotelStore.mapHotelInformation.entries
-            .elementAt(widget.whichHotel)
-            .key, */ // rewrote
         style: GoogleFonts.frankRuhlLibre(
-            textStyle: Theme.of(context).textTheme.headlineLarge
-
-            /* const TextStyle(
-            fontSize: 43,
-            fontWeight: FontWeight.w400,
-          ), */
-            ),
+            textStyle: Theme.of(context).textTheme.headlineLarge),
         textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
       ),
     );
@@ -325,12 +277,6 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
           ),
           child: Text(
             widget.results.description ?? '',
-            // _hotelStore.getDescription(widget.attractionsName),
-            /* HotelStore.mapHotelInformation[widget.whichHotel]![5], */
-            /* HotelStore.mapHotelInformation.entries
-                .elementAt(widget.whichHotel)
-                .value
-                .elementAt(5), */ //rewrote
             style: MTextStyle.description(Colors.black),
             textAlign: TextAlign.justify,
           ),
@@ -350,14 +296,12 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
       padding: EdgeInsets.all(5),
       height: 90,
       child: Row(
-        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
             alignment: Alignment.center,
             child: Text(
               widget.results.price ?? '',
-              // _hotelStore.getPrice(widget.attractionsName),
               style: GoogleFonts.lobster(
                   fontSize: 25, fontWeight: FontWeight.normal),
             ),

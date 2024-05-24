@@ -1,7 +1,5 @@
-import 'dart:convert';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:start_journey/bloc/load_more/load_more.dart';
 import 'package:start_journey/model/hotel.dart';
 import 'package:start_journey/repository/hotel.dart';

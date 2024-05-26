@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:start_journey/bloc/load_more/load_more.dart';
+import 'package:start_journey/model/extra/results.dart';
 import 'package:start_journey/model/hotel.dart';
 import 'package:start_journey/repository/hotel.dart';
-import 'package:start_journey/repository/response_body/response_body.dart';
+import 'package:start_journey/repository/real_repo.dart';
+import 'package:start_journey/repository/response_body/response_body_hotel.dart';
 import 'package:start_journey/utils/constants/m_strings.dart';
 
 part 'event.dart';
@@ -21,16 +25,17 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
     previous: null,
     results: [],
   );
-
+  String url = '';
   _getHotelsVisual(HotelLoadEvent event, emit) async {
     bool isInitial = hotelsModel.next == null;
-    String url = '';
     if (isInitial) {
-      url = HowLooksFetchedData.fetchedResponseBodyVisualisation;
+      url = HowLooksFetchedDataHotel.fetchedResponseBodyVisualisation;
+
       //'<--MString.BASE_URL-->/hotel/';
       emit(HotelInitialLoading(message: 'Loading hotels....'));
     } else {
-      url = hotelsModel.next ?? '';
+      url = HowLooksFetchedDataHotel.fetchedResponseBodyVisualisation2;
+      //url = hotelsModel.next ?? '';
 
       emit(HotelLoaded(
           hotelsModel: hotelsModel,
@@ -38,6 +43,7 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
     }
 
     final response = await HotelRepository.getHotelsVisualisation(url: url);
+
     response.fold(
       (l) => isInitial
           ? emit(HotelInitialError(message: 'Failed to load hotels'))
@@ -57,10 +63,7 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
             emit(HotelEmpty());
           }
         } else {
-          //   print('ABCC');
-
-          List<Results> res = r.results ?? [];
-          //  print('new result ===${res[0].name}');
+          List<Result> res = r.results ?? [];
 
           hotelsModel = HotelsModel(
             count: r.count,
@@ -68,6 +71,9 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
             previous: r.previous,
             results: hotelsModel.results! + res,
           );
+        }
+        for (int i = 0; i < (r.results?.length ?? 0); i++) {
+          print('${r.results![i].name} ===${r.results![i].isFavorite}');
         }
         emit(HotelLoaded(hotelsModel: hotelsModel));
       },
@@ -90,7 +96,7 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
         previous: null,
         results: [],
       );
-      url = HowLooksFetchedData.searchCompleted(event.hotelsNameContains);
+      url = HowLooksFetchedDataHotel.searchCompleted(event.hotelsNameContains);
       //url = "${MString.BASE_URL}/hotels/&name=${event.hotelsNameContains}";
       emit(HotelInitialLoading(message: 'Fetching hotels....'));
     } else {
@@ -124,7 +130,7 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
           }
         } else {
           //Adding products to existing list
-          List<Results> res = r.results ?? [];
+          List<Result> res = r.results ?? [];
 
           searchedHotels = HotelsModel(
             count: r.count,
@@ -185,7 +191,7 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
           }
         } else {
           //Adding products to existing list
-          List<Results> res = r.results ?? [];
+          List<Result> res = r.results ?? [];
 
           searchedHotels = HotelsModel(
             count: r.count,
@@ -234,7 +240,7 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
             emit(HotelEmpty());
           }
         } else {
-          List<Results> res = r.results ?? [];
+          List<Result> res = r.results ?? [];
 
           hotelsModel = HotelsModel(
             count: r.count,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:start_journey/u_presentation/screen/enter/navigation_bar.dart';
+import 'package:start_journey/utils/constants/navigator_custom.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -16,8 +17,9 @@ class WelcomeScreen extends StatelessWidget {
         color: Colors.transparent,
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 65, horizontal: 25),
+            padding: EdgeInsets.only(top: 65),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "Start Travel",
@@ -25,21 +27,12 @@ class WelcomeScreen extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
+                    letterSpacing: 2,
                   ),
                 ),
-                SizedBox(
-                  height: 30,
-                ),
+                SizedBox(height: 30),
                 InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NavigationBarScreen(),
-                      ),
-                    );
-                  },
+                  onTap: () => Go.to(context, const NavigationBarScreen()),
                   child: Ink(
                     padding: EdgeInsets.all(15),
                     decoration: BoxDecoration(

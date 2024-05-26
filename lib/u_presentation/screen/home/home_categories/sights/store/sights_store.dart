@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:start_journey/model/extra/results.dart';
 import 'package:start_journey/u_presentation/screen/home/home_categories/sights/sights_post_screen.dart';
 import 'package:start_journey/utils/store_abstract_class/attraction.dart';
 
@@ -27,7 +28,9 @@ class SightsStore implements Attraction {
 
   @override
   dynamic getPostScreen(String mapkey) {
-    return SightsPostScreen(mapkey);
+    return SightsPostScreen(
+      results: Result(),
+    );
   }
 
   @override

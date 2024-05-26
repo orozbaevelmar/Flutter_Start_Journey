@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:start_journey/u_presentation/screen/favourite/store/favourite_store.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:start_journey/bloc/sights/bloc.dart';
+import 'package:start_journey/model/extra/results.dart';
 import 'package:start_journey/u_presentation/screen/home/home_categories/sights/sights_post_screen.dart';
-import 'package:start_journey/u_presentation/screen/home/home_categories/sights/store/sights_store.dart';
 import 'package:start_journey/u_presentation/widget/app_bar.dart';
+import 'package:start_journey/u_presentation/widget/components_attraction_screen/categories.dart';
+import 'package:start_journey/u_presentation/widget/components_attraction_screen/mini_attraction.dart';
+import 'package:start_journey/u_presentation/widget/components_attraction_screen/name_and_location.dart';
+import 'package:start_journey/u_presentation/widget/components_attraction_screen/rating_and_fav_icon.dart';
+import 'package:start_journey/u_presentation/widget/empty_list.dart';
+import 'package:start_journey/u_presentation/widget/search_text_field.dart';
+import 'package:start_journey/u_presentation/widget/tag_line.dart';
+import 'package:start_journey/utils/constants/navigator_custom.dart';
 
 class SightsScreen extends StatefulWidget {
   const SightsScreen({super.key});
@@ -13,13 +21,19 @@ class SightsScreen extends StatefulWidget {
 }
 
 class _SightsScreenState extends State<SightsScreen> {
-  FavouriteStore _favouriteStore = FavouriteStore();
-  SightsStore _sightsStore = SightsStore();
+  @override
+  void initState() {
+    context.read<SightsBloc>().add(SightsLoadEvent());
+    super.initState();
+  }
 
   void _searchResult(String newQuery) {
     setState(() {
-      _sightsStore.searchResultSights(newQuery);
+      _searchController;
     });
+    context
+        .read<SightsBloc>()
+        .add(SightsSearchEvent(sightsNameContains: newQuery, isInitial: true));
   }
 
   List<String> yourWishes = [
@@ -28,17 +42,19 @@ class _SightsScreenState extends State<SightsScreen> {
     'Luxury',
   ];
 
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
+
+  double fontSizeBig = 35;
+  double fontSizeMedium = 25;
+  double fontSizeSmall = 15;
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvoked: (bool didPop) {
-        _sightsStore.onQueryChangedSights('');
-      },
-      child: Scaffold(
-        body: _buildBody(),
-      ),
+    fontSizeBig = MediaQuery.of(context).size.width * 0.07;
+    fontSizeMedium = MediaQuery.of(context).size.width * 0.055;
+    fontSizeSmall = MediaQuery.of(context).size.width * 0.035;
+    return Scaffold(
+      body: _buildBody(),
     );
   }
 
@@ -48,80 +64,42 @@ class _SightsScreenState extends State<SightsScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            CustomAppBar(backButtonPressed: () {
-              _sightsStore.onQueryChangedSights('');
-              Navigator.pop(context);
-            }),
-            _hotelTagline(),
-            _hotelSearch(),
-            SightsStore.querySights.isEmpty
+            CustomAppBar(
+              backButtonPressed: () => Go.back(context),
+            ),
+            CustomTagLine(
+                fontSizeBig: fontSizeBig, hintText: 'Sights for all Desires'),
+            CustomSearchTextField(
+              hintText: 'Search for Sights',
+              fontSize: fontSizeSmall,
+              controller: _searchController,
+              onTap: () {
+                setState(() {
+                  _searchController.clear();
+                });
+              },
+              onChanged: _searchResult,
+            ),
+            _searchController.text.isEmpty
                 ? Column(
                     children: [
-                      _hotelsTopLocatedOfScreen(),
-                      _hotelCategory(),
-                      _hotelsBottomLocatedOfScreen(),
+                      _sightsTopLocatedOfScreen1(),
+                      CustomCategories(
+                          fontSizeSmall: fontSizeSmall, yourWishes: yourWishes),
+                      MiniAttractionAtBottom(
+                        fontSizeMedium: fontSizeMedium,
+                        photo: 'images/sights/ruh_ordo/sights0.jpg',
+                      )
                     ],
                   )
-                : _hotelSearchScreen(),
+                : _sightsSearchScreen(),
           ],
         ),
       ),
     );
   }
 
-  Widget _hotelTagline() {
-    return Container(
-      alignment: Alignment.centerLeft,
-      height: 65, // _height
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      child: Text(
-        'Sights for all Desires', // hospitable hotels are waiting for you //hotels for all desires
-        style: GoogleFonts.frankRuhlLibre(
-          fontSize: 35,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-    );
-  }
-
-  Widget _hotelSearch() {
-    return Container(
-      height: 87, // _height
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 17),
-      child: TextField(
-        style: const TextStyle(
-          fontSize: 18,
-        ),
-
-        controller: _searchController,
-        decoration: InputDecoration(
-          isDense: true,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          prefixIcon: const Icon(Icons.search_outlined),
-          hintText: 'Search for Sights',
-          suffixIcon: IconButton(
-            icon: const Icon(Icons.clear),
-            onPressed: () {
-              _searchController.clear();
-              setState(() {
-                _sightsStore.onQueryChangedSights('');
-              });
-            },
-          ),
-        ),
-        onTapOutside: (event) {
-          //FocusScope.of(context).unfocus();
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
-        //onTap: () {},
-        onChanged: _searchResult, //onQueryChanged,
-      ),
-    );
-  }
-
-  Widget _hotelSearchScreen() {
+  Widget _sightsSearchScreen() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       width: MediaQuery.of(context).size.width,
@@ -131,514 +109,182 @@ class _SightsScreenState extends State<SightsScreen> {
           65 -
           87 -
           15, // the height of _hotelAppBar(),_hotelTagline(),_hotelSearch() and padding(15)
-      child: ListView.builder(
-        physics: AlwaysScrollableScrollPhysics(),
-        itemCount: SightsStore.searchResultsListSights.length,
-        //primary: true,
-        //shrinkWrap: true,
-        scrollDirection: Axis.vertical,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: InkWell(
-              onTap: () async {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SightsPostScreen(
-                        SightsStore.searchResultsListSights[index]),
-                  ),
-                );
-                setState(() {
-                  // I set this setState, because when I in
-                  // hotel_post_screen click arrow_back -> Navigator.pop(),
-                  // Icon in HotelScreen will be changed.
-                });
-              },
-              child: Container(
-                height: 250, //width: 250,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(20),
-                  image: DecorationImage(
-                    image: AssetImage(
-                      '${_sightsStore.getPictures(SightsStore.searchResultsListSights[index])}sights0.jpg',
-                    ),
-                    fit: BoxFit.cover,
-                    opacity: 0.9,
-                  ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              _sightsStore.getRating(
-                                  SightsStore.searchResultsListSights[index]),
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-
-                          // Favourite Icon
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                _favouriteStore.checkRedFavouriteIcon(
-                                        SightsStore
-                                            .searchResultsListSights[index])
-                                    ? _favouriteStore
-                                        .deleteFromFavouriteElement(SightsStore
-                                            .searchResultsListSights[index])
-                                    : _favouriteStore.addToFavouriteElement(
-                                        SightsStore
-                                            .searchResultsListSights[index],
-                                        SightsStore());
-                              });
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              //alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 6,
-                                  ),
-                                ],
-                              ),
-                              child: _favouriteStore.checkRedFavouriteIcon(
-                                      SightsStore
-                                          .searchResultsListSights[index])
-                                  ? Icon(
-                                      Icons.favorite,
-                                      color: Colors.red,
-                                    )
-                                  : Icon(
-                                      Icons.favorite_outline_outlined,
-                                      color: Colors.black,
-                                    ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Spacer(),
-                      Container(
-                        alignment: Alignment.bottomLeft,
-                        //color: Colors.black12.withOpacity(0.2),
-                        child: Column(
-                          children: [
-                            Container(
-                              alignment: Alignment.bottomLeft,
-                              child: Text(
-                                SightsStore.searchResultsListSights[index],
-                                /* HotelStore.mapHotelInformation.entries
-                                          .elementAt(index)
-                                          .key, */
-                                style: GoogleFonts.acme(
-                                  // acme // yeonsung
-                                  fontSize: 25,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 5),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 3),
-                                    child: Icon(
-                                      Icons.location_on,
-                                      size: 18,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Text(
-                                    _sightsStore.getLocation(SightsStore
-                                        .searchResultsListSights[index]),
-                                    /* HotelStore.mapHotelInformation.entries
-                                              .elementAt(index)
-                                              .value
-                                              .elementAt(0), */
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-
-          /* Container(
-            margin: EdgeInsets.symmetric(vertical: 15),
-            height: 200,
-            color: Colors.amber,
-            //child: Image(image: AssetImage('images/nature.jpg')));
-          ); */
+      child: BlocBuilder<SightsBloc, SightsState>(
+        builder: (context, state) {
+          return switch (state) {
+            SightsLoaded() => _buildSearcListView(state),
+            SightsInitialLoading() ||
+            SightsInitial() =>
+              const Center(child: CircularProgressIndicator()),
+            SightsEmpty() =>
+              EmptyListy(text: 'Not found Sights with this name'),
+            SightsInitialError() => Center(child: Text(state.message)),
+          };
         },
       ),
     );
   }
 
-  Widget _hotelsTopLocatedOfScreen() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Container(
-          height: 285,
-          padding: const EdgeInsets.only(
-            left: 15,
-            right: 2,
-          ),
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            //itemCount: HotelStore.mapHotelInformation.length,
-            children: [
-              for (var mapKey in _sightsStore.getMapInformation.keys)
-                Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: InkWell(
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SightsPostScreen(mapKey),
-                        ),
-                      );
-                      setState(() {
-                        // I set this setState, because when I in
-                        // hotel_post_screen click arrow_back -> Navigator.pop(),
-                        // Icon in HotelScreen will be changed.
-                      });
-                    },
-                    child: Container(
-                      width: 250,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                          image: AssetImage(
-                              '${_sightsStore.getPictures(mapKey)}sights0.jpg'),
-                          fit: BoxFit.cover,
-                          opacity: 0.9,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.all(20),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    _sightsStore.getRating(mapKey),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-
-                                // Favourite Icon
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      _favouriteStore
-                                              .checkRedFavouriteIcon(mapKey)
-                                          ? _favouriteStore
-                                              .deleteFromFavouriteElement(
-                                                  mapKey)
-                                          : _favouriteStore
-                                              .addToFavouriteElement(
-                                                  mapKey, SightsStore());
-                                    });
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.all(10),
-                                    //alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          blurRadius: 6,
-                                        ),
-                                      ],
-                                    ),
-                                    child: _favouriteStore
-                                            .checkRedFavouriteIcon(mapKey)
-                                        ? Icon(
-                                            Icons.favorite,
-                                            color: Colors.red,
-                                          )
-                                        : Icon(
-                                            Icons.favorite_outline_outlined,
-                                            color: Colors.black,
-                                          ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Spacer(),
-                            Container(
-                              alignment: Alignment.bottomLeft,
-                              //color: Colors.black12.withOpacity(0.2),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    alignment: Alignment.bottomLeft,
-                                    child: Text(
-                                      mapKey,
-                                      /* HotelStore.mapHotelInformation.entries
-                                          .elementAt(index)
-                                          .key, */
-                                      style: GoogleFonts.acme(
-                                        // acme // yeonsung
-                                        fontSize: 25,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 5),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 3),
-                                          child: Icon(
-                                            Icons.location_on,
-                                            size: 18,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        Text(
-                                          _sightsStore.getLocation(mapKey),
-                                          /* HotelStore.mapHotelInformation.entries
-                                              .elementAt(index)
-                                              .value
-                                              .elementAt(0), */
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          )),
+  Widget _buildSearcListView(SightsLoaded state) {
+    return ListView.builder(
+      physics: AlwaysScrollableScrollPhysics(),
+      itemCount: state.sightsModel.results?.length,
+      scrollDirection: Axis.vertical,
+      itemBuilder: (context, index) {
+        return _buildCard(
+          state,
+          index,
+          250,
+          double.infinity,
+          const EdgeInsets.symmetric(vertical: 10),
+        ); //_buildSearchCard(result, state, index);
+      },
     );
   }
 
-  Widget _hotelCategory() {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        vertical: 20,
-        horizontal: 15,
-      ),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            //
-            // Will be deleted in the future
-            // StatefulWidget
-
-            Container(
-              margin: EdgeInsets.only(
-                right: 20,
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                color: Colors.green, // reWrote
-                border: Border.all(
-                  color: Colors.green, // reWrote
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: InkWell(
-                onTap: () {},
-                child: Text(
-                  "Near You",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white, // rewrote
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-
-            // Until here(_DELETE_)
-
-            for (int i = 0; i < yourWishes.length; i++)
-              Container(
-                margin: EdgeInsets.only(
-                  right: 20,
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black38,
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: InkWell(
-                  onTap: () {},
-                  child: Text(
-                    yourWishes[i],
-                    style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black54,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _hotelsBottomLocatedOfScreen() {
+  Widget _sightsTopLocatedOfScreen1() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Container(
-        height: 220,
-        padding: EdgeInsets.only(
+        height: 285,
+        padding: const EdgeInsets.only(
           left: 15,
           right: 2,
         ),
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemCount: 4,
-          itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  width: 170,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                      image: AssetImage(
-                        'images/sights/ruh_ordo/sights0.jpg',
-                      ),
-                      fit: BoxFit.cover,
-                      opacity: 0.9,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(
-                                '4.3*',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {},
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                //alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 6,
-                                    ),
-                                  ],
-                                ),
-                                child: Icon(
-                                  Icons.favorite_outline_outlined,
-                                  size: 25,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        Container(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                            'Blue Jazz',
-                            style: GoogleFonts.acme(
-                              // acme // yeonsung
-                              fontSize: 25,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            );
+        child: BlocBuilder<SightsBloc, SightsState>(
+          builder: (context, state) {
+            return switch (state) {
+              SightsLoaded() => _buildListView(state),
+              SightsInitialLoading() ||
+              SightsInitial() =>
+                const Center(child: CircularProgressIndicator()),
+              SightsEmpty() => const Center(child: Text('Empty Widget2')),
+              SightsInitialError() => Center(child: Text(state.message)),
+            };
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildListView(SightsLoaded state) {
+    bool isNotLastPage = state.sightsModel.next != null;
+
+    return NotificationListener<ScrollEndNotification>(
+      onNotification: (scrollInfo) {
+        scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent &&
+                isNotLastPage
+            ? context.read<SightsBloc>().add(SightsLoadEvent())
+            : null;
+        return true;
+      },
+      child: Row(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: state.sightsModel.results?.length,
+              itemBuilder: (context, index) {
+                return _buildCard(
+                  state,
+                  index,
+                  double.infinity,
+                  250,
+                  const EdgeInsets.only(right: 20),
+                );
+              },
+            ),
+          ),
+          if (state.error != null)
+            const Center(
+              child: Text('On load more error'),
+            ),
+          if (state.loading != null) const CircularProgressIndicator(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCard(
+    SightsLoaded state, //
+    int index, //top:   search
+    double height, // top :  search:250
+    double width, // top :250  search:
+    final EdgeInsetsGeometry padding,
+  ) {
+    Result result = state.sightsModel.results![index];
+    return Padding(
+      padding: padding,
+      //padding: const EdgeInsets.only(right: 20),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SightsPostScreen(
+                results: result,
+              ),
+            ),
+          ).then((value) => setState(() {
+                state.sightsModel.results![index].isFavorite;
+              }));
+        },
+        child: Container(
+          width: width,
+          height: height,
+          //width: 250,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(20),
+            image: DecorationImage(
+              image: AssetImage(
+                result.photos?[0].photo ?? '',
+              ),
+              fit: BoxFit.cover,
+              opacity: 0.9,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                RatingAndFavoriteIcon(
+                  rating: result.rating.toString(),
+                  isFavorite: result.isFavorite ?? false,
+                  onTapChangeFavoriteIcon: () async {
+                    /*  if (result.isFavorite ?? false) {
+                      bool isDeleted = await FavoritesRepository
+                          .deleteFavoritesVisualisation(result.id ?? -1);
+
+                      if (isDeleted) {
+                        setState(() {
+                          state.hotelsModel.results![index].isFavorite = false;
+                        });
+                      }
+                      return;
+                    } else {
+                      bool isPosted =
+                          await FavoritesRepository.postFavoritesVisualisation(
+                              result.id ?? -1);
+
+                      if (isPosted) {
+                        setState(() {
+                          state.hotelsModel.results![index].isFavorite = true;
+                        });
+                      }
+                    } */
+                  },
+                ),
+                AttractionNameAndLocation(
+                  fontSizeMedium: fontSizeMedium,
+                  fontSizeSmall: fontSizeSmall,
+                  location: result.location ?? '',
+                  name: result.name ?? '',
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

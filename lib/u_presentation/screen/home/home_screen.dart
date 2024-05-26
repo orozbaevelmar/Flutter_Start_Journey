@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:start_journey/bloc/hotel/bloc.dart';
 import 'package:start_journey/u_presentation/screen/home/home_categories/hotel/hotels_screen.dart';
 import 'package:start_journey/u_presentation/screen/home/home_categories/nature/nature_screen.dart';
 import 'package:start_journey/u_presentation/screen/home/home_categories/sights/sights_screen.dart';

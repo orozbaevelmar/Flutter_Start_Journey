@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:start_journey/bloc/hotel/bloc.dart';
-import 'package:start_journey/model/hotel.dart';
+import 'package:start_journey/model/extra/results.dart';
 import 'package:start_journey/repository/favorites.dart';
 import 'package:start_journey/u_presentation/screen/home/home_categories/hotel/hotel_post_screen.dart';
 import 'package:start_journey/u_presentation/widget/app_bar.dart';
 import 'package:start_journey/u_presentation/widget/components_attraction_screen/categories.dart';
+import 'package:start_journey/u_presentation/widget/components_attraction_screen/mini_attraction.dart';
 import 'package:start_journey/u_presentation/widget/components_attraction_screen/name_and_location.dart';
 import 'package:start_journey/u_presentation/widget/components_attraction_screen/rating_and_fav_icon.dart';
 import 'package:start_journey/u_presentation/widget/empty_list.dart';
 import 'package:start_journey/u_presentation/widget/search_text_field.dart';
 import 'package:start_journey/u_presentation/widget/tag_line.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:start_journey/utils/constants/navigator_custom.dart';
 
 class HotelsScreen extends StatefulWidget {
   const HotelsScreen({super.key});
@@ -66,9 +66,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             CustomAppBar(
-              backButtonPressed: () {
-                Navigator.pop(context);
-              },
+              backButtonPressed: () => Go.back(context),
             ),
             CustomTagLine(
                 fontSizeBig: fontSizeBig, hintText: 'Hotels for all Desires'),
@@ -89,7 +87,10 @@ class _HotelsScreenState extends State<HotelsScreen> {
                       _hotelsTopLocatedOfScreen1(),
                       CustomCategories(
                           fontSizeSmall: fontSizeSmall, yourWishes: yourWishes),
-                      _hotelsBottomLocatedOfScreen(),
+                      MiniAttractionAtBottom(
+                        fontSizeMedium: fontSizeMedium,
+                        photo: 'images/hotels/sheraton_bishkek/hotel0.jpg',
+                      )
                     ],
                   )
                 : _hotelSearchScreen(),
@@ -100,7 +101,6 @@ class _HotelsScreenState extends State<HotelsScreen> {
   }
 
   Widget _hotelSearchScreen() {
-    print("ABCDIFG");
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       width: MediaQuery.of(context).size.width,
@@ -131,13 +131,12 @@ class _HotelsScreenState extends State<HotelsScreen> {
       itemCount: state.hotelsModel.results?.length,
       scrollDirection: Axis.vertical,
       itemBuilder: (context, index) {
-        Results result = state.hotelsModel.results![index];
         return _buildCard(
           state,
           index,
           250,
           double.infinity,
-          EdgeInsets.symmetric(vertical: 10),
+          const EdgeInsets.symmetric(vertical: 10),
         ); //_buildSearchCard(result, state, index);
       },
     );
@@ -169,8 +168,6 @@ class _HotelsScreenState extends State<HotelsScreen> {
   }
 
   Widget _buildListView(HotelLoaded state) {
-    final hotelModel = state.hotelsModel;
-
     bool isNotLastPage = state.hotelsModel.next != null;
 
     return NotificationListener<ScrollEndNotification>(
@@ -215,7 +212,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
     double width, // top :250  search:
     final EdgeInsetsGeometry padding,
   ) {
-    Results result = state.hotelsModel.results![index];
+    Result result = state.hotelsModel.results![index];
     return Padding(
       padding: padding,
       //padding: const EdgeInsets.only(right: 20),
@@ -224,11 +221,12 @@ class _HotelsScreenState extends State<HotelsScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => HotelPostScreen(results: result)),
+              builder: (context) => HotelPostScreen(
+                results: result,
+              ),
+            ),
           ).then((value) => setState(() {
-                // I set this setState, because when I in
-                // hotel_post_screen click arrow_back -> Navigator.pop(),
-                // Icon in HotelScreen will be changed.
+                state.hotelsModel.results![index].isFavorite;
               }));
         },
         child: Container(
@@ -287,370 +285,6 @@ class _HotelsScreenState extends State<HotelsScreen> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  /* Widget _hotelsTopLocatedOfScreen() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Container(
-        height: 285,
-        padding: const EdgeInsets.only(
-          left: 15,
-          right: 2,
-        ),
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          //shrinkWrap: true,
-          //itemCount: HotelStore.mapHotelInformation.length,
-          children: [
-            for (var mapKey in _hotelStore.getMapInformation.keys)
-              Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HotelPostScreen(mapKey),
-                      ),
-                    ).then((value) => setState(() {
-                          // I set this setState, because when I in
-                          // hotel_post_screen click arrow_back -> Navigator.pop(),
-                          // Icon in HotelScreen will be changed.
-                        }));
-                  },
-                  child: Container(
-                    width: 250,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(20),
-                      image: DecorationImage(
-                        image: AssetImage(
-                          '${_hotelStore.getPictures(mapKey)}hotel0.jpg',
-                          /* '${HotelStore.mapHotelInformation[mapKey]?.elementAt(2)}hotel0.jpg' */
-                        ),
-                        fit: BoxFit.cover,
-                        opacity: 0.9,
-                      ),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text(
-                                  _hotelStore.getRating(mapKey),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-
-                              // Favourite Icon
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _favouriteStore
-                                            .checkRedFavouriteIcon(mapKey)
-                                        ? _favouriteStore
-                                            .deleteFromFavouriteElement(mapKey)
-                                        : _favouriteStore.addToFavouriteElement(
-                                            mapKey, HotelStore());
-                                  });
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        blurRadius: 6,
-                                      ),
-                                    ],
-                                  ),
-                                  child: _favouriteStore
-                                          .checkRedFavouriteIcon(mapKey)
-                                      ? Icon(
-                                          Icons.favorite,
-                                          color: Colors.red,
-                                        )
-                                      : Icon(
-                                          Icons.favorite_outline_outlined,
-                                          color: Colors.black,
-                                        ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const Spacer(),
-                          Container(
-                            alignment: Alignment.bottomLeft,
-                            //color: Colors.black12.withOpacity(0.2),
-                            child: Column(
-                              children: [
-                                Container(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Text(
-                                    mapKey,
-                                    style: GoogleFonts.acme(
-                                      // acme // yeonsung
-                                      fontSize: fontSizeMedium,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.only(top: 5),
-                                  child: Row(
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.only(right: 3),
-                                        child: Icon(
-                                          Icons.location_on,
-                                          size: 18,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      Text(
-                                        _hotelStore.getLocation(mapKey),
-                                        style: TextStyle(
-                                          fontSize: fontSizeSmall,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  } */
-
-  /* Widget _buildCard(String mapKey) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 20),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HotelPostScreen(mapKey),
-            ),
-          ).then((value) => setState(() {
-                // I set this setState, because when I in
-                // hotel_post_screen click arrow_back -> Navigator.pop(),
-                // Icon in HotelScreen will be changed.
-              }));
-        },
-        child: Container(
-          width: 250,
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(20),
-            image: DecorationImage(
-              image: AssetImage(
-                '${_hotelStore.getPictures(mapKey)}hotel0.jpg',
-                /* '${HotelStore.mapHotelInformation[mapKey]?.elementAt(2)}hotel0.jpg' */
-              ),
-              fit: BoxFit.cover,
-              opacity: 0.9,
-            ),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        _hotelStore.getRating(mapKey),
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-
-                    // Favourite Icon
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          _favouriteStore.checkRedFavouriteIcon(mapKey)
-                              ? _favouriteStore
-                                  .deleteFromFavouriteElement(mapKey)
-                              : _favouriteStore.addToFavouriteElement(
-                                  mapKey, HotelStore());
-                        });
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 6,
-                            ),
-                          ],
-                        ),
-                        child: _favouriteStore.checkRedFavouriteIcon(mapKey)
-                            ? Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                              )
-                            : Icon(
-                                Icons.favorite_outline_outlined,
-                                color: Colors.black,
-                              ),
-                      ),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                Container(
-                  alignment: Alignment.bottomLeft,
-                  //color: Colors.black12.withOpacity(0.2),
-                  child: Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                          mapKey,
-                          style: GoogleFonts.acme(
-                            // acme // yeonsung
-                            fontSize: fontSizeMedium,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 5),
-                        child: Row(
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(right: 3),
-                              child: Icon(
-                                Icons.location_on,
-                                size: 18,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              _hotelStore.getLocation(mapKey),
-                              style: TextStyle(
-                                fontSize: fontSizeSmall,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  } */
-
-  Widget _hotelsBottomLocatedOfScreen() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Container(
-        height: 220,
-        padding: EdgeInsets.only(
-          left: 15,
-          right: 2,
-        ),
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemCount: 4,
-          itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  width: 170,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                      image: AssetImage(
-                        'images/hotels/sheraton_bishkek/hotel0.jpg',
-                      ),
-                      fit: BoxFit.cover,
-                      opacity: 0.9,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        RatingAndFavoriteIcon(
-                            rating: '4.3*',
-                            isFavorite: false,
-                            onTapChangeFavoriteIcon: () {}),
-                        Container(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                            'Blue Jazz',
-                            style: GoogleFonts.acme(
-                              // acme // yeonsung
-                              fontSize: fontSizeMedium,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
         ),
       ),
     );

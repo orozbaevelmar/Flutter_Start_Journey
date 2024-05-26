@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 import 'package:start_journey/model/favorites.dart';
 import 'package:start_journey/model/hotel.dart';
-import 'package:start_journey/repository/response_body/response_body.dart';
+import 'package:start_journey/repository/response_body/response_body_hotel.dart';
 import 'package:start_journey/utils/constants/m_strings.dart';
 import 'package:start_journey/utils/dependency_injection.dart';
 import 'package:start_journey/utils/failure.dart';
@@ -26,13 +26,11 @@ class FavoritesRepository {
   }
 
   static Future<bool> deleteFavoritesVisualisation(int hotelId) async {
-    HowLooksFetchedData().setFalseFavoriteIcon(hotelId);
-    return true;
+    return HowLooksFetchedDataHotel().setFalseFavoriteIcon(hotelId);
   }
 
   static Future<bool> postFavoritesVisualisation(int hotelId) async {
-    HowLooksFetchedData().setTrueFavoriteIcon(hotelId);
-    return true;
+    return HowLooksFetchedDataHotel().setTrueFavoriteIcon(hotelId);
   }
 }
 

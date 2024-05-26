@@ -1,9 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:start_journey/bloc/load_more/load_more.dart';
+import 'package:start_journey/model/extra/results.dart';
 import 'package:start_journey/model/favorites.dart' as favorites;
 import 'package:start_journey/model/hotel.dart';
 import 'package:start_journey/repository/favorites.dart';
-import 'package:start_journey/repository/response_body/response_body.dart';
+import 'package:start_journey/repository/response_body/favorite.dart';
 import 'package:start_journey/utils/constants/m_strings.dart';
 
 part 'event.dart';
@@ -31,7 +32,7 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
         previous: null,
         results: [],
       );
-      url = HowLooksFetchedData.favoriteData();
+      url = FavoriteData.favoriteData();
       //url = "${MString.BASE_URL}/hotels/&name=${event.hotelsNameContains}";
       emit(FavoritesInitialLoading(message: 'Fetching hotels....'));
     } else {
@@ -62,11 +63,9 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
 
           if (isListEmpty) {
             emit(FavoritesEmpty());
-            return;
           }
         } else {
-          //Adding products to existing list
-          List<Results> res = r.results ?? [];
+          List<Result> res = r.results ?? [];
 
           favoritesModel = HotelsModel(
             count: r.count,

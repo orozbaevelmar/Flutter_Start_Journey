@@ -15,7 +15,7 @@ class CustomTagLine extends StatelessWidget {
       height: 65, // _height
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Text(
-        'Hotels for all Desires', // hospitable hotels are waiting for you //hotels for all desires
+        hintText, // hospitable hotels are waiting for you //hotels for all desires
         style: GoogleFonts.frankRuhlLibre(
           fontSize: fontSizeBig,
           fontWeight: FontWeight.w500,

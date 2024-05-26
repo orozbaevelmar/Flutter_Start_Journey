@@ -1,58 +1,6 @@
 import 'dart:convert';
 
-class HowLooksFetchedData {
-  final howLooksJsonFormatDataInReality = {
-    "count": 10,
-    "next": "<MString.BASE_URL>/hotels/?page=2",
-    "previous": null,
-    "results": [
-      {
-        "id": 1,
-        "name": 'Sheraton Bishkek',
-        "location": 'Bishkek, Kyrgyzstan',
-        "is_favorite": true,
-        "rating": 4.3,
-        "price": '\$450 / Night',
-        "description":
-            'Sheraton Bishkek features free bikes, terrace, a restaurant and bar in Bishkek. This 5-star hotel offers a concierge service and luggage storage space. The accommodation provides a 24-hour front desk, airport transfers, room service and free Wi-Fi throughout the property.',
-        "photos": [
-          {
-            "id": 1,
-            "photo":
-                "<MString.BASE_URL>/media/images/hotels/%D0%BE%D0%B1%D0%BE%D0%B8.webp"
-          },
-          {
-            "id": 2,
-            "photo":
-                "<MString.BASE_URL>/media/images/hotels/%D0%BE%D0%B1%D0%BE%D0%B8_7gpH78s.webp"
-          },
-        ],
-      },
-      {
-        "id": 2,
-        "name": 'Jannat Resort',
-        "location": 'Osh, Kyrgyzstan',
-        "is_favorite": true,
-        "rating": 5,
-        "price": '\$100000 / Night',
-        "description":
-            'The Jannat Resort mountain hotel is the pearl of the Jannat hotel collection.  The opening of this hotel was of paramount importance, as the hotel is unique to Kyrgyzstan.  The hotel is located 20 km from Bishkek, famous for its underground mineral water sources, clean mountain air and the picturesque surroundings of the village of Koi-Tash. Beautiful views of the mountains, elegant architecture and magnificent interior create an atmosphere of wonderful rest.  Each window offers a breathtaking view of the majestic mountains and the colorful river of the Alamedin gorge.',
-        "photos": [
-          {
-            "id": 3,
-            "photo":
-                "<MString.BASE_URL>/media/images/hotels/%D0%BE%D0%B1%D0%BE%D0%B8.webp"
-          },
-          {
-            "id": 4,
-            "photo":
-                "<MString.BASE_URL>/media/images/hotels/%D0%BE%D0%B1%D0%BE%D0%B8_7gpH78s.webp"
-          },
-        ],
-      },
-    ],
-  };
-
+class HowLooksFetchedDataHotel {
 //----------------------------------------------------------------------------//
 //----------------------------------------------------------------------------//
 //----------------------------------------------------------------------------//
@@ -63,7 +11,7 @@ class HowLooksFetchedData {
   static final Map<String, dynamic> fetchedDataVisualisation = {
     "count": 2,
     "next":
-        _fetchedResponseBodyVisualisation2, //<MString.BASE_URL>/hotels/?page=2
+        fetchedResponseBodyVisualisation2, //<MString.BASE_URL>/hotels/?page=2
     "previous": null,
     "results": [
       {
@@ -107,10 +55,10 @@ class HowLooksFetchedData {
     ],
   };
 
-  static String get _fetchedResponseBodyVisualisation2 =>
-      json.encode(_fetchedDataVisualisation2);
+  static String get fetchedResponseBodyVisualisation2 =>
+      json.encode(fetchedDataVisualisation2);
 
-  static final Map<String, dynamic> _fetchedDataVisualisation2 = {
+  static final Map<String, dynamic> fetchedDataVisualisation2 = {
     "count": 2,
     "next": null,
     "previous": null,
@@ -160,24 +108,44 @@ class HowLooksFetchedData {
 //----------------------------------------------------------------------------//
 //----------------------------------------------------------------------------//
 
-  void setFalseFavoriteIcon(int hotelId) {
+  bool setFalseFavoriteIcon(int hotelId) {
     if (hotelId > -1) {
       for (int i = 0; i < fetchedDataVisualisation['results'].length; i++) {
         if (fetchedDataVisualisation['results'][i]['id'] == hotelId) {
           fetchedDataVisualisation['results'][i]['is_favorite'] = false;
+
+          return true;
+        }
+      }
+
+      for (int i = 0; i < fetchedDataVisualisation2['results'].length; i++) {
+        if (fetchedDataVisualisation2['results'][i]['id'] == hotelId) {
+          fetchedDataVisualisation2['results'][i]['is_favorite'] = false;
+          return true;
         }
       }
     }
+    return false;
   }
 
-  void setTrueFavoriteIcon(int hotelId) {
+  bool setTrueFavoriteIcon(int hotelId) {
     if (hotelId > -1) {
       for (int i = 0; i < fetchedDataVisualisation['results'].length; i++) {
         if (fetchedDataVisualisation['results'][i]['id'] == hotelId) {
           fetchedDataVisualisation['results'][i]['is_favorite'] = true;
+
+          return true;
+        }
+      }
+
+      for (int i = 0; i < fetchedDataVisualisation2['results'].length; i++) {
+        if (fetchedDataVisualisation2['results'][i]['id'] == hotelId) {
+          fetchedDataVisualisation2['results'][i]['is_favorite'] = true;
+          return true;
         }
       }
     }
+    return false;
   }
 
 //----------------------------------------------------------------------------//
@@ -201,12 +169,12 @@ class HowLooksFetchedData {
       }
     }
 
-    for (int i = 0; i < _fetchedDataVisualisation2['results'].length; i++) {
-      if ((_fetchedDataVisualisation2['results'][i]['name'] as String)
+    for (int i = 0; i < fetchedDataVisualisation2['results'].length; i++) {
+      if ((fetchedDataVisualisation2['results'][i]['name'] as String)
           .toLowerCase()
           .contains(wordContains.toLowerCase())) {
         (searchedFetchedDataVisualisation['results'] as List)
-            .add(_fetchedDataVisualisation2['results'][i]);
+            .add(fetchedDataVisualisation2['results'][i]);
       }
     }
     final String result = json.encode(searchedFetchedDataVisualisation);
@@ -216,31 +184,4 @@ class HowLooksFetchedData {
 //----------------------------------------------------------------------------//
 //----------------------------------------------------------------------------//
 //----------------------------------------------------------------------------//
-
-  static String favoriteData() {
-    final Map<String, dynamic> favoriteFetchedDataVisualisation = {
-      "count": 2,
-      "next": null,
-      "previous": null,
-      "results": [],
-    };
-
-    for (int i = 0; i < fetchedDataVisualisation['results'].length; i++) {
-      if ((fetchedDataVisualisation['results'][i]['is_favorite'] as bool) ==
-          true) {
-        (favoriteFetchedDataVisualisation['results'] as List)
-            .add(fetchedDataVisualisation['results'][i]);
-      }
-    }
-
-    for (int i = 0; i < _fetchedDataVisualisation2['results'].length; i++) {
-      if ((_fetchedDataVisualisation2['results'][i]['is_favorite'] as bool) ==
-          true) {
-        (favoriteFetchedDataVisualisation['results'] as List)
-            .add(_fetchedDataVisualisation2['results'][i]);
-      }
-    }
-    final String result = json.encode(favoriteFetchedDataVisualisation);
-    return result;
-  }
 }

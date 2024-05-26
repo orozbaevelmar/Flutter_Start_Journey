@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:start_journey/model/hotel.dart';
+import 'package:start_journey/model/extra/results.dart';
+import 'package:start_journey/u_presentation/widget/components_attraction_screen/post_amenities.dart';
+import 'package:start_journey/u_presentation/widget/components_attraction_screen/post_appbar_with_backimage.dart';
+import 'package:start_journey/u_presentation/widget/components_attraction_screen/post_description.dart';
+import 'package:start_journey/u_presentation/widget/components_attraction_screen/post_name.dart';
+import 'package:start_journey/u_presentation/widget/components_attraction_screen/post_price_and_booking.dart';
 import 'package:start_journey/u_presentation/widget/show_image_on_tap.dart';
-import 'package:start_journey/utils/constants/adaptive_font_size.dart';
-import 'package:start_journey/utils/constants/text_style_const.dart';
 
-class HotelPostScreen extends StatefulWidget {
-  final Results results;
+class HotelPostScreen extends StatelessWidget {
+  final Result results;
 
-  const HotelPostScreen({super.key, required this.results});
+  const HotelPostScreen({
+    super.key,
+    required this.results,
+  });
 
-  @override
-  State<HotelPostScreen> createState() => _HotelPostScreenState();
-}
-
-class _HotelPostScreenState extends State<HotelPostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color.fromRGBO(191, 191, 191, 1),
-      body: _buildBody(context),
-      bottomNavigationBar: _buildPriceAndBookingAtBottom(),
-    );
+        body: _buildBody(context),
+        bottomNavigationBar: PriceAndBooking(price: results.price ?? ''));
   }
 
   // build body:----------------------------------------------------------------
@@ -29,92 +27,17 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
     return SingleChildScrollView(
       child: Stack(
         children: <Widget>[
-          _buildAppBarWithBackgroundImage(context),
-          _buildPostInformation(),
+          PostAppBarWithBackgroundImage(
+            result: results,
+          ),
+          _buildPostInformation(context),
         ],
       ),
     );
   }
 
-  // build app bar with bakground image:----------------------------------------
-  Widget _buildAppBarWithBackgroundImage(context) {
-    return Container(
-      alignment: Alignment.topLeft,
-      height: 400,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(
-            widget.results.photos?[0].photo ?? '',
-            //_hotelStore.getPictureOfFacade(widget.attractionsName),
-          ),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: SafeArea(
-        child: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    //alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 6,
-                        ),
-                      ],
-                    ),
-                    child: Icon(
-                      Icons.arrow_back_ios_new_outlined,
-                      size: 25,
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    //alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 6,
-                        ),
-                      ],
-                    ),
-                    child: widget.results.isFavorite ?? false
-                        ? Icon(
-                            Icons.favorite,
-                            color: Colors.red,
-                            size: 25,
-                          )
-                        : Icon(
-                            Icons.favorite_outline_outlined,
-                            color: Colors.black,
-                            size: 25,
-                          ),
-                  ),
-                ),
-              ],
-            )),
-      ),
-    );
-  }
-
   // build post information:----------------------------------------------------
-  Widget _buildPostInformation() {
+  Widget _buildPostInformation(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 380),
       decoration: BoxDecoration(
@@ -125,9 +48,11 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
       child: Column(
         children: [
           _buildPostRoomImages(),
-          _buildHotelsName(),
-          _buildAmenities(),
-          _buildDescription(),
+          PostName(attractionName: results.name ?? ''),
+          Amenities(),
+          PostDescription(
+            description: results.description ?? '',
+          )
         ],
       ),
     );
@@ -151,7 +76,7 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
           margin: EdgeInsets.only(left: 20, right: 2),
           height: 100,
           child: ListView.builder(
-            itemCount: widget.results.photos?.length,
+            itemCount: results.photos?.length,
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
@@ -162,7 +87,7 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
                     MaterialPageRoute(
                       builder: (context) => ShowImageOnTap(
                         index: index,
-                        photos: widget.results.photos ?? [],
+                        photos: results.photos ?? [],
                       ),
                     ),
                   );
@@ -175,7 +100,7 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: AssetImage(
-                        widget.results.photos?[index].photo ?? '',
+                        results.photos?[index].photo ?? '',
                       ),
                     ),
                   ),
@@ -185,154 +110,6 @@ class _HotelPostScreenState extends State<HotelPostScreen> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildHotelsName() {
-    return Container(
-      margin: const EdgeInsets.all(20),
-      alignment: Alignment.centerLeft,
-      child: Text(
-        widget.results.name ?? '',
-        style: GoogleFonts.frankRuhlLibre(
-            textStyle: Theme.of(context).textTheme.headlineLarge),
-        textScaler: TextScaler.linear(ScaleSize.textScaleFactor(context)),
-      ),
-    );
-  }
-
-  Widget _buildAmenities() {
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.only(
-            left: 20,
-          ),
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Amenities',
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-        Container(
-          height: 85, //80
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            children: [
-              for (int i = 0; i < 5; i++)
-                Container(
-                  padding: EdgeInsets.all(10),
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white60,
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.lightGreen.shade400,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Image(
-                      fit: BoxFit.cover,
-                      image: AssetImage(
-                        'images/amenitiesIcon/amenities$i.png',
-                      ),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDescription() {
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
-            top: 10,
-          ),
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Description',
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(
-            left: 20,
-            top: 10,
-            right: 20,
-          ),
-          child: Text(
-            widget.results.description ?? '',
-            style: MTextStyle.description(Colors.black),
-            textAlign: TextAlign.justify,
-          ),
-        ),
-      ],
-    );
-  }
-
-  // build bottom navigation bar:-----------------------------------------------
-  Widget _buildPriceAndBookingAtBottom() {
-    return Container(
-      margin: EdgeInsets.only(
-        bottom: 20,
-        left: 10,
-        right: 10,
-      ),
-      padding: EdgeInsets.all(5),
-      height: 90,
-      child: Row(
-        children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 20),
-            alignment: Alignment.center,
-            child: Text(
-              widget.results.price ?? '',
-              style: GoogleFonts.lobster(
-                  fontSize: 25, fontWeight: FontWeight.normal),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.all(3),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.green.shade300,
-                borderRadius: BorderRadius.circular(50),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 4,
-                  )
-                ],
-              ),
-              child: Text(
-                'Book Now',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.libreBaskerville(
-                  textStyle: Theme.of(context).textTheme.headlineLarge,
-                ),
-                textScaler:
-                    TextScaler.linear(ScaleSize.textScaleFactor(context)),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

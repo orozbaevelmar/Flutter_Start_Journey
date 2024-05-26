@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:start_journey/bloc/favorites/bloc.dart';
-import 'package:start_journey/model/hotel.dart';
+import 'package:start_journey/model/extra/results.dart';
 import 'package:start_journey/repository/favorites.dart';
 import 'package:start_journey/u_presentation/widget/components_attraction_screen/name_and_location.dart';
 import 'package:start_journey/u_presentation/widget/components_attraction_screen/rating_and_fav_icon.dart';
@@ -15,7 +15,7 @@ class FavouriteScreen extends StatefulWidget {
 }
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
-  double fontSize = 18;
+  //double fontSize = 18;
   @override
   void initState() {
     context.read<FavoritesBloc>().add(FavoritesLoadEvent());
@@ -24,26 +24,21 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    fontSize = MediaQuery.of(context).size.width * 0.04;
+    //fontSize = MediaQuery.of(context).size.width * 0.04;
     return _buildBody();
   }
 
   Widget _buildBody() {
-    return _hasFavouriteElements1();
-  }
-
-  Widget _hasFavouriteElements1() {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.all(15),
         child: BlocBuilder<FavoritesBloc, FavoritesState>(
           builder: (context, state) {
             return switch (state) {
-              FavoritesLoaded() => state.favoritesModel.results!.isNotEmpty
+              FavoritesLoaded() => (state.favoritesModel.results?.isNotEmpty ??
+                      false)
                   ? _buildListView(state)
-                  : EmptyListy(
-                      text: 'You don\'t have favorite elements yet.',
-                    ),
+                  : EmptyListy(text: 'You don\'t have favorite elements yet.'),
               FavoritesInitialLoading() ||
               FavoritesInitial() =>
                 const Center(child: CircularProgressIndicator()),
@@ -80,7 +75,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                 final model = favoritesModel.results![index];
                 return InkWell(
                   onTap: () {},
-                  child: _favouriteElementBody(model, index),
+                  child: _buildCard(model, index),
                 );
               },
             ),
@@ -95,7 +90,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     );
   }
 
-  Widget _favouriteElementBody(Results result, int index) {
+  Widget _buildCard(Result result, int index) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20),
       height: 300,

@@ -5,6 +5,6 @@ sealed class FavoritesEvent {}
 class FavoritesLoadEvent extends FavoritesEvent {}
 
 class FavoriteDrugRemoveEvent extends FavoritesEvent {
-  final Results results;
+  final Result results;
   FavoriteDrugRemoveEvent(this.results);
 }

@@ -4,6 +4,7 @@ import 'package:start_journey/u_presentation/screen/account/account.dart';
 import 'package:start_journey/u_presentation/screen/favourite/favourite_screen.dart';
 import 'package:start_journey/u_presentation/screen/home/home_screen.dart';
 import 'package:start_journey/u_presentation/screen/settings/settings_screen.dart';
+import 'package:start_journey/utils/constants/constants.dart';
 
 class NavigationBarScreen extends StatefulWidget {
   const NavigationBarScreen({super.key});
@@ -19,7 +20,12 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     AccountScreen(),
     FavouriteScreen(),
     HomeScreen(),
-    Scaffold(),
+    Scaffold(
+        body: Center(
+            child: Text(
+      'Soon...',
+      style: MTextStyle.ui_30Semi(MColor.greenPrimary),
+    ))),
     Settings_Screen(),
   ];
 
@@ -43,10 +49,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
           Icon(Icons.favorite_outline_outlined, size: 30),
           Icon(Icons.home_outlined, size: 30),
           Icon(Icons.location_on_outlined, size: 30),
-          Icon(
-            Icons.settings_outlined,
-            size: 30,
-          ),
+          Icon(Icons.settings_outlined, size: 30),
         ],
         onTap: (int index) {
           setState(() {

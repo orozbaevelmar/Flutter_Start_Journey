@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/model/hotel.dart';
+import 'package:start_journey/model/extra/photo.dart';
 
 class ShowImageOnTap extends StatefulWidget {
   final int index;

@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:start_journey/model/favorites.dart';
 import 'package:start_journey/model/hotel.dart';
 import 'package:start_journey/repository/response_body/response_body_hotel.dart';
+import 'package:start_journey/repository/response_body/response_body_sights.dart';
 import 'package:start_journey/utils/constants/m_strings.dart';
 import 'package:start_journey/utils/dependency_injection.dart';
 import 'package:start_journey/utils/failure.dart';
@@ -15,7 +16,7 @@ class FavoritesRepository {
     try {
       final String responseBody = url;
       if (4 > 3 /* response.statusCode == 200 */) {
-        print('abf');
+        //print('abf');
         return Right(HotelsModel.fromJson(responseBody));
       } else {
         return Left(Failure(message: 'Failed to parse json response'));
@@ -25,12 +26,20 @@ class FavoritesRepository {
     }
   }
 
-  static Future<bool> deleteFavoritesVisualisation(int hotelId) async {
+  static Future<bool> deleteFavoritesVisualisationHotel(int hotelId) async {
     return HowLooksFetchedDataHotel().setFalseFavoriteIcon(hotelId);
   }
 
-  static Future<bool> postFavoritesVisualisation(int hotelId) async {
+  static Future<bool> postFavoritesVisualisationHotel(int hotelId) async {
     return HowLooksFetchedDataHotel().setTrueFavoriteIcon(hotelId);
+  }
+
+  static Future<bool> deleteFavoritesVisualisationSights(int sightsId) async {
+    return HowLooksFetchedDataSights().setFalseFavoriteIcon(sightsId);
+  }
+
+  static Future<bool> postFavoritesVisualisationSights(int sightsId) async {
+    return HowLooksFetchedDataSights().setTrueFavoriteIcon(sightsId);
   }
 }
 

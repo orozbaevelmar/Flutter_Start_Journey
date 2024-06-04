@@ -45,24 +45,30 @@ class HowLooksFetchedDataSights {
 //----------------------------------------------------------------------------//
 //----------------------------------------------------------------------------//
 
-  void setFalseFavoriteIcon(int sightsId) {
-    if (sightsId > -1) {
+  bool setFalseFavoriteIcon(int hotelId) {
+    if (hotelId > -1) {
       for (int i = 0; i < fetchedDataVisualisation['results'].length; i++) {
-        if (fetchedDataVisualisation['results'][i]['id'] == sightsId) {
+        if (fetchedDataVisualisation['results'][i]['id'] == hotelId) {
           fetchedDataVisualisation['results'][i]['is_favorite'] = false;
+
+          return true;
         }
       }
     }
+    return false;
   }
 
-  void setTrueFavoriteIcon(int sightsId) {
-    if (sightsId > -1) {
+  bool setTrueFavoriteIcon(int hotelId) {
+    if (hotelId > -1) {
       for (int i = 0; i < fetchedDataVisualisation['results'].length; i++) {
-        if (fetchedDataVisualisation['results'][i]['id'] == sightsId) {
+        if (fetchedDataVisualisation['results'][i]['id'] == hotelId) {
           fetchedDataVisualisation['results'][i]['is_favorite'] = true;
+
+          return true;
         }
       }
     }
+    return false;
   }
 
 //----------------------------------------------------------------------------//

@@ -59,7 +59,8 @@ class _PostAppBarWithBackgroundImageState
                   onTap: () async {
                     if (widget.result.isFavorite ?? false) {
                       bool isDeleted = await FavoritesRepository
-                          .deleteFavoritesVisualisation(widget.result.id ?? -1);
+                          .deleteFavoritesVisualisationHotel(
+                              widget.result.id ?? -1);
 
                       if (isDeleted) {
                         setState(() {
@@ -68,8 +69,8 @@ class _PostAppBarWithBackgroundImageState
                       }
                       return;
                     } else {
-                      bool isPosted =
-                          await FavoritesRepository.postFavoritesVisualisation(
+                      bool isPosted = await FavoritesRepository
+                          .postFavoritesVisualisationHotel(
                               widget.result.id ?? -1);
 
                       if (isPosted) {

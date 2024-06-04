@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:start_journey/repository/response_body/response_body_hotel.dart';
+import 'package:start_journey/repository/response_body/response_body_sights.dart';
 
 class FavoriteData {
   static String favoriteData() {
@@ -17,6 +18,8 @@ class FavoriteData {
       if ((HowLooksFetchedDataHotel.fetchedDataVisualisation['results'][i]
               ['is_favorite'] as bool) ==
           true) {
+        print(
+            "HOTEL1 ===${HowLooksFetchedDataHotel.fetchedDataVisualisation['results'][i]['name']}");
         (favoriteFetchedDataVisualisation['results'] as List).add(
             HowLooksFetchedDataHotel.fetchedDataVisualisation['results'][i]);
       }
@@ -30,8 +33,23 @@ class FavoriteData {
       if ((HowLooksFetchedDataHotel.fetchedDataVisualisation2['results'][i]
               ['is_favorite'] as bool) ==
           true) {
+        print(
+            "HOTEL2 ===${HowLooksFetchedDataHotel.fetchedDataVisualisation2['results'][i]['name']}");
         (favoriteFetchedDataVisualisation['results'] as List).add(
             HowLooksFetchedDataHotel.fetchedDataVisualisation2['results'][i]);
+      }
+    }
+
+    int lenSights =
+        HowLooksFetchedDataSights.fetchedDataVisualisation['results'].length;
+    for (int i = 0; i < lenSights; i++) {
+      bool isFav = (HowLooksFetchedDataSights
+          .fetchedDataVisualisation['results'][i]['is_favorite'] as bool);
+      if (isFav == true) {
+        print(
+            "Sights ===${HowLooksFetchedDataSights.fetchedDataVisualisation['results'][i]['name']}");
+        (favoriteFetchedDataVisualisation['results'] as List).add(
+            HowLooksFetchedDataSights.fetchedDataVisualisation['results'][i]);
       }
     }
     final String result = json.encode(favoriteFetchedDataVisualisation);

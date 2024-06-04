@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:start_journey/bloc/hotel/bloc.dart';
 import 'package:start_journey/model/extra/results.dart';
 import 'package:start_journey/repository/favorites.dart';
-import 'package:start_journey/u_presentation/screen/home/home_categories/hotel/hotel_post_screen.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/attraction_post_screen.dart';
 import 'package:start_journey/u_presentation/widget/app_bar.dart';
 import 'package:start_journey/u_presentation/widget/components_attraction_screen/categories.dart';
 import 'package:start_journey/u_presentation/widget/components_attraction_screen/mini_attraction.dart';
@@ -221,7 +221,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => HotelPostScreen(
+              builder: (context) => AttractionPostScreen(
                 results: result,
               ),
             ),
@@ -255,7 +255,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                   onTapChangeFavoriteIcon: () async {
                     if (result.isFavorite ?? false) {
                       bool isDeleted = await FavoritesRepository
-                          .deleteFavoritesVisualisation(result.id ?? -1);
+                          .deleteFavoritesVisualisationHotel(result.id ?? -1);
 
                       if (isDeleted) {
                         setState(() {
@@ -264,9 +264,8 @@ class _HotelsScreenState extends State<HotelsScreen> {
                       }
                       return;
                     } else {
-                      bool isPosted =
-                          await FavoritesRepository.postFavoritesVisualisation(
-                              result.id ?? -1);
+                      bool isPosted = await FavoritesRepository
+                          .postFavoritesVisualisationHotel(result.id ?? -1);
 
                       if (isPosted) {
                         setState(() {

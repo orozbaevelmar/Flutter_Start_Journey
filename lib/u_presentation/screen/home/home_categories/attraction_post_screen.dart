@@ -7,15 +7,20 @@ import 'package:start_journey/u_presentation/widget/components_attraction_screen
 import 'package:start_journey/u_presentation/widget/components_attraction_screen/post_price_and_booking.dart';
 import 'package:start_journey/u_presentation/widget/show_image_on_tap.dart';
 
-class SightsPostScreen extends StatelessWidget {
+class AttractionPostScreen extends StatelessWidget {
   final Result results;
-  const SightsPostScreen({super.key, required this.results});
+
+  const AttractionPostScreen({
+    super.key,
+    required this.results,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _buildBody(context),
-        bottomNavigationBar: PriceAndBooking(price: results.price ?? ''));
+      body: _buildBody(context),
+      bottomNavigationBar: PriceAndBooking(price: results.price ?? ''),
+    );
   }
 
   // build body:----------------------------------------------------------------

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:start_journey/bloc/sights/bloc.dart';
 import 'package:start_journey/model/extra/results.dart';
-import 'package:start_journey/u_presentation/screen/home/home_categories/sights/sights_post_screen.dart';
+import 'package:start_journey/repository/favorites.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/attraction_post_screen.dart';
 import 'package:start_journey/u_presentation/widget/app_bar.dart';
 import 'package:start_journey/u_presentation/widget/components_attraction_screen/categories.dart';
 import 'package:start_journey/u_presentation/widget/components_attraction_screen/mini_attraction.dart';
@@ -108,7 +109,7 @@ class _SightsScreenState extends State<SightsScreen> {
           60 -
           65 -
           87 -
-          15, // the height of _hotelAppBar(),_hotelTagline(),_hotelSearch() and padding(15)
+          15, // the height of _sightsAppBar(),_sightsTagline(),_sightsSearch() and padding(15)
       child: BlocBuilder<SightsBloc, SightsState>(
         builder: (context, state) {
           return switch (state) {
@@ -221,7 +222,7 @@ class _SightsScreenState extends State<SightsScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SightsPostScreen(
+              builder: (context) => AttractionPostScreen(
                 results: result,
               ),
             ),
@@ -253,27 +254,26 @@ class _SightsScreenState extends State<SightsScreen> {
                   rating: result.rating.toString(),
                   isFavorite: result.isFavorite ?? false,
                   onTapChangeFavoriteIcon: () async {
-                    /*  if (result.isFavorite ?? false) {
+                    if (result.isFavorite ?? false) {
                       bool isDeleted = await FavoritesRepository
-                          .deleteFavoritesVisualisation(result.id ?? -1);
+                          .deleteFavoritesVisualisationSights(result.id ?? -1);
 
                       if (isDeleted) {
                         setState(() {
-                          state.hotelsModel.results![index].isFavorite = false;
+                          state.sightsModel.results![index].isFavorite = false;
                         });
                       }
                       return;
                     } else {
-                      bool isPosted =
-                          await FavoritesRepository.postFavoritesVisualisation(
-                              result.id ?? -1);
+                      bool isPosted = await FavoritesRepository
+                          .postFavoritesVisualisationSights(result.id ?? -1);
 
                       if (isPosted) {
                         setState(() {
-                          state.hotelsModel.results![index].isFavorite = true;
+                          state.sightsModel.results![index].isFavorite = true;
                         });
                       }
-                    } */
+                    }
                   },
                 ),
                 AttractionNameAndLocation(

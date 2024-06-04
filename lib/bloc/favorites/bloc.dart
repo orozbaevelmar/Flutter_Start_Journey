@@ -22,6 +22,7 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
     on<FavoritesLoadEvent>(_getFavorites);
     on<FavoriteDrugRemoveEvent>(_deleteFavoriteDrugInReality);
   }
+
   _getFavorites(FavoritesLoadEvent event, emit) async {
     bool isInitial = favoritesModel.next == null;
     String url = '';

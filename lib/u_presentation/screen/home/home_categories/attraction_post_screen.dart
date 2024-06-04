@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:start_journey/model/extra/results.dart';
-import 'package:start_journey/u_presentation/widget/components_attraction_screen/post_amenities.dart';
-import 'package:start_journey/u_presentation/widget/components_attraction_screen/post_appbar_with_backimage.dart';
-import 'package:start_journey/u_presentation/widget/components_attraction_screen/post_description.dart';
-import 'package:start_journey/u_presentation/widget/components_attraction_screen/post_name.dart';
-import 'package:start_journey/u_presentation/widget/components_attraction_screen/post_price_and_booking.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/components_attraction_screen/post_amenities.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/components_attraction_screen/post_appbar_with_backimage.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/components_attraction_screen/post_description.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/components_attraction_screen/post_name.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/components_attraction_screen/post_price_and_booking.dart';
 import 'package:start_journey/u_presentation/widget/show_image_on_tap.dart';
 
 class AttractionPostScreen extends StatelessWidget {

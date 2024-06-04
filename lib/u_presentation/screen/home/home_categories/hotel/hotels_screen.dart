@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:start_journey/bloc/hotel/bloc.dart';
 import 'package:start_journey/model/extra/results.dart';
-import 'package:start_journey/repository/favorites.dart';
-import 'package:start_journey/u_presentation/screen/home/home_categories/attraction_post_screen.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/components_attraction_screen/attraction_card.dart';
 import 'package:start_journey/u_presentation/widget/app_bar.dart';
-import 'package:start_journey/u_presentation/widget/components_attraction_screen/categories.dart';
-import 'package:start_journey/u_presentation/widget/components_attraction_screen/mini_attraction.dart';
-import 'package:start_journey/u_presentation/widget/components_attraction_screen/name_and_location.dart';
-import 'package:start_journey/u_presentation/widget/components_attraction_screen/rating_and_fav_icon.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/components_attraction_screen/categories.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/components_attraction_screen/mini_attraction.dart';
 import 'package:start_journey/u_presentation/widget/empty_list.dart';
 import 'package:start_journey/u_presentation/widget/search_text_field.dart';
 import 'package:start_journey/u_presentation/widget/tag_line.dart';
@@ -131,13 +128,15 @@ class _HotelsScreenState extends State<HotelsScreen> {
       itemCount: state.hotelsModel.results?.length,
       scrollDirection: Axis.vertical,
       itemBuilder: (context, index) {
-        return _buildCard(
-          state,
-          index,
-          250,
-          double.infinity,
-          const EdgeInsets.symmetric(vertical: 10),
-        ); //_buildSearchCard(result, state, index);
+        Result result = state.hotelsModel.results![index];
+        return AttractionCard(
+          result: result,
+          height: 250,
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          fontSizeMedium: fontSizeMedium,
+          fontSizeSmall: fontSizeSmall,
+        );
       },
     );
   }
@@ -185,12 +184,14 @@ class _HotelsScreenState extends State<HotelsScreen> {
               scrollDirection: Axis.horizontal,
               itemCount: state.hotelsModel.results?.length,
               itemBuilder: (context, index) {
-                return _buildCard(
-                  state,
-                  index,
-                  double.infinity,
-                  250,
-                  const EdgeInsets.only(right: 20),
+                Result result = state.hotelsModel.results![index];
+                return AttractionCard(
+                  result: result,
+                  height: double.infinity,
+                  width: 250,
+                  padding: const EdgeInsets.only(right: 20),
+                  fontSizeMedium: fontSizeMedium,
+                  fontSizeSmall: fontSizeSmall,
                 );
               },
             ),
@@ -201,90 +202,6 @@ class _HotelsScreenState extends State<HotelsScreen> {
             ),
           if (state.loading != null) const CircularProgressIndicator(),
         ],
-      ),
-    );
-  }
-
-  Widget _buildCard(
-    HotelLoaded state, //
-    int index, //top:   search
-    double height, // top :  search:250
-    double width, // top :250  search:
-    final EdgeInsetsGeometry padding,
-  ) {
-    Result result = state.hotelsModel.results![index];
-    return Padding(
-      padding: padding,
-      //padding: const EdgeInsets.only(right: 20),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AttractionPostScreen(
-                results: result,
-              ),
-            ),
-          ).then((value) => setState(() {
-                state.hotelsModel.results![index].isFavorite;
-              }));
-        },
-        child: Container(
-          width: width,
-          height: height,
-          //width: 250,
-          decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(20),
-            image: DecorationImage(
-              image: AssetImage(
-                result.photos?[0].photo ?? '',
-              ),
-              fit: BoxFit.cover,
-              opacity: 0.9,
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                RatingAndFavoriteIcon(
-                  rating: result.rating.toString(),
-                  isFavorite: result.isFavorite ?? false,
-                  onTapChangeFavoriteIcon: () async {
-                    if (result.isFavorite ?? false) {
-                      bool isDeleted = await FavoritesRepository
-                          .deleteFavoritesVisualisationHotel(result.id ?? -1);
-
-                      if (isDeleted) {
-                        setState(() {
-                          state.hotelsModel.results![index].isFavorite = false;
-                        });
-                      }
-                      return;
-                    } else {
-                      bool isPosted = await FavoritesRepository
-                          .postFavoritesVisualisationHotel(result.id ?? -1);
-
-                      if (isPosted) {
-                        setState(() {
-                          state.hotelsModel.results![index].isFavorite = true;
-                        });
-                      }
-                    }
-                  },
-                ),
-                AttractionNameAndLocation(
-                  fontSizeMedium: fontSizeMedium,
-                  fontSizeSmall: fontSizeSmall,
-                  location: result.location ?? '',
-                  name: result.name ?? '',
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

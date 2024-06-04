@@ -4,8 +4,8 @@ import 'package:start_journey/bloc/favorites/bloc.dart';
 import 'package:start_journey/model/extra/results.dart';
 import 'package:start_journey/repository/favorites.dart';
 import 'package:start_journey/u_presentation/screen/home/home_categories/attraction_post_screen.dart';
-import 'package:start_journey/u_presentation/widget/components_attraction_screen/name_and_location.dart';
-import 'package:start_journey/u_presentation/widget/components_attraction_screen/rating_and_fav_icon.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/components_attraction_screen/name_and_location.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/components_attraction_screen/rating_and_fav_icon.dart';
 import 'package:start_journey/u_presentation/widget/empty_list.dart';
 
 class FavouriteScreen extends StatefulWidget {

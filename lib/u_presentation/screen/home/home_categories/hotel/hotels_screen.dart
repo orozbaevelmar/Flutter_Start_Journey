@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:start_journey/bloc/hotel/bloc.dart';
 import 'package:start_journey/model/extra/results.dart';
-import 'package:start_journey/u_presentation/screen/home/home_categories/components_attraction_screen/attraction_card.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/components/attraction_card.dart';
 import 'package:start_journey/u_presentation/widget/app_bar.dart';
-import 'package:start_journey/u_presentation/screen/home/home_categories/components_attraction_screen/categories.dart';
-import 'package:start_journey/u_presentation/screen/home/home_categories/components_attraction_screen/mini_attraction.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/components/categories.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/components/mini_attraction.dart';
 import 'package:start_journey/u_presentation/widget/empty_list.dart';
 import 'package:start_journey/u_presentation/widget/search_text_field.dart';
 import 'package:start_journey/u_presentation/widget/tag_line.dart';

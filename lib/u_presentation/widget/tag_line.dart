@@ -3,8 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CustomTagLine extends StatelessWidget {
   final String hintText;
-  const CustomTagLine(
-      {super.key, required this.fontSizeBig, required this.hintText});
+  const CustomTagLine({
+    super.key,
+    required this.fontSizeBig,
+    required this.hintText,
+  });
 
   final double fontSizeBig;
 

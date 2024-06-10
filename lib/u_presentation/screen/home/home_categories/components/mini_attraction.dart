@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:start_journey/u_presentation/screen/home/home_categories/components_attraction_screen/rating_and_fav_icon.dart';
+import 'package:start_journey/u_presentation/screen/home/home_categories/components/rating_and_fav_icon.dart';
 
 class MiniAttractionAtBottom extends StatelessWidget {
   final String photo;

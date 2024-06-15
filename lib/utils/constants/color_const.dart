@@ -15,6 +15,8 @@ class MColor {
   static const gray_01 = Color(0xFFF6F6F6);
   static const gray = Color(0xFF4A4A4A);
 
+  static const greyBackGroundColor = Color.fromARGB(255, 245, 245, 245);
+
   static const primaryGradientColor = LinearGradient(
     begin: Alignment.centerLeft,
     end: Alignment.center,

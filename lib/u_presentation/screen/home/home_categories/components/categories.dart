@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomCategories extends StatelessWidget {
-  const CustomCategories({
+class CustomFilterAttraction extends StatelessWidget {
+  const CustomFilterAttraction({
     super.key,
     required this.fontSizeSmall,
     required this.yourWishes,

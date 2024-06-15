@@ -6,7 +6,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('images/nature.jpg'),
           fit: BoxFit.cover,
@@ -17,12 +17,12 @@ class WelcomeScreen extends StatelessWidget {
         color: Colors.transparent,
         child: SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(top: 65),
+            padding: const EdgeInsets.only(top: 65),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "Start Travel",
+                const Text(
+                  "Start Journey",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 35,
@@ -30,7 +30,7 @@ class WelcomeScreen extends StatelessWidget {
                     letterSpacing: 2,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 InkWell(
                   onTap: () => Go.to(context, const NavigationBarScreen()),
                   child: Ink(

@@ -3,7 +3,7 @@ import 'package:start_journey/utils/locale_secure_storage.dart';
 
 final GetIt getIt = GetIt.instance;
 
-Future<String> configureDi() async {
+Future<String> configureDI() async {
   getIt.registerSingleton<LocaleSecureStorage>(LocaleSecureStorage()..init());
   return '';
 }

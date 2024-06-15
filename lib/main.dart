@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:start_journey/bloc/favorites/bloc.dart';
 import 'package:start_journey/bloc/hotel/bloc.dart';
 import 'package:start_journey/bloc/sights/bloc.dart';
-
 import 'package:start_journey/u_presentation/screen/enter/welcome.dart';
 import 'package:start_journey/utils/dependency_injection.dart';
 
@@ -13,7 +12,7 @@ void main() async {
     SystemUiOverlayStyle.dark,
   );
   WidgetsFlutterBinding.ensureInitialized();
-  await configureDi();
+  await configureDI();
 
   runApp(const MyApp());
 }

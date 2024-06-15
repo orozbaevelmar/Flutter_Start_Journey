@@ -29,6 +29,10 @@ class _HotelsScreenState extends State<HotelsScreen> {
     setState(() {
       _searchController;
     });
+    if (newQuery.isEmpty) {
+      context.read<HotelBloc>().add(HotelLoadEvent());
+      return;
+    }
     context
         .read<HotelBloc>()
         .add(HotelSearchEvent(hotelsNameContains: newQuery, isInitial: true));
@@ -72,9 +76,8 @@ class _HotelsScreenState extends State<HotelsScreen> {
               fontSize: fontSizeSmall,
               controller: _searchController,
               onTap: () {
-                setState(() {
-                  _searchController.clear();
-                });
+                setState(() => _searchController.clear());
+                context.read<HotelBloc>().add(HotelLoadEvent());
               },
               onChanged: _searchResult,
             ),
@@ -82,7 +85,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
                 ? Column(
                     children: [
                       _hotelsTopLocatedOfScreen1(),
-                      CustomCategories(
+                      CustomFilterAttraction(
                           fontSizeSmall: fontSizeSmall, yourWishes: yourWishes),
                       MiniAttractionAtBottom(
                         fontSizeMedium: fontSizeMedium,

@@ -16,7 +16,7 @@ class NavigationBarScreen extends StatefulWidget {
 class _NavigationBarScreenState extends State<NavigationBarScreen> {
   int _selectedIndex = 2;
 
-  final List<Widget> _widgetOptions = [
+  final List<Widget> _screens = [
     AccountScreen(),
     FavouriteScreen(),
     HomeScreen(),
@@ -28,28 +28,27 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     ))),
     Settings_Screen(),
   ];
+  static const double _iconSize = 30;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: Colors.grey.shade100, // Colors.grey.shade200,
-
-      // Body
-
-      body: _widgetOptions.elementAt(_selectedIndex),
-
-      // Bottom
-
+      backgroundColor: MColor.greyBackGroundColor,
+      // body
+      body: _screens.elementAt(_selectedIndex),
+      // bottom
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.grey.shade100,
         index: 2,
+        color: Colors.white,
+        animationDuration: const Duration(milliseconds: 600),
+        backgroundColor: Colors.grey.shade100,
         items: const [
-          Icon(Icons.person_outline, size: 30),
-          Icon(Icons.favorite_outline_outlined, size: 30),
-          Icon(Icons.home_outlined, size: 30),
-          Icon(Icons.location_on_outlined, size: 30),
-          Icon(Icons.settings_outlined, size: 30),
+          Icon(Icons.person_outline, size: _iconSize),
+          Icon(Icons.favorite_outline_outlined, size: _iconSize),
+          Icon(Icons.home_outlined, size: _iconSize),
+          Icon(Icons.location_on_outlined, size: _iconSize),
+          Icon(Icons.settings_outlined, size: _iconSize),
         ],
         onTap: (int index) {
           setState(() {

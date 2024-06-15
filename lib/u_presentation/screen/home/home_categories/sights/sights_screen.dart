@@ -32,6 +32,10 @@ class _SightsScreenState extends State<SightsScreen> {
     setState(() {
       _searchController;
     });
+    if (newQuery.isEmpty) {
+      context.read<SightsBloc>().add(SightsLoadEvent());
+      return;
+    }
     context
         .read<SightsBloc>()
         .add(SightsSearchEvent(sightsNameContains: newQuery, isInitial: true));
@@ -75,9 +79,8 @@ class _SightsScreenState extends State<SightsScreen> {
               fontSize: fontSizeSmall,
               controller: _searchController,
               onTap: () {
-                setState(() {
-                  _searchController.clear();
-                });
+                setState(() => _searchController.clear());
+                context.read<SightsBloc>().add(SightsLoadEvent());
               },
               onChanged: _searchResult,
             ),
@@ -85,7 +88,7 @@ class _SightsScreenState extends State<SightsScreen> {
                 ? Column(
                     children: [
                       _sightsTopLocatedOfScreen1(),
-                      CustomCategories(
+                      CustomFilterAttraction(
                           fontSizeSmall: fontSizeSmall, yourWishes: yourWishes),
                       MiniAttractionAtBottom(
                         fontSizeMedium: fontSizeMedium,

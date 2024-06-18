@@ -14,22 +14,6 @@ class NavigationBarScreen extends StatefulWidget {
 }
 
 class _NavigationBarScreenState extends State<NavigationBarScreen> {
-  int _selectedIndex = 2;
-
-  final List<Widget> _screens = [
-    AccountScreen(),
-    FavouriteScreen(),
-    HomeScreen(),
-    Scaffold(
-        body: Center(
-            child: Text(
-      'Soon...',
-      style: MTextStyle.ui_30Semi(MColor.greenPrimary),
-    ))),
-    Settings_Screen(),
-  ];
-  static const double _iconSize = 30;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +26,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
         index: 2,
         color: Colors.white,
         animationDuration: const Duration(milliseconds: 600),
-        backgroundColor: Colors.grey.shade100,
+        backgroundColor: MColor.greyBackGroundColor,
         items: const [
           Icon(Icons.person_outline, size: _iconSize),
           Icon(Icons.favorite_outline_outlined, size: _iconSize),
@@ -50,12 +34,24 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
           Icon(Icons.location_on_outlined, size: _iconSize),
           Icon(Icons.settings_outlined, size: _iconSize),
         ],
-        onTap: (int index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
+        onTap: (int tappedIndex) =>
+            setState(() => _selectedIndex = tappedIndex),
       ),
     );
   }
+
+  int _selectedIndex = 2;
+
+  final List<Widget> _screens = [
+    AccountScreen(),
+    FavouriteScreen(),
+    HomeScreen(),
+    Center(
+        child: Text(
+      'Soon...',
+      style: MTextStyle.ui_30Semi(MColor.greenPrimary),
+    )),
+    Settings_Screen(),
+  ];
+  static const double _iconSize = 30;
 }

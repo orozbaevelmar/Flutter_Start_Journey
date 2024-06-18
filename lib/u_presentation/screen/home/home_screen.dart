@@ -13,51 +13,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var categoryPush = [
-    HotelsScreen(),
-    SightsScreen(),
-    NatureScreen(),
-    SnowSportScreen(),
-  ];
-
-  // hotel, snow sports, nature, sights,
-  // nature --> waterfall, river, camping, mountain, lake,
-  final category = [
-    'Hotel',
-    'Sights',
-    'Nature',
-    'Snow Sport',
-  ];
-  final categoryColor = [
-    Colors.amber.shade300,
-    Colors.green.shade300,
-    Colors.red.shade200,
-    Colors.blue.shade300,
-  ];
-
-  final nameOfRegions = [
-    'Ysyk - Kol',
-    'Chuy',
-    'Batken',
-    'Jalal-Abad',
-    'Osh',
-    'Naryn',
-    'Talas'
-  ];
-
-  double fontSizeBig = 35;
-  double fontSizeMedium = 25;
-  double fontSizeSmall = 15;
-
   @override
   Widget build(BuildContext context) {
     fontSizeBig = MediaQuery.of(context).size.width * 0.07;
     fontSizeMedium = MediaQuery.of(context).size.width * 0.055;
     fontSizeSmall = MediaQuery.of(context).size.width * 0.035;
-    return _buildBody(context);
-  }
-
-  Widget _buildBody(context) {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.zero,
@@ -290,4 +250,40 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
+  final categoryPush = [
+    HotelsScreen(),
+    SightsScreen(),
+    NatureScreen(),
+    SnowSportScreen(),
+  ];
+
+  // hotel, snow sports, nature, sights,
+  // nature --> waterfall, river, camping, mountain, lake,
+  final category = [
+    'Hotel',
+    'Sights',
+    'Nature',
+    'Snow Sport',
+  ];
+  final categoryColor = [
+    Colors.amber.shade300,
+    Colors.green.shade300,
+    Colors.red.shade200,
+    Colors.blue.shade300,
+  ];
+
+  final nameOfRegions = [
+    'Ysyk - Kol',
+    'Chuy',
+    'Batken',
+    'Jalal-Abad',
+    'Osh',
+    'Naryn',
+    'Talas'
+  ];
+
+  double fontSizeBig = 35;
+  double fontSizeMedium = 25;
+  double fontSizeSmall = 15;
 }

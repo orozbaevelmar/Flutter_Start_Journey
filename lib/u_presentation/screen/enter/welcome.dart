@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:start_journey/u_presentation/screen/enter/navigation_bar.dart';
 import 'package:start_journey/utils/constants/navigator_custom.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,9 +13,9 @@ class WelcomeScreen extends StatelessWidget {
           opacity: 0.7,
         ),
       ),
-      child: Material(
-        color: Colors.transparent,
-        child: SafeArea(
+      child: SafeArea(
+        child: Material(
+          color: Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.only(top: 65),
             child: Column(

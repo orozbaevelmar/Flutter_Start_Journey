@@ -23,22 +23,18 @@ class AttractionPostScreen extends StatelessWidget {
     );
   }
 
-  // build body:----------------------------------------------------------------
   Widget _buildBody(context) {
     return SingleChildScrollView(
       child: Stack(
         children: <Widget>[
-          PostAppBarWithBackgroundImage(
-            result: results,
-          ),
-          _buildPostInformation(context),
+          PostAppBarWithBackgroundImage(result: results),
+          _buildPostInformation(),
         ],
       ),
     );
   }
 
-  // build post information:----------------------------------------------------
-  Widget _buildPostInformation(BuildContext context) {
+  Widget _buildPostInformation() {
     return Container(
       margin: EdgeInsets.only(top: 380),
       decoration: BoxDecoration(

@@ -63,9 +63,7 @@ class Settings_Screen extends StatelessWidget {
                               fontSize: 28,
                             ),
                           ),
-                          onPressed: () {
-                            exit(0);
-                          },
+                          onPressed: () => exit(0),
                         ),
                       ],
                     );

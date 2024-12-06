@@ -113,8 +113,12 @@ class Settings_Screen extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 20),
       height: 70,
       alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: Colors.green.shade100,
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: ListTile(
-        leading: Icon(
+        leading: const Icon(
           Icons.person_pin,
           size: 40,
         ),
@@ -126,14 +130,10 @@ class Settings_Screen extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        trailing: Icon(
+        trailing: const Icon(
           Icons.arrow_forward_ios,
         ),
         onTap: () {},
-      ),
-      decoration: BoxDecoration(
-        color: Colors.green.shade100,
-        borderRadius: BorderRadius.circular(20),
       ),
     );
   }

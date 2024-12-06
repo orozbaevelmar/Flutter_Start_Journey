@@ -16,7 +16,6 @@ class FavouriteScreen extends StatefulWidget {
 }
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
-  //double fontSize = 18;
   @override
   void initState() {
     context.read<FavoritesBloc>().add(FavoritesLoadEvent());
@@ -33,24 +32,28 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.all(15),
-        child: BlocBuilder<FavoritesBloc, FavoritesState>(
-          builder: (context, state) {
-            return switch (state) {
-              FavoritesLoaded() => (state.favoritesModel.results?.isNotEmpty ??
-                      false)
-                  ? _buildListView(state)
-                  : EmptyListy(text: 'You don\'t have favorite elements yet.'),
-              FavoritesInitialLoading() ||
-              FavoritesInitial() =>
-                const Center(child: CircularProgressIndicator()),
-              FavoritesEmpty() => EmptyListy(
-                  text: 'You don\'t have favorite elements yet.',
-                ),
-              FavoritesInitialError() => Center(child: Text(state.message)),
-            };
-          },
-        ),
+        child: _buildBloc(),
       ),
+    );
+  }
+
+  Widget _buildBloc() {
+    return BlocBuilder<FavoritesBloc, FavoritesState>(
+      builder: (context, state) {
+        return switch (state) {
+          FavoritesLoaded() =>
+            (state.favoritesModel.results?.isNotEmpty ?? false)
+                ? _buildListView(state)
+                : EmptyListy(text: 'You don\'t have favorite elements yet.'),
+          FavoritesInitialLoading() ||
+          FavoritesInitial() =>
+            const Center(child: CircularProgressIndicator()),
+          FavoritesEmpty() => EmptyListy(
+              text: 'You don\'t have favorite elements yet.',
+            ),
+          FavoritesInitialError() => Center(child: Text(state.message)),
+        };
+      },
     );
   }
 

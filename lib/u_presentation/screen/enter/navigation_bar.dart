@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:start_journey/u_presentation/screen/account/account.dart';
 import 'package:start_journey/u_presentation/screen/favourite/favourite_screen.dart';
 import 'package:start_journey/u_presentation/screen/home/home_screen.dart';
+import 'package:start_journey/u_presentation/screen/location/map_screen.dart';
+
 import 'package:start_journey/u_presentation/screen/settings/settings_screen.dart';
 import 'package:start_journey/utils/constants/constants.dart';
 
@@ -46,11 +48,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
     AccountScreen(),
     FavouriteScreen(),
     HomeScreen(),
-    Center(
-        child: Text(
-      'Soon...',
-      style: MTextStyle.ui_30Semi(MColor.greenPrimary),
-    )),
+    MapScreen(),
     Settings_Screen(),
   ];
   static const double _iconSize = 30;

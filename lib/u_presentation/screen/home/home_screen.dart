@@ -84,7 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => RegionsScreen(),
+                        builder: (context) => RegionsScreen(
+                          photo: 'images/regions/region${index + 1}.jpg',
+                          name: nameOfRegions[index],
+                        ),
                       ),
                     );
                   },
@@ -117,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Container(
                           alignment: Alignment.bottomLeft,
                           child: Text(
-                            nameOfRegions[index++],
+                            nameOfRegions[index],
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: fontSizeSmall,
@@ -209,7 +212,17 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RegionsScreen(
+                        photo: 'images/regions/region${index + 1}.jpg',
+                        name: nameOfRegions[index],
+                      ),
+                    ),
+                  );
+                },
                 child: Container(
                   height: 250,
                   decoration: BoxDecoration(
@@ -231,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'City Name',
+                      nameOfRegions[index],
                       style: TextStyle(
                         fontSize: fontSizeSmall,
                         fontWeight: FontWeight.w500,

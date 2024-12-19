@@ -6,7 +6,9 @@ import 'package:start_journey/u_presentation/screen/home/home_categories/post_sc
 import 'package:start_journey/u_presentation/screen/home/home_categories/post_screen/components/post_description.dart';
 import 'package:start_journey/u_presentation/screen/home/home_categories/post_screen/components/post_name.dart';
 import 'package:start_journey/u_presentation/screen/home/home_categories/post_screen/components/post_price_and_booking.dart';
+import 'package:start_journey/u_presentation/screen/home/home_regions/region_post_screen.dart';
 import 'package:start_journey/u_presentation/widget/show_image_on_tap.dart';
+import 'package:start_journey/utils/constants/navigator_custom.dart';
 
 class RegionsScreen extends StatelessWidget {
   final String photo;
@@ -17,11 +19,19 @@ class RegionsScreen extends StatelessWidget {
     required this.name,
   });
 
+  String description =
+      'Located in the northeast of Kyrgyzstan, Issyk Kul Lake or Yssyk-Kol is a must-see in Kyrgyzstan. It ranks as the second largest lake of Central Asia, the second largest saline lake in the world and the seventh deepest lake. This place attracts numerous tourists with its magnificent equestrian and pedestrian itineraries in the surrounding mountains and its beautiful background of towering white summits.';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _buildBody(context),
-      bottomNavigationBar: PriceAndBooking(price: '\$500 / Night' ?? ''),
+      bottomNavigationBar: GestureDetector(
+        onTap: () {
+          Go.to(context, RegionPostScreen(name: name, photo: photo));
+        },
+        child: PriceAndBooking(price: '\$500 / Night'),
+      ),
     );
   }
 
@@ -111,7 +121,4 @@ class RegionsScreen extends StatelessWidget {
       ],
     );
   }
-
-  String description =
-      'Located in the northeast of Kyrgyzstan, Issyk Kul Lake or Yssyk-Kol is a must-see in Kyrgyzstan. It ranks as the second largest lake of Central Asia, the second largest saline lake in the world and the seventh deepest lake. This place attracts numerous tourists with its magnificent equestrian and pedestrian itineraries in the surrounding mountains and its beautiful background of towering white summits.';
 }

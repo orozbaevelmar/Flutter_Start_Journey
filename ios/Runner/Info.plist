@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo library permission</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera permission</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Доступ к геолокации пользователя необходим для отображения текущей геопозиции</string>
 	<key>CFBundleDevelopmentRegion</key>

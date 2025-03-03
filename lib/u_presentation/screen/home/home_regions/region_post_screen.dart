@@ -4,11 +4,17 @@ import 'package:flutter/widgets.dart';
 class RegionPostScreen extends StatelessWidget {
   final String photo;
   final String name;
-  const RegionPostScreen({
+  RegionPostScreen({
     super.key,
     required this.photo,
     required this.name,
   });
+
+  final List<String> listPhoto = [
+    'images/hotels/jannat_resort/hotel0.jpg',
+    'images/hotels/jannat_resort/hotel3.jpg',
+    'images/hotels/jannat_resort/hotelDoor.jpg',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +30,11 @@ class RegionPostScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  int abc(int i) {
+    print(i);
+    return i;
   }
 
   Widget _photoWithComments(BuildContext context) {
@@ -53,29 +64,19 @@ class RegionPostScreen extends StatelessWidget {
             ),
             child: Stack(
               children: [
-                SizedBox(
-                  height: 35,
-                  width: 35,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image.asset(
-                      'images/nature/gorge_ala_archa/natureDoor.jpg',
-                      fit: BoxFit.cover,
+                for (int i = listPhoto.length - 1; i >= 0; i--)
+                  Container(
+                    margin: EdgeInsets.only(left: i * 15),
+                    height: 35,
+                    width: 35,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image.asset(
+                        listPhoto[abc(i)],
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  height: 35,
-                  width: 35,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image.asset(
-                      'images/hotels/jannat_resort/hotel0.jpg',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

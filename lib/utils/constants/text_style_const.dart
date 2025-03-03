@@ -2,6 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MTextStyle {
+  static TextStyle ui_20Bold(Color color) {
+    return GoogleFonts.inter(
+      textStyle: TextStyle(
+        fontWeight: FontWeight.w700,
+        fontSize: 20,
+        height: 23.36 / 20,
+        color: color,
+      ),
+    );
+  }
+
   static TextStyle body_1(Color color) {
     return GoogleFonts.ubuntu(
       textStyle: TextStyle(

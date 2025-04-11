@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,32 +33,6 @@ class _AccountScreenState extends State<AccountScreen> {
           children: [
             SizedBox(height: 30),
             _buildImage(context),
-            /* Center(
-              child: Stack(
-                children: [
-                  Icon(
-                    Icons.account_circle,
-                    size: 100,
-                  ),
-                  Positioned(
-                    right: 3,
-                    bottom: 3,
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: MColor.white,
-                      ),
-                      child: Image(
-                        height: 20,
-                        width: 20,
-                        image: AssetImage('images/ic_edit.png'),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ), */
             Text(
               'Orozbaev Elmarbek',
               style: GoogleFonts.frankRuhlLibre(fontSize: 30),
@@ -83,8 +56,8 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                 ),
                 initialCountryCode: 'KG',
-                onTapOutside: (event) =>
-                    FocusManager.instance.primaryFocus?.unfocus(),
+                /*   onTapOutside: (event) =>
+                    FocusManager.instance.primaryFocus?.unfocus(),*/
                 controller: _phoneNumberController,
               ),
             ),

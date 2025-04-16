@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:start_journey/u_presentation/screen/account/account.dart';
 import 'dart:io';
+
+import 'package:start_journey/utils/constants/navigator_custom.dart';
 
 class Settings_Screen extends StatelessWidget {
   @override
@@ -10,8 +13,14 @@ class Settings_Screen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _buildAccount(context),
-            _buildListTile(Icons.dark_mode_outlined, 'Dark Mode'),
-            _buildListTile(Icons.language_outlined, 'Language'),
+            _buildListTile(
+              onTap: () => Go.to(context, AccountScreen()),
+              iconData: Icons.person_outline,
+              text: 'Account',
+            ),
+            _buildListTile(
+                iconData: Icons.dark_mode_outlined, text: 'Dark Mode'),
+            _buildListTile(iconData: Icons.language_outlined, text: 'Language'),
             Spacer(),
             Container(
               margin: EdgeInsets.only(bottom: 20),
@@ -81,29 +90,32 @@ class Settings_Screen extends StatelessWidget {
     );
   }
 
-  Container _buildListTile(IconData iconData, String text) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 20),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: Colors.green.shade100,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: ListTile(
-        leading: Icon(
-          iconData,
-          size: 25,
+  Widget _buildListTile({
+    VoidCallback? onTap,
+    required IconData iconData,
+    required String text,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.only(bottom: 20),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.green.shade100,
+          borderRadius: BorderRadius.circular(20),
         ),
-        title: Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
+        child: ListTile(
+          leading: Icon(
+            iconData,
+            size: 25,
+          ),
+          title: Text(
+            text,
+            style: TextStyle(
+              fontSize: 16,
+            ),
           ),
         ),
-
-        //trailing:
-
-        onTap: () {},
       ),
     );
   }

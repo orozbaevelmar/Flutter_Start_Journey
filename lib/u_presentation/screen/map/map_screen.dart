@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:start_journey/u_presentation/screen/location/model/app_lat_long.dart';
-import 'package:start_journey/u_presentation/screen/location/service/location_service.dart';
+import 'package:start_journey/model/app_lat_long.dart';
+import 'package:start_journey/services/location_service.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class MapScreen extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:start_journey/u_presentation/screen/location/model/app_lat_long.dart';
+import 'package:start_journey/model/app_lat_long.dart';
 
 abstract class AppLocation {
   Future<AppLatLong> getCurrentLocation();

@@ -1,6 +1,6 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:start_journey/u_presentation/screen/location/methods.dart/app_location.dart';
-import 'package:start_journey/u_presentation/screen/location/model/app_lat_long.dart';
+import 'package:start_journey/methods/app_location.dart';
+import 'package:start_journey/model/app_lat_long.dart';
 
 class LocationService implements AppLocation {
   final defLocation = const KyrgyzstanLocation();

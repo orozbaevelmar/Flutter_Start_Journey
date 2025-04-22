@@ -107,6 +107,13 @@ class MTextStyle {
     textStyle: const TextStyle(
         fontWeight: FontWeight.w400, fontSize: 14, color: Color(0xFF717372)),
   );
+  static final Regular18 = GoogleFonts.inter(
+    textStyle: const TextStyle(
+      fontWeight: FontWeight.w300,
+      fontSize: 18,
+      color: Color(0xFF717372),
+    ),
+  );
   static final h1_regular20 = GoogleFonts.roboto(
     textStyle: const TextStyle(
       fontWeight: FontWeight.w400,

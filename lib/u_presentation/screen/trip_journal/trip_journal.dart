@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:start_journey/utils/constants/box_shadow.dart';
 import 'package:start_journey/utils/constants/color_const.dart';
-import 'package:start_journey/utils/constants/text_style_const.dart';
 
 class TripJournal extends StatelessWidget {
   TripJournal({super.key});
@@ -14,6 +14,8 @@ class TripJournal extends StatelessWidget {
     'With other words, he will build a route of places, with help of Latitude and Longtitude,'
   ];
 
+  final someWordsList = ['love', 'friends', 'hightlight'];
+
   final String str =
       'This is Coconut, Tina and Rob\'s new pup! He is so adorable:-) He was running around in the mud yesterday and made a huge...';
 
@@ -25,8 +27,7 @@ class TripJournal extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: 300,
-              padding: EdgeInsets.all(15),
+              padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: MColor.white,
                 borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -35,7 +36,7 @@ class TripJournal extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildData(),
-                  SizedBox(width: 10),
+                  SizedBox(width: 15),
                   Expanded(
                     child: Column(
                       children: [
@@ -43,7 +44,14 @@ class TripJournal extends StatelessWidget {
                           str,
                           maxLines: 4,
                           overflow: TextOverflow.ellipsis,
-                          style: MTextStyle.Regular18,
+                          style: GoogleFonts.roboto(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w300,
+                              fontSize: 15,
+                              height: 1.5,
+                              color: Colors.black87,
+                            ),
+                          ),
                         ),
                         SizedBox(height: 15),
                         /* Container(
@@ -60,6 +68,37 @@ class TripJournal extends StatelessWidget {
                               image: AssetImage('images/journal/dog.jpeg'),
                             ),
                           ),
+                        ),
+                        SizedBox(height: 15),
+                        Row(
+                          children: [
+                            for (int i = 0; i < someWordsList.length; i++)
+                              Container(
+                                margin: i != someWordsList.length
+                                    ? EdgeInsets.only(right: 8)
+                                    : EdgeInsets.zero,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: MColor.gray_02,
+                                ),
+                                child: Text(
+                                  someWordsList[i].toUpperCase(),
+                                  style: GoogleFonts.roboto(
+                                    textStyle: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 10,
+                                      height: 2,
+                                      letterSpacing: 1,
+                                      color: MColor.gray,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       ],
                     ),
@@ -86,16 +125,37 @@ class TripJournal extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(8)),
         border: Border.all(
           width: 2,
-          color: MColor.yellow,
+          color: Colors.yellow.shade300,
         ),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             'SAT',
-            //  style: MTextStyle.Medium30,
+            style: GoogleFonts.inter(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 10,
+                //eight: 1,
+                color: Colors.black45,
+                letterSpacing: 2,
+              ),
+            ),
           ),
-          Text('12'),
+          Text(
+            '12',
+            style: GoogleFonts.inter(
+              textStyle: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 18,
+                letterSpacing: 2.5,
+                //eight: 1,
+                color: Colors.black,
+              ),
+            ),
+          ),
         ],
       ),
     );

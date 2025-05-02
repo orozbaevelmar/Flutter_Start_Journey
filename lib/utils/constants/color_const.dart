@@ -4,6 +4,7 @@ class MColor {
   static const dark = Color(0xFF6D7A77);
   static const black = Colors.black;
   static const yellow = Colors.yellow;
+  static const yellow2 = Colors.yellowAccent;
 
   static const greenPrimary = Color(0xFF5DB075);
   static const greenSecondary = Color(0xFF4B9460);

@@ -114,14 +114,16 @@ class MTextStyle {
       color: Color(0xFF717372),
     ),
   );
-  static final h1_regular20 = GoogleFonts.roboto(
-    textStyle: const TextStyle(
-      fontWeight: FontWeight.w400,
-      fontSize: 20,
-      color: Color(0xFF0C0C0C),
-      height: 23.44 / 16,
-    ),
-  );
+  static TextStyle h1_regular20(Color color) {
+    return GoogleFonts.roboto(
+      textStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 20,
+        color: Color(0xFF0C0C0C),
+        height: 23.44 / 16,
+      ),
+    );
+  }
 
   static final h3_14Light = GoogleFonts.roboto(
     textStyle: const TextStyle(

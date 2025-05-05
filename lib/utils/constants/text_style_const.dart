@@ -159,4 +159,14 @@ class MTextStyle {
       ),
     );
   }
+
+  static TextStyle h4_25Medium(Color color) {
+    return GoogleFonts.roboto(
+      textStyle: TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 25,
+        color: color,
+      ),
+    );
+  }
 }

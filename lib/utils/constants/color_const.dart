@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class MColor {
   static const dark = Color(0xFF6D7A77);
   static const black = Colors.black;
+  static const black_shade300 = Colors.black87;
   static const yellow = Colors.yellow;
   static const yellow2 = Colors.yellowAccent;
 

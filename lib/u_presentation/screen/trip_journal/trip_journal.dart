@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:start_journey/utils/constants/box_shadow.dart';
 import 'package:start_journey/utils/constants/color_const.dart';
+import 'package:start_journey/utils/constants/text_style_const.dart';
 
 class TripJournal extends StatelessWidget {
   TripJournal({super.key});
@@ -24,95 +25,112 @@ class TripJournal extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(15),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: MColor.white,
-                borderRadius: BorderRadius.all(Radius.circular(15)),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Journal',
+                style: GoogleFonts.workSans(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 40,
+                    letterSpacing: 2,
+                    color: MColor.black_shade300,
+                  ),
+                ),
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildData(),
-                  SizedBox(width: 15),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text(
-                          str,
-                          maxLines: 4,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.roboto(
-                            textStyle: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 15,
-                              height: 1.5,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        /* Container(
-                          height: 500,
-                          color: Colors.black,
-                        ) */
-                        SizedBox(
-                          height: 130,
-                          width: double.infinity,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image(
-                              fit: BoxFit.cover,
-                              image: AssetImage('images/journal/dog.jpeg'),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 15),
-                        Row(
+              SizedBox(height: 20),
+              for (int i = 0; i < 3; i++)
+                Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: MColor.white,
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildData(i == 0),
+                      SizedBox(width: 15),
+                      Expanded(
+                        child: Column(
                           children: [
-                            for (int i = 0; i < someWordsList.length; i++)
-                              Container(
-                                margin: i != someWordsList.length
-                                    ? EdgeInsets.only(right: 8)
-                                    : EdgeInsets.zero,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 2,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: MColor.gray_02,
-                                ),
-                                child: Text(
-                                  someWordsList[i].toUpperCase(),
-                                  style: GoogleFonts.roboto(
-                                    textStyle: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 10,
-                                      height: 2,
-                                      letterSpacing: 1,
-                                      color: MColor.gray,
-                                    ),
-                                  ),
+                            Text(
+                              str,
+                              maxLines: 4,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 15,
+                                  height: 1.5,
+                                  color: Colors.black87,
                                 ),
                               ),
+                            ),
+                            SizedBox(height: 15),
+                            /* Container(
+                            height: 500,
+                            color: Colors.black,
+                          ) */
+                            SizedBox(
+                              height: 200,
+                              width: double.infinity,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: Image(
+                                  fit: BoxFit.cover,
+                                  image: AssetImage('images/journal/dog.jpeg'),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 15),
+                            Row(
+                              children: [
+                                for (int i = 0; i < someWordsList.length; i++)
+                                  Container(
+                                    margin: i != someWordsList.length
+                                        ? EdgeInsets.only(right: 8)
+                                        : EdgeInsets.zero,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 2,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: MColor.gray_02,
+                                    ),
+                                    child: Text(
+                                      someWordsList[i].toUpperCase(),
+                                      style: GoogleFonts.roboto(
+                                        textStyle: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 10,
+                                          height: 2,
+                                          letterSpacing: 1,
+                                          color: MColor.gray,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )
-          ],
+                )
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildData() {
+  Widget _buildData(bool isSelected) {
     return Container(
       alignment: Alignment.center,
       height: 50,
@@ -121,12 +139,14 @@ class TripJournal extends StatelessWidget {
         boxShadow: [
           MBoxShadow.regular,
         ],
-        color: MColor.white,
+        color: isSelected ? MColor.white : Colors.white54,
         borderRadius: BorderRadius.all(Radius.circular(8)),
-        border: Border.all(
-          width: 2,
-          color: Colors.yellow.shade300,
-        ),
+        border: isSelected
+            ? Border.all(
+                width: 2,
+                color: Colors.amber.shade400,
+              )
+            : Border(),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

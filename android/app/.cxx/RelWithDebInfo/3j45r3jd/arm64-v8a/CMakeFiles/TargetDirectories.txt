@@ -1,0 +1,2 @@
+/Users/elmarbekorozbaev/MyProjects/start_journey/android/app/.cxx/RelWithDebInfo/3j45r3jd/arm64-v8a/CMakeFiles/rebuild_cache.dir
+/Users/elmarbekorozbaev/MyProjects/start_journey/android/app/.cxx/RelWithDebInfo/3j45r3jd/arm64-v8a/CMakeFiles/edit_cache.dir

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/hotel/hotels_screen.dart';
+import 'package:start_journey/moveToCleanArch/features/hotel/presentation/pages/hotels_screen.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/nature/nature_screen.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/sights/sights_screen.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/snow_sport/snow_sport_screen.dart';

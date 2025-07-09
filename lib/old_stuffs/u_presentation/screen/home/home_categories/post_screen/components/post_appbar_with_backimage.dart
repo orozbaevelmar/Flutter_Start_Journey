@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/old_stuffs/model/extra/results.dart';
+import 'package:start_journey/moveToCleanArch/core/common/entity/places_entity.dart';
 import 'package:start_journey/old_stuffs/repository/favorites.dart';
 
 class PostAppBarWithBackgroundImage extends StatefulWidget {
@@ -7,7 +7,7 @@ class PostAppBarWithBackgroundImage extends StatefulWidget {
     super.key,
     required this.result,
   });
-  final Result result;
+  final PlacesEntity result;
 
   @override
   State<PostAppBarWithBackgroundImage> createState() =>
@@ -57,28 +57,28 @@ class _PostAppBarWithBackgroundImageState
                 ),
                 InkWell(
                   onTap: () async {
-                    if (widget.result.isFavorite ?? false) {
-                      bool isDeleted = await FavoritesRepository
-                          .deleteFavoritesVisualisationHotel(
-                              widget.result.id ?? -1);
+                    // if (widget.result.isFavorite ?? false) {
+                    //   bool isDeleted = await FavoritesRepository
+                    //       .deleteFavoritesVisualisationHotel(
+                    //           widget.result.id ?? -1);
 
-                      if (isDeleted) {
-                        setState(() {
-                          widget.result.isFavorite = false;
-                        });
-                      }
-                      return;
-                    } else {
-                      bool isPosted = await FavoritesRepository
-                          .postFavoritesVisualisationHotel(
-                              widget.result.id ?? -1);
+                    //   if (isDeleted) {
+                    //     setState(() {
+                    //       widget.result.isFavorite = false;
+                    //     });
+                    //   }
+                    //   return;
+                    // } else {
+                    //   bool isPosted = await FavoritesRepository
+                    //       .postFavoritesVisualisationHotel(
+                    //           widget.result.id ?? -1);
 
-                      if (isPosted) {
-                        setState(() {
-                          widget.result.isFavorite = true;
-                        });
-                      }
-                    }
+                    //   if (isPosted) {
+                    //     setState(() {
+                    //       widget.result.isFavorite = true;
+                    //     });
+                    //   }
+                    // }
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),

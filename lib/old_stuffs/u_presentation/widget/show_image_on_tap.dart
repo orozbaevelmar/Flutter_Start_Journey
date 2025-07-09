@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/old_stuffs/model/extra/photo.dart';
+import 'package:start_journey/moveToCleanArch/core/common/entity/photo_entity.dart';
 
 class ShowImageOnTap extends StatefulWidget {
   final int index;
-  final List<Photos> photos;
+  final List<PhotosEntity> photos;
   const ShowImageOnTap({
     super.key,
     required this.index,

@@ -5,7 +5,7 @@ class CustomSearchTextField extends StatefulWidget {
   final String hintText;
   final double fontSize;
   final TextEditingController controller;
-  final VoidCallback onTap;
+  final VoidCallback onTapClearIcon;
   final ValueChanged<String>? onChanged;
 
   const CustomSearchTextField({
@@ -13,7 +13,7 @@ class CustomSearchTextField extends StatefulWidget {
     required this.hintText,
     required this.fontSize,
     required this.controller,
-    required this.onTap,
+    required this.onTapClearIcon,
     required this.onChanged,
   }) : super(key: key);
 
@@ -41,7 +41,7 @@ class _CustomSearchTextFieldState extends State<CustomSearchTextField> {
           hintText: widget.hintText,
           suffixIcon: IconButton(
             icon: const Icon(Icons.clear),
-            onPressed: widget.onTap,
+            onPressed: widget.onTapClearIcon,
           ),
         ),
         onTapOutside: (event) {

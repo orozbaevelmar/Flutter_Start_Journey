@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/old_stuffs/model/extra/results.dart';
-import 'package:start_journey/old_stuffs/repository/favorites.dart';
+import 'package:start_journey/moveToCleanArch/core/common/entity/places_entity.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/post_screen/attraction_post_screen.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/components/name_and_location.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/components/rating_and_fav_icon.dart';
 
 class AttractionCard extends StatefulWidget {
-  final Result result; //
+  final PlacesEntity result; //
   final double height; // top :  search:250
   final double width; // top :250  search:
   final EdgeInsetsGeometry padding;
@@ -69,28 +68,28 @@ class _AttractionCardState extends State<AttractionCard> {
                   rating: widget.result.rating.toString(),
                   isFavorite: widget.result.isFavorite ?? false,
                   onTapChangeFavoriteIcon: () async {
-                    if (widget.result.isFavorite ?? false) {
-                      bool isDeleted = await FavoritesRepository
-                          .deleteFavoritesVisualisationHotel(
-                              widget.result.id ?? -1);
+                    // if (widget.result.isFavorite ?? false) {
+                    //   bool isDeleted = await FavoritesRepository
+                    //       .deleteFavoritesVisualisationHotel(
+                    //           widget.result.id ?? -1);
 
-                      if (isDeleted) {
-                        setState(() {
-                          widget.result.isFavorite = false;
-                        });
-                      }
-                      return;
-                    } else {
-                      bool isPosted = await FavoritesRepository
-                          .postFavoritesVisualisationHotel(
-                              widget.result.id ?? -1);
+                    //   if (isDeleted) {
+                    //     setState(() {
+                    //       widget.result.isFavorite = false;
+                    //     });
+                    //   }
+                    //   return;
+                    // } else {
+                    //   bool isPosted = await FavoritesRepository
+                    //       .postFavoritesVisualisationHotel(
+                    //           widget.result.id ?? -1);
 
-                      if (isPosted) {
-                        setState(() {
-                          widget.result.isFavorite = true;
-                        });
-                      }
-                    }
+                    //   if (isPosted) {
+                    //     setState(() {
+                    //       widget.result.isFavorite = true;
+                    //     });
+                    //   }
+                    // }
                   },
                 ),
                 AttractionNameAndLocation(

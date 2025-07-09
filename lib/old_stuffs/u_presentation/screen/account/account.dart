@@ -7,10 +7,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:start_journey/old_stuffs/u_presentation/widget/custom_button.dart';
 import 'package:start_journey/old_stuffs/u_presentation/widget/show_bottom_sheet.dart';
 import 'package:start_journey/old_stuffs/u_presentation/widget/text_field.dart';
-import 'package:start_journey/old_stuffs/utils/constants/color_const.dart';
-import 'package:start_journey/old_stuffs/utils/constants/show_dialog.dart';
-import 'package:start_journey/old_stuffs/utils/constants/text_style_const.dart';
-import 'package:start_journey/old_stuffs/utils/constants/toast.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/color_const.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/show_dialog.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/text_style_const.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/toast.dart';
 
 class AccountScreen extends StatefulWidget {
   AccountScreen({super.key});

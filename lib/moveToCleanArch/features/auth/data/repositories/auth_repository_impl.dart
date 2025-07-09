@@ -32,7 +32,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return right(userId);
     } on ServerException catch (e) {
-      return left(Failure(e.message));
+      return Left(ServerFailure(message: e.message));
     }
   }
 }

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:start_journey/moveToCleanArch/core/error/exceptions.dart';
-import 'package:start_journey/old_stuffs/utils/constants/m_strings.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/m_strings.dart';
 import 'package:start_journey/old_stuffs/utils/dependency_injection.dart';
 import 'package:start_journey/old_stuffs/utils/locale_secure_storage.dart';
 
@@ -37,9 +37,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       final responseBody = utf8.decode(response.bodyBytes);
       if (response.statusCode == 200) {
-        await getIt
-            .get<LocaleSecureStorage>()
-            .saveSecureToken(json.decode(responseBody)['token']);
+        // await getIt
+        //     .get<LocaleSecureStorage>()
+        //     .saveSecureToken(json.decode(responseBody)['token']);
 
         return '';
       } else {
@@ -52,7 +52,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         }
       }
     } catch (e) {
-      throw ServerException(e.toString());
+      throw ServerException(message: e.toString());
     }
   }
 

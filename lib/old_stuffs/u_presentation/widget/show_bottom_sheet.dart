@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/old_stuffs/utils/constants/color_const.dart';
-import 'package:start_journey/old_stuffs/utils/constants/text_style_const.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/color_const.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/text_style_const.dart';
 
 class ShowBottomSheet {
   static showBottomSheet(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:start_journey/old_stuffs/u_presentation/widget/custom_button.dart';
 
-import 'package:start_journey/old_stuffs/utils/constants/color_const.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/color_const.dart';
 
 class ShowDialog {
   static Future<bool?> showDialogSetting(

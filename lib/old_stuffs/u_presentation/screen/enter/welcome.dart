@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/enter/navigation_bar.dart';
-import 'package:start_journey/old_stuffs/utils/constants/navigator_custom.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/navigator_custom.dart';
 
 class SplashScreen extends StatelessWidget {
   @override

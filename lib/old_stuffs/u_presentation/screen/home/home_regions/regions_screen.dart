@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/old_stuffs/model/extra/photo.dart';
-import 'package:start_journey/old_stuffs/model/extra/results.dart';
+import 'package:start_journey/moveToCleanArch/core/common/model/photo_model.dart';
+
+import 'package:start_journey/moveToCleanArch/features/hotel/data/model/hotel_model.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/post_screen/components/post_amenities.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/post_screen/components/post_appbar_with_backimage.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/post_screen/components/post_description.dart';
@@ -8,7 +9,7 @@ import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categor
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/post_screen/components/post_price_and_booking.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_regions/region_post_screen.dart';
 import 'package:start_journey/old_stuffs/u_presentation/widget/show_image_on_tap.dart';
-import 'package:start_journey/old_stuffs/utils/constants/navigator_custom.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/navigator_custom.dart';
 
 class RegionsScreen extends StatelessWidget {
   final String photo;
@@ -40,7 +41,7 @@ class RegionsScreen extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           PostAppBarWithBackgroundImage(
-            result: Result(photos: [Photos(id: 1, photo: photo)]),
+            result: HotelModel(photos: [PhotoModel(id: 1, photo: photo)]),
           ),
           _buildPostInformation(),
         ],
@@ -98,7 +99,7 @@ class RegionsScreen extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => ShowImageOnTap(
                         index: index,
-                        photos: [Photos(id: 1, photo: photo)],
+                        photos: [PhotoModel(id: 1, photo: photo)],
                       ),
                     ),
                   );

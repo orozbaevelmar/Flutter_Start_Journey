@@ -1,12 +1,12 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/favourite/favourite_screen.dart';
-import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_screen.dart';
+import 'package:start_journey/moveToCleanArch/features/home/presentation/pages/home_screen.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/map/map_screen.dart';
 
 import 'package:start_journey/old_stuffs/u_presentation/screen/settings/settings_screen.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/trip_journal/trip_journal.dart';
-import 'package:start_journey/old_stuffs/utils/constants/constants.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/constants.dart';
 
 class NavigationBarScreen extends StatefulWidget {
   const NavigationBarScreen({super.key});
@@ -46,7 +46,8 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
 
   final List<Widget> _screens = [
     TripJournal(),
-    FavouriteScreen(),
+    //   FavouriteScreen(),
+    Container(),
     HomeScreen(),
     MapScreen(),
     Settings_Screen(),

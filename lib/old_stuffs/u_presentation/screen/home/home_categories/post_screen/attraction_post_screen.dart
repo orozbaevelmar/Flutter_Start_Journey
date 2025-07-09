@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/old_stuffs/model/extra/results.dart';
+import 'package:start_journey/moveToCleanArch/core/common/entity/places_entity.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/post_screen/components/post_amenities.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/post_screen/components/post_appbar_with_backimage.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/post_screen/components/post_description.dart';
@@ -8,7 +8,7 @@ import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categor
 import 'package:start_journey/old_stuffs/u_presentation/widget/show_image_on_tap.dart';
 
 class AttractionPostScreen extends StatelessWidget {
-  final Result results;
+  final PlacesEntity results;
 
   const AttractionPostScreen({
     super.key,

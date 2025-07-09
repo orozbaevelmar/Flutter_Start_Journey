@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/old_stuffs/bloc/hotel/bloc.dart';
-import 'package:start_journey/old_stuffs/model/extra/results.dart';
-import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/components/attraction_card.dart';
+import 'package:start_journey/moveToCleanArch/core/common/entity/places_entity.dart';
+import 'package:start_journey/moveToCleanArch/features/hotel/presentation/bloc/hotel/hotel_bloc.dart';
+import 'package:start_journey/moveToCleanArch/features/hotel/presentation/widgets/attraction_card.dart';
 import 'package:start_journey/old_stuffs/u_presentation/widget/app_bar.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/components/categories.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/home/home_categories/components/mini_attraction.dart';
@@ -9,7 +9,7 @@ import 'package:start_journey/old_stuffs/u_presentation/widget/empty_list.dart';
 import 'package:start_journey/old_stuffs/u_presentation/widget/search_text_field.dart';
 import 'package:start_journey/old_stuffs/u_presentation/widget/tag_line.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:start_journey/old_stuffs/utils/constants/navigator_custom.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/navigator_custom.dart';
 
 class HotelsScreen extends StatefulWidget {
   const HotelsScreen({super.key});
@@ -21,7 +21,7 @@ class HotelsScreen extends StatefulWidget {
 class _HotelsScreenState extends State<HotelsScreen> {
   @override
   void initState() {
-    context.read<HotelBloc>().add(HotelLoadEvent());
+    context.read<HotelBloc>().add(HotelLoadEvent(isInitial: true));
     super.initState();
   }
 
@@ -30,12 +30,12 @@ class _HotelsScreenState extends State<HotelsScreen> {
       _searchController;
     });
     if (newQuery.isEmpty) {
-      context.read<HotelBloc>().add(HotelLoadEvent());
+      context.read<HotelBloc>().add(HotelLoadEvent(isInitial: true));
       return;
     }
     context
         .read<HotelBloc>()
-        .add(HotelSearchEvent(hotelsNameContains: newQuery, isInitial: true));
+        .add(HotelSearchEvent(isInitial: true, hotelsNameContains: newQuery));
   }
 
   List<String> yourWishes = [
@@ -75,9 +75,9 @@ class _HotelsScreenState extends State<HotelsScreen> {
               hintText: 'Search for Hotels',
               fontSize: fontSizeSmall,
               controller: _searchController,
-              onTap: () {
+              onTapClearIcon: () {
                 setState(() => _searchController.clear());
-                context.read<HotelBloc>().add(HotelLoadEvent());
+                context.read<HotelBloc>().add(HotelAfterClearingSearchField());
               },
               onChanged: _searchResult,
             ),
@@ -114,7 +114,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
         builder: (context, state) {
           return switch (state) {
             HotelLoaded() => _buildSearcListView(state),
-            HotelInitialLoading() ||
+            HotelLoading() ||
             HotelInitial() =>
               const Center(child: CircularProgressIndicator()),
             HotelEmpty() => EmptyListy(text: 'Not found Hotel with this name'),
@@ -128,10 +128,11 @@ class _HotelsScreenState extends State<HotelsScreen> {
   Widget _buildSearcListView(HotelLoaded state) {
     return ListView.builder(
       physics: AlwaysScrollableScrollPhysics(),
-      itemCount: state.hotelsModel.results?.length,
+      itemCount: state.hotelistModel.results?.length,
       scrollDirection: Axis.vertical,
       itemBuilder: (context, index) {
-        Result result = state.hotelsModel.results![index];
+        PlacesEntity result =
+            state.hotelistModel.results?[index] ?? PlacesEntity();
         return AttractionCard(
           result: result,
           height: 250,
@@ -157,7 +158,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
           builder: (context, state) {
             return switch (state) {
               HotelLoaded() => _buildListView(state),
-              HotelInitialLoading() ||
+              HotelLoading() ||
               HotelInitial() =>
                 const Center(child: CircularProgressIndicator()),
               HotelEmpty() => const Center(child: Text('Empty Widget2')),
@@ -170,13 +171,13 @@ class _HotelsScreenState extends State<HotelsScreen> {
   }
 
   Widget _buildListView(HotelLoaded state) {
-    bool isNotLastPage = state.hotelsModel.next != null;
+    bool isNotLastPage = state.hotelistModel.next != null;
 
     return NotificationListener<ScrollEndNotification>(
       onNotification: (scrollInfo) {
         scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent &&
                 isNotLastPage
-            ? context.read<HotelBloc>().add(HotelLoadEvent())
+            ? context.read<HotelBloc>().add(HotelLoadEvent(isInitial: false))
             : null;
         return true;
       },
@@ -185,9 +186,10 @@ class _HotelsScreenState extends State<HotelsScreen> {
           Expanded(
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: state.hotelsModel.results?.length,
+              itemCount: state.hotelistModel.results?.length,
               itemBuilder: (context, index) {
-                Result result = state.hotelsModel.results![index];
+                PlacesEntity result =
+                    state.hotelistModel.results?[index] ?? PlacesEntity();
                 return AttractionCard(
                   result: result,
                   height: double.infinity,

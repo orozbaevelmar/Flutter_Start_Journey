@@ -1,27 +1,26 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 
-class Failure {
-  final String errorMessage;
-  Failure(
-    this.errorMessage,
-  );
-}
+abstract class Failure extends Equatable {
+  final String message;
 
-/* class ServerFailure extends Failure {
-  ServerFailure({required String errorMessage})
-      : super(errorMessage: errorMessage);
+  const Failure({this.message = ''});
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [errorMessage];
+  List<Object> get props => [message];
+}
+
+class ServerFailure extends Failure {
+  const ServerFailure({super.message = 'Server error'});
 }
 
 class CacheFailure extends Failure {
-  CacheFailure({required String errorMessage})
-      : super(errorMessage: errorMessage);
+  const CacheFailure({super.message = 'Cache error'});
+}
 
-  @override
-  // TODO: implement props
-  List<Object?> get props => [errorMessage];
-} */
+class NetworkFailure extends Failure {
+  const NetworkFailure({super.message = 'Network error'});
+}
+
+class ValidationFailure extends Failure {
+  const ValidationFailure({super.message = 'Validation error'});
+}

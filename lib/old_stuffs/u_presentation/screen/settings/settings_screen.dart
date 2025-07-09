@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/account/account.dart';
 import 'dart:io';
 
-import 'package:start_journey/old_stuffs/utils/constants/navigator_custom.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/navigator_custom.dart';
 
 class Settings_Screen extends StatelessWidget {
   @override

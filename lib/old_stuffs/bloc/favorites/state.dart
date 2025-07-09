@@ -17,7 +17,7 @@ class FavoritesInitialError extends FavoritesState {
 class FavoritesEmpty extends FavoritesState {}
 
 class FavoritesLoaded extends FavoritesState {
-  final HotelsModel favoritesModel;
+  final HotelListModel favoritesModel;
   final LoadingMore? loading;
   final LoadMoreError? error;
   FavoritesLoaded({

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:start_journey/old_stuffs/utils/constants/adaptive_font_size.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/adaptive_font_size.dart';
 
 class PostName extends StatelessWidget {
   const PostName({

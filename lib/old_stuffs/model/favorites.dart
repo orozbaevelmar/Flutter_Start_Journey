@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:start_journey/old_stuffs/model/extra/results.dart';
+import 'package:start_journey/moveToCleanArch/features/hotel/data/model/hotel_model.dart';
 
 class FavoritesModel {
   int? count;
   String? next;
   String? previous;
-  List<Result>? results;
+  List<HotelModel>? results;
 
   FavoritesModel({this.count, this.next, this.previous, this.results});
 
@@ -25,9 +25,9 @@ class FavoritesModel {
       next: map['next'],
       previous: map['previous'],
       results: map['results'] != null
-          ? List<Result>.from(
+          ? List<HotelModel>.from(
               map['results'].map(
-                (x) => Result.fromMap(x),
+                (x) => HotelModel.fromJson(x),
               ),
             )
           : [],
@@ -44,7 +44,7 @@ class FavoritesModel {
 
 class FavoriteId {
   int? id;
-  Result? drugId;
+  HotelModel? drugId;
   FavoriteId({
     this.id,
     this.drugId,

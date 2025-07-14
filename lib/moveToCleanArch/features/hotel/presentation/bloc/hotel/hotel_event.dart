@@ -11,6 +11,8 @@ sealed class HotelEvent extends Equatable {
 class HotelLoadEvent extends HotelEvent {
   //final String url = '${MString.BASE_URL}/hotels/';
   final String url = HowLooksFetchedDataHotel.fetchedResponseBodyVisualisation;
+
+  // if isInitial is false, will work pagination
   final bool isInitial;
   HotelLoadEvent({
     required this.isInitial,
@@ -27,6 +29,8 @@ class HotelAfterClearingSearchField extends HotelEvent {
 
 class HotelSearchEvent extends HotelEvent {
   final String url;
+
+  // if isInitial is false, will work pagination
   final bool isInitial;
   final String hotelsNameContains;
 
@@ -34,5 +38,7 @@ class HotelSearchEvent extends HotelEvent {
     required this.isInitial,
     required this.hotelsNameContains,
   }) : url = HowLooksFetchedDataHotel.searchCompleted(hotelsNameContains);
-  //"${MString.BASE_URL}/hotels/?search=$hotelsNameContains";
+  //
+  //Real Api
+  //url = "${MString.BASE_URL}/hotels/?search=$hotelsNameContains";
 }

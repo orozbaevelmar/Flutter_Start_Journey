@@ -28,11 +28,11 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
     previous: null,
     results: [],
   );
-  void setHotelList1(HotelListEntity anotherHotelList) {
+  void setHotelList(HotelListEntity anotherHotelList) {
     hotelList = anotherHotelList as HotelListModel;
   }
 
-  HotelListEntity getHotelList1() {
+  HotelListEntity getHotelList() {
     return hotelList;
   }
 
@@ -54,26 +54,17 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
 
   /// --------------------------------------------------------------------------
 
-  Future<void> _getHotelAfterClearingSearchField(
-      HotelAfterClearingSearchField event, Emitter<HotelState> emit) async {
-    if ((getHotelList1().results?.length ?? 0) > 0) {
-      emit(HotelLoaded(hotelistModel: getHotelList1()));
-      return;
-    }
-    add(HotelLoadEvent(isInitial: true));
-  }
-
   Future<void> _getHotels(
       HotelLoadEvent event, Emitter<HotelState> emit) async {
     event.isInitial
         ? await _fetchInitialHotels(
             event.url,
             emit,
-            'Нету отелей',
-            setHotelList1,
-            getHotelList1,
+            'Hotels not Found',
+            setHotelList,
+            getHotelList,
           )
-        : await _fetchMoreHotels(emit, setHotelList1, getHotelList1);
+        : await _fetchMoreHotels(emit, setHotelList, getHotelList);
   }
 
   Future<void> _onFetchSearchedHotels(
@@ -82,7 +73,7 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
         ? await _fetchInitialHotels(
             event.url,
             emit,
-            'Не нашлось таких отелей с названием "${event.hotelsNameContains}"',
+            'Not found Hotel with this name: "${event.hotelsNameContains}"',
             setExtraHotelListForSearchAndCategory,
             getExtraHotelListForSearchAndCategory,
           )
@@ -93,12 +84,21 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
           );
   }
 
+  Future<void> _getHotelAfterClearingSearchField(
+      HotelAfterClearingSearchField event, Emitter<HotelState> emit) async {
+    if ((getHotelList().results?.length ?? 0) > 0) {
+      emit(HotelLoaded(hotelistModel: getHotelList()));
+      return;
+    }
+    add(HotelLoadEvent(isInitial: true));
+  }
+
   _fetchInitialHotels(
     String urlEvent,
     Emitter<HotelState> emit,
     String emptyListText,
-    void Function(HotelListEntity anotherHotelList) setHotelList,
-    HotelListEntity Function() getHotelList,
+    void Function(HotelListEntity anotherHotelList) setHotelListFunc,
+    HotelListEntity Function() getHotelListFunc,
   ) async {
     emit(HotelLoading(message: 'Loading hotels....'));
 
@@ -107,43 +107,43 @@ class HotelBloc extends Bloc<HotelEvent, HotelState> {
     response.fold(
       (l) => emit(HotelInitialError(message: 'Failed to load hotels')),
       (r) {
-        setHotelList(r as HotelListModel);
+        setHotelListFunc(r as HotelListModel);
 
-        bool isListEmpty = getHotelList().results?.isEmpty ?? true;
+        bool isListEmpty = getHotelListFunc().results?.isEmpty ?? true;
         if (isListEmpty) {
           emit(HotelEmpty(message: emptyListText));
           return;
         }
 
-        emit(HotelLoaded(hotelistModel: getHotelList()));
+        emit(HotelLoaded(hotelistModel: getHotelListFunc()));
       },
     );
   }
 
   _fetchMoreHotels(
     Emitter<HotelState> emit,
-    void Function(HotelListEntity anotherHotelList) setHotelList,
-    HotelListEntity Function() getHotelList,
+    void Function(HotelListEntity anotherHotelList) setHotelListFunc,
+    HotelListEntity Function() getHotelListFunc,
   ) async {
     emit(HotelLoaded(
-        hotelistModel: getHotelList(),
+        hotelistModel: getHotelListFunc(),
         loading: LoadingMore(message: 'Loading more Data...')));
 
-    final response = await _getHotelsUsecase(getHotelList().next ?? '');
+    final response = await _getHotelsUsecase(getHotelListFunc().next ?? '');
     response.fold(
       (l) => emit(HotelLoaded(
-          hotelistModel: getHotelList(),
+          hotelistModel: getHotelListFunc(),
           error: LoadMoreError(message: 'Failed to load more Hotels'))),
       (r) {
         List<PlacesEntity> res = r.results ?? [];
-        setHotelList(HotelListModel(
+        setHotelListFunc(HotelListModel(
           count: r.count,
           next: r.next,
           previous: r.previous,
           results: (hotelList.results! + res) as List<HotelModel>,
         ));
 
-        emit(HotelLoaded(hotelistModel: getHotelList()));
+        emit(HotelLoaded(hotelistModel: getHotelListFunc()));
       },
     );
   }

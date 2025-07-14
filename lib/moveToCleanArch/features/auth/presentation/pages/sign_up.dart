@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:start_journey/moveToCleanArch/core/theme/app_palette.dart';
+import 'package:start_journey/moveToCleanArch/core/theme/app_colors.dart';
 import 'package:start_journey/moveToCleanArch/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:start_journey/moveToCleanArch/features/auth/presentation/widgets/auth_field.dart';
 import 'package:start_journey/moveToCleanArch/features/auth/presentation/widgets/auth_gradient_button.dart';
@@ -111,7 +111,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 .textTheme
                                 .titleMedium
                                 ?.copyWith(
-                                  color: AppPallete.gradient2,
+                                  color: AppColors.gradient2,
                                   fontWeight: FontWeight.bold,
                                 ),
                           ),

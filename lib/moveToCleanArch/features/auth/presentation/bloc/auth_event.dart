@@ -12,7 +12,7 @@ final class AuthSignUp extends AuthEvent {
   final String password;
   final String name;
 
-  AuthSignUp({
+  const AuthSignUp({
     required this.email,
     required this.password,
     required this.name,

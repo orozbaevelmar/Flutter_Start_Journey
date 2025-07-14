@@ -3,8 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:start_journey/moveToCleanArch/core/error/exceptions.dart';
 import 'package:start_journey/moveToCleanArch/core/constants/m_strings.dart';
-import 'package:start_journey/old_stuffs/utils/dependency_injection.dart';
-import 'package:start_journey/old_stuffs/utils/locale_secure_storage.dart';
 
 abstract interface class AuthRemoteDataSource {
   Future<String> signUpWithEmailPassword({
@@ -63,19 +61,3 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     throw UnimplementedError();
   }
 }
-
-/* @override
-  Future<PokemonModel> getPokemon({required PokemonParams params}) async {
-    final response = await dio.get(
-      'https://pokeapi.co/api/v2/pokemon/${params.id}',
-      queryParameters: {
-        'api_key': 'if you need',
-      },
-    );
-
-    if (response.statusCode == 200) {
-      return PokemonModel.fromJson(response.data);
-    } else {
-      throw ServerException();
-    }
-  } */

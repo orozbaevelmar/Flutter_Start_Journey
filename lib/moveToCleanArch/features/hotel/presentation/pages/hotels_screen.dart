@@ -117,7 +117,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
             HotelLoading() ||
             HotelInitial() =>
               const Center(child: CircularProgressIndicator()),
-            HotelEmpty() => EmptyListy(text: 'Not found Hotel with this name'),
+            HotelEmpty() => EmptyListy(text: state.message),
             HotelInitialError() => Center(child: Text(state.message)),
           };
         },

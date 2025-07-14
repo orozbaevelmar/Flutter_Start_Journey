@@ -34,9 +34,6 @@ class HotelRemoteDataSourceImpl implements HotelRemoteDataSource {
     ///
     // try {
     //   final response = await dio.get(paginationUrl,
-    //       queryParameters: {
-    //         'api_key': 'if you need',
-    //       },
     //       options: Options(headers: {
     //         'Authorization':
     //             'token ${getIt<LocaleSecureStorage>().getSecureToken()}'

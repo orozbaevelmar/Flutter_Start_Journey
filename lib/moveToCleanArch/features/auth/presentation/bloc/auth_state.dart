@@ -14,11 +14,11 @@ final class AuthLoading extends AuthState {}
 final class AuthSuccess extends AuthState {
   final String uid;
 
-  AuthSuccess(this.uid);
+  const AuthSuccess(this.uid);
 }
 
 final class AuthFailure extends AuthState {
   final String message;
 
-  AuthFailure(this.message);
+  const AuthFailure(this.message);
 }

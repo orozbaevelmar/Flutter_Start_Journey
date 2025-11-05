@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:start_journey/moveToCleanArch/core/constants/color_const.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/app_color.dart';
 import 'package:start_journey/moveToCleanArch/core/constants/text_style_const.dart';
 
 class ShowBottomSheet {
@@ -33,7 +33,7 @@ class ShowBottomSheet {
                     alignment: Alignment.center,
                     child: Text(
                       title,
-                      style: MTextStyle.ui_20Bold(MColor.black),
+                      style: MTextStyle.ui_20Bold(AppColor.black),
                     ),
                   ),
                   const SizedBox(height: 30),

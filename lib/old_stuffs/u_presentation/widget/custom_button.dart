@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:start_journey/moveToCleanArch/core/constants/color_const.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/app_color.dart';
 import 'package:start_journey/moveToCleanArch/core/constants/text_style_const.dart';
 
 class CustomButton extends StatelessWidget {
@@ -17,9 +17,9 @@ class CustomButton extends StatelessWidget {
     required this.title,
     required this.onTap,
     this.topMargin = 0,
-    this.colofOfContainer = MColor.greenPrimary,
+    this.colofOfContainer = AppColor.greenPrimary,
     this.hasShadow = true,
-    this.textColor = MColor.white,
+    this.textColor = AppColor.white,
     this.width,
     this.height,
   });
@@ -46,7 +46,7 @@ class CustomButton extends StatelessWidget {
                 color: Color(0xFF000000).withOpacity(0.25),
               ),
           ],
-          border: Border.all(color: MColor.greenPrimary),
+          border: Border.all(color: AppColor.greenPrimary),
         ),
         child: Text(
           title,

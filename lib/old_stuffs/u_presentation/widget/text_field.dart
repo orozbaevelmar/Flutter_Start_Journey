@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:start_journey/moveToCleanArch/core/constants/color_const.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/app_color.dart';
 import 'package:start_journey/moveToCleanArch/core/constants/text_style_const.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -40,7 +40,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         Icon(
           Icons.arrow_drop_down_outlined,
           size: 22,
-          color: MColor.black,
+          color: AppColor.black,
         ),
         SizedBox(width: 5),
         Icon(
@@ -60,7 +60,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             keyboardType: widget.keyboardType,
             decoration: InputDecoration(
                 hintText: widget.hintText,
-                hintStyle: MTextStyle.ui_16Medium(MColor.gray_04),
+                hintStyle: MTextStyle.ui_16Medium(AppColor.gray_04),
                 suffixIconConstraints:
                     const BoxConstraints(minWidth: 48, minHeight: 0),
                 suffixIcon: widget.isPassword

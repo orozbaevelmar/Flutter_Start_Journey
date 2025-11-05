@@ -67,3 +67,66 @@ class TimeoutException implements Exception {
   @override
   String toString() => 'TimeoutException: $message';
 }
+
+class TokensException implements Exception {
+  final String message;
+
+  TokensException({this.message = 'Tokens exception'});
+
+  @override
+  String toString() => 'TimeoutException: $message';
+}
+
+class OfflineException implements Exception {
+  final String message;
+
+  OfflineException({this.message = 'Offline exception'});
+
+  @override
+  String toString() => 'TimeoutException: $message';
+}
+
+class WeekPassException implements Exception {
+  final String message;
+
+  WeekPassException({this.message = 'Week pass exception'});
+
+  @override
+  String toString() => 'WeekPassException: $message';
+}
+
+class ExistedAccountException implements Exception {
+  final String message;
+
+  ExistedAccountException({this.message = 'Existed account exception'});
+
+  @override
+  String toString() => 'ExistedAccountException: $message';
+}
+
+class NoUserException implements Exception {
+  final String message;
+
+  NoUserException({this.message = 'No user exception'});
+
+  @override
+  String toString() => 'NoUserException: $message';
+}
+
+class WrongPasswordException implements Exception {
+  final String message;
+
+  WrongPasswordException({this.message = 'Wrong password'});
+
+  @override
+  String toString() => 'WrongPasswordException: $message';
+}
+
+class TooManyRequestsException implements Exception {
+  final String message;
+
+  TooManyRequestsException({this.message = 'Too amny request'});
+
+  @override
+  String toString() => 'TooManyRequestsException: $message';
+}

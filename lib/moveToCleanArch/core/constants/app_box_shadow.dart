@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MBoxShadow {
+class AppBoxShadow {
   static final regular = BoxShadow(
     blurRadius: 6,
     offset: Offset(0, 0),

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:start_journey/moveToCleanArch/core/di/dependency_injection.dart';
-import 'package:start_journey/moveToCleanArch/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:start_journey/moveToCleanArch/features/auth/data/datasources/dio_auth_remote_data_source.dart';
 
-import 'package:start_journey/moveToCleanArch/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:start_journey/moveToCleanArch/features/auth/data/repositories/dio_auth_repository_impl.dart';
 
 import 'package:start_journey/moveToCleanArch/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:start_journey/moveToCleanArch/features/auth/presentation/bloc/auth_bloc.dart';

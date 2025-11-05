@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:start_journey/old_stuffs/u_presentation/widget/custom_button.dart';
 
-import 'package:start_journey/moveToCleanArch/core/constants/color_const.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/app_color.dart';
 
 class ShowDialog {
   static Future<bool?> showDialogSetting(
@@ -47,7 +47,7 @@ class ShowDialog {
             title,
             textAlign: TextAlign.left,
             style: const TextStyle(
-              color: MColor.greenPrimary,
+              color: AppColor.greenPrimary,
               fontSize: 20,
             ),
             // textAlign: TextAlign.,

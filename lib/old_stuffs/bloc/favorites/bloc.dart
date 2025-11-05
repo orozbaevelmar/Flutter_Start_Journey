@@ -5,7 +5,7 @@ import 'package:start_journey/old_stuffs/model/favorites.dart' as favorites;
 import 'package:start_journey/moveToCleanArch/features/hotel/data/model/hotel_list_model.dart';
 import 'package:start_journey/old_stuffs/repository/favorites.dart';
 import 'package:start_journey/old_stuffs/repository/response_body/favorite.dart';
-import 'package:start_journey/moveToCleanArch/core/constants/m_strings.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/app_strings.dart';
 
 part 'event.dart';
 part 'state.dart';

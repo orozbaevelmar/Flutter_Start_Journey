@@ -7,7 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:start_journey/old_stuffs/u_presentation/widget/custom_button.dart';
 import 'package:start_journey/old_stuffs/u_presentation/widget/show_bottom_sheet.dart';
 import 'package:start_journey/old_stuffs/u_presentation/widget/text_field.dart';
-import 'package:start_journey/moveToCleanArch/core/constants/color_const.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/app_color.dart';
 import 'package:start_journey/moveToCleanArch/core/constants/show_dialog.dart';
 import 'package:start_journey/moveToCleanArch/core/constants/text_style_const.dart';
 import 'package:start_journey/moveToCleanArch/core/constants/toast.dart';
@@ -52,7 +52,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.zero,
                       hintText: 'Phone number',
-                      hintStyle: MTextStyle.ui_16Medium(MColor.gray_04),
+                      hintStyle: MTextStyle.ui_16Medium(AppColor.gray_04),
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                       ),
@@ -114,11 +114,11 @@ class _AccountScreenState extends State<AccountScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
-                border: Border.all(color: MColor.greenPrimary, width: 2),
+                border: Border.all(color: AppColor.greenPrimary, width: 2),
               ),
               child: Image.asset(
                 'images/ic_edit.png',
-                color: MColor.greenSecondary,
+                color: AppColor.greenSecondary,
               ),
             ),
           ),

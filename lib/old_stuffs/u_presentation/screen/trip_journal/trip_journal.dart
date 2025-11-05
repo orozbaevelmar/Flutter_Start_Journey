@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:start_journey/moveToCleanArch/core/constants/box_shadow.dart';
-import 'package:start_journey/moveToCleanArch/core/constants/color_const.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/app_box_shadow.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/app_color.dart';
 import 'package:start_journey/moveToCleanArch/core/constants/text_style_const.dart';
 
 class TripJournal extends StatelessWidget {
@@ -36,7 +36,7 @@ class TripJournal extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     fontSize: 40,
                     letterSpacing: 2,
-                    color: MColor.black_shade300,
+                    color: AppColor.black_shade300,
                   ),
                 ),
               ),
@@ -46,7 +46,7 @@ class TripJournal extends StatelessWidget {
                   margin: EdgeInsets.only(bottom: 30),
                   padding: EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: MColor.white,
+                    color: AppColor.white,
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                   ),
                   child: Row(
@@ -100,7 +100,7 @@ class TripJournal extends StatelessWidget {
                                     ),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8),
-                                      color: MColor.gray_02,
+                                      color: AppColor.gray_02,
                                     ),
                                     child: Text(
                                       someWordsList[i].toUpperCase(),
@@ -110,7 +110,7 @@ class TripJournal extends StatelessWidget {
                                           fontSize: 10,
                                           height: 2,
                                           letterSpacing: 1,
-                                          color: MColor.gray,
+                                          color: AppColor.gray,
                                         ),
                                       ),
                                     ),
@@ -137,9 +137,9 @@ class TripJournal extends StatelessWidget {
       width: 50,
       decoration: BoxDecoration(
         boxShadow: [
-          MBoxShadow.regular,
+          AppBoxShadow.regular,
         ],
-        color: isSelected ? MColor.white : Colors.white54,
+        color: isSelected ? AppColor.white : Colors.white54,
         borderRadius: BorderRadius.all(Radius.circular(8)),
         border: isSelected
             ? Border.all(

@@ -6,7 +6,7 @@ import 'package:start_journey/old_stuffs/u_presentation/screen/map/map_screen.da
 
 import 'package:start_journey/old_stuffs/u_presentation/screen/settings/settings_screen.dart';
 import 'package:start_journey/old_stuffs/u_presentation/screen/trip_journal/trip_journal.dart';
-import 'package:start_journey/moveToCleanArch/core/constants/constants.dart';
+import 'package:start_journey/moveToCleanArch/core/constants/app_constants.dart';
 
 class NavigationBarScreen extends StatefulWidget {
   const NavigationBarScreen({super.key});
@@ -20,7 +20,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: MColor.greyBackGroundColor,
+      backgroundColor: AppColor.greyBackGroundColor,
       // body
       body: _screens.elementAt(_selectedIndex),
       // bottom
@@ -28,7 +28,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
         index: 0,
         color: Colors.white,
         animationDuration: const Duration(milliseconds: 600),
-        backgroundColor: MColor.greyBackGroundColor,
+        backgroundColor: AppColor.greyBackGroundColor,
         items: const [
           Icon(Icons.book, size: _iconSize),
           Icon(Icons.favorite_outline_outlined, size: _iconSize),

@@ -8,6 +8,7 @@ import 'package:start_journey/moveToCleanArch/features/hotel/domain/repositories
 class HotelRepositoryImpl implements PlacesRepository {
   final HotelRemoteDataSource remoteDataSource;
   HotelRepositoryImpl({required this.remoteDataSource});
+
   @override
   Future<Either<Failure, HotelListEntity>> getAllHotels(
       {required String paginationUrl}) async {

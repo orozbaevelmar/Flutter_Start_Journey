@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-class RegisterModel {
+class SignUpModel {
   final String firstName;
   final String email;
   final String password;
-  RegisterModel({
+  SignUpModel({
     required this.firstName,
     required this.email,
     required this.password,
@@ -18,8 +18,8 @@ class RegisterModel {
     };
   }
 
-  factory RegisterModel.fromMap(Map<String, dynamic> map) {
-    return RegisterModel(
+  factory SignUpModel.fromMap(Map<String, dynamic> map) {
+    return SignUpModel(
       firstName: map['firstName'] as String,
       email: map['email'] as String,
       password: map['password'] as String,
@@ -28,6 +28,6 @@ class RegisterModel {
 
   String toJson() => json.encode(toMap());
 
-  factory RegisterModel.fromJson(String source) =>
-      RegisterModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory SignUpModel.fromJson(String source) =>
+      SignUpModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

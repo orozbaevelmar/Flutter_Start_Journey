@@ -6,15 +6,9 @@ import 'package:start_journey/moveToCleanArch/core/error/failures.dart';
 import 'package:start_journey/moveToCleanArch/core/network/network_info.dart';
 import 'package:start_journey/moveToCleanArch/features/auth/data/datasources/firebase_auth_remote_data_sources.dart';
 import 'package:start_journey/moveToCleanArch/features/auth/data/models/is_logged_in_model.dart';
-import 'package:start_journey/moveToCleanArch/features/auth/data/models/login_model.dart';
-import 'package:start_journey/moveToCleanArch/features/auth/data/models/register_model.dart';
-
-abstract class AuthRepository {
-  Future<Either<Failure, UserCredential>> login(LoginModel loginModel);
-  Future<Either<Failure, UserCredential>> register(RegisterModel registerModel);
-  IsLoggedInModel isLoggedIn();
-  Future<Either<Failure, Unit>> logOut();
-}
+import 'package:start_journey/moveToCleanArch/features/auth/domain/repositories/auth_repository.dart';
+import 'package:start_journey/moveToCleanArch/features/auth/domain/usecases/sign_in_use_case.dart';
+import 'package:start_journey/moveToCleanArch/features/auth/domain/usecases/sign_up_use_case.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;
@@ -25,10 +19,12 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  Future<Either<Failure, UserCredential>> login(LoginModel loginModel) async {
+  Future<Either<Failure, UserCredential>> singInWithEmailPassword(
+      SignInParams params) async {
     if (await networkInfo.isConnected) {
       try {
-        final userCredential = await authRemoteDataSource.login(loginModel);
+        final userCredential =
+            await authRemoteDataSource.singInWithEmailPassword(params);
         return Right(userCredential);
       } on ExistedAccountException {
         return Left(ExistedAccountFailure());
@@ -43,36 +39,31 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserCredential>> register(
-    RegisterModel registerModel,
+  Future<Either<Failure, UserCredential>> singUpWithEmailPassword(
+    SignUpParams params,
   ) async {
-    if (!await networkInfo.isConnected) {
+    if ((await networkInfo.isConnected) == false) {
       return Left(OfflineFailure());
     }
-    // else if (signUp.password != signUp.repeatedPassword) {
-    //   return Left(UnmatchedPassFailure());
-    // }
-    else {
-      try {
-        final userCredential = await authRemoteDataSource.register(
-          registerModel,
-        );
-        return Right(userCredential);
-      } on WeekPassException {
-        return Left(WeekPassFailure());
-      } on ExistedAccountException {
-        return Left(ExistedAccountFailure());
-      } on ServerException {
-        return Left(ServerFailure());
-      }
+
+    try {
+      final userCredential =
+          await authRemoteDataSource.singUpWithEmailPassword(params);
+      return Right(userCredential);
+    } on WeekPassException {
+      return Left(WeekPassFailure());
+    } on ExistedAccountException {
+      return Left(ExistedAccountFailure());
+    } on ServerException {
+      return Left(ServerFailure());
     }
   }
 
   @override
   IsLoggedInModel isLoggedIn() {
     try {
-      print('okoko');
       final userCredential = FirebaseAuth.instance.currentUser;
+
       if (userCredential != null && userCredential.emailVerified) {
         return IsLoggedInModel(isVerifyingEmail: false, isLoggedIn: true);
       } else if (userCredential != null) {
@@ -84,7 +75,6 @@ class AuthRepositoryImpl implements AuthRepository {
         );
       }
     } catch (e) {
-      print('ERROR--12-$e');
       throw ServerException(message: e.toString());
     }
   }

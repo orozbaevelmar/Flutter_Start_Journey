@@ -1,13 +1,18 @@
+import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:injectable/injectable.dart';
 import 'package:start_journey/moveToCleanArch/core/error/exceptions.dart';
-import 'package:start_journey/moveToCleanArch/features/auth/data/models/login_model.dart';
-import 'package:start_journey/moveToCleanArch/features/auth/data/models/register_model.dart';
+import 'package:start_journey/moveToCleanArch/features/auth/domain/usecases/sign_in_use_case.dart';
+import 'package:start_journey/moveToCleanArch/features/auth/domain/usecases/sign_up_use_case.dart';
+
+const _tag = " [ AuthRemoteDataSource ]";
 
 abstract class AuthRemoteDataSource {
-  Future<UserCredential> register(RegisterModel registerModel);
-  Future<UserCredential> login(LoginModel loginModel);
+  Future<UserCredential> singInWithEmailPassword(SignInParams params);
+  Future<UserCredential> singUpWithEmailPassword(SignUpParams params);
 }
 
+@LazySingleton(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl({required FirebaseAuth firebaseAuth})
       : _firebaseAuth = firebaseAuth;
@@ -15,14 +20,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final FirebaseAuth _firebaseAuth;
 
   @override
-  Future<UserCredential> login(LoginModel loginModel) async {
+  Future<UserCredential> singInWithEmailPassword(SignInParams params) async {
+    log("$_tag, sign in params: ${params.toJson()}");
+
     try {
       await _firebaseAuth.currentUser?.reload();
-      return await _firebaseAuth.signInWithEmailAndPassword(
-        email: loginModel.email,
-        password: loginModel.password,
+
+      final res = await _firebaseAuth.signInWithEmailAndPassword(
+        email: params.email,
+        password: params.password,
       );
+      log("$_tag, sign in response: $res");
+      return res;
     } on FirebaseAuthException catch (e) {
+      log("$_tag, <signIn()> FirebaseAuthException: ${e.code}");
       if (e.code == 'user-not-found') {
         throw ExistedAccountException();
       } else if (e.code == 'wrong-password') {
@@ -30,22 +41,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       } else {
         throw ServerException(message: e.toString());
       }
+    } catch (e) {
+      throw ServerException(
+          message: 'An unknown error occurred: ${e.toString()}');
     }
-
-    // on FirebaseException catch (e) {
-    //   // Handle PlatformException
-    //   if (e.code == 'ERROR_INVALID_CREDENTIAL') {
-    //     return 'The supplied auth credential is incorrect, malformed, or expired.';
-    //   }
-    //   if (e.code == 'invalid-credential') {
-    //     return 'The supplied auth credential is incorrect, malformed, or expired.';
-    //   } else {
-    //     return 'An unknown error occurred: ${e.message}';
-    //   }
-    // } catch (e) {
-    //   // Catch any other types of exceptions and return a general error message
-    //   return 'An unknown error occurred: ${e.toString()}';
-    // }
   }
 
   String _firebaseAuthException(FirebaseAuthException e) {
@@ -73,22 +72,24 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserCredential> register(RegisterModel registerModel) async {
+  Future<UserCredential> singUpWithEmailPassword(SignUpParams params) async {
+    log("$_tag, sign up params: ${params.toJson()}");
     try {
       await _firebaseAuth.currentUser?.reload();
 
       final UserCredential userCredential =
           await _firebaseAuth.createUserWithEmailAndPassword(
-        email: registerModel.email,
-        password: registerModel.password,
+        email: params.email,
+        password: params.password,
       );
       User? user = userCredential.user;
       if (user != null) {
-        await user.updateDisplayName(registerModel.firstName);
+        await user.updateDisplayName(params.name);
       }
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
+      log("$_tag, <signUp()> FirebaseAuthException: ${e.code}");
       if (e.code == 'weak-password') {
         throw WeekPassException();
       } else if (e.code == 'email-already-in-use') {
@@ -96,6 +97,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       } else {
         throw ServerException();
       }
+    } catch (e) {
+      throw ServerException(
+          message: 'An unknown error occurred: ${e.toString()}');
     }
   }
 }

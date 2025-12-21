@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
-import 'package:start_journey/moveToCleanArch/core/error/failures.dart';
-import 'package:start_journey/old_stuffs/model/favorites.dart';
-import 'package:start_journey/moveToCleanArch/features/hotel/data/model/hotel_list_model.dart';
+import 'package:start_journey/cleanArch/core/common/model/favorites.dart';
+import 'package:start_journey/cleanArch/features/hotel/data/model/hotel_list_model.dart';
 import 'package:start_journey/old_stuffs/repository/response_body/response_body_hotel.dart';
 import 'package:start_journey/old_stuffs/repository/response_body/response_body_sights.dart';
-import 'package:start_journey/moveToCleanArch/core/constants/app_strings.dart';
+import 'package:start_journey/cleanArch/core/constants/app_strings.dart';
 import 'package:start_journey/old_stuffs/utils/dependency_injection.dart';
 
 import 'package:start_journey/old_stuffs/utils/locale_secure_storage.dart';

@@ -6,7 +6,6 @@ import 'package:start_journey/cleanArch/features/hotel/data/model/hotel_list_mod
 import 'package:start_journey/old_stuffs/repository/response_body/response_body_hotel.dart';
 import 'package:start_journey/old_stuffs/repository/response_body/response_body_sights.dart';
 import 'package:start_journey/cleanArch/core/constants/app_strings.dart';
-import 'package:start_journey/old_stuffs/utils/dependency_injection.dart';
 
 import 'package:start_journey/old_stuffs/utils/locale_secure_storage.dart';
 

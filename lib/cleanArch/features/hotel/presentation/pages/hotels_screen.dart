@@ -4,6 +4,7 @@ import 'package:start_journey/CleanArch/core/constants/navigator_custom.dart';
 import 'package:start_journey/CleanArch/features/hotel/presentation/widgets/attraction_card.dart';
 import 'package:start_journey/cleanArch/core/common/entity/places_entity.dart';
 import 'package:start_journey/cleanArch/core/common/widgets/widgetssss/app_bar.dart';
+import 'package:start_journey/cleanArch/core/common/widgets/widgetssss/empty_list.dart';
 import 'package:start_journey/cleanArch/core/common/widgets/widgetssss/search_text_field.dart';
 import 'package:start_journey/cleanArch/core/common/widgets/widgetssss/tag_line.dart';
 import 'package:start_journey/cleanArch/core/extensions/context_extension.dart';
@@ -118,7 +119,7 @@ class _HotelsScreenState extends State<HotelsScreen> {
             HotelLoading() ||
             HotelInitial() =>
               const Center(child: CircularProgressIndicator()),
-            HotelEmpty() => EmptyList(text: state.message),
+            HotelEmpty() => EmptyListy(text: state.message),
             HotelInitialError() => Center(child: Text(state.message)),
           };
         },

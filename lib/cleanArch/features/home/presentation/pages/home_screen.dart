@@ -43,7 +43,13 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HotelsScreen(),
+                  ));
+            },
             child: Container(
               padding: EdgeInsets.all(5),
               child: Icon(

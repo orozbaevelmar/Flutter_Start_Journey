@@ -15,13 +15,13 @@ String formatTimeAgo(DateTime date) {
   // Less than 1 hour
   else if (difference.inMinutes < 60) {
     final minutes = difference.inMinutes;
-    return '${minutes} minute${minutes == 1 ? '' : 's'} ago';
+    return '$minutes minute${minutes == 1 ? '' : 's'} ago';
   }
 
   // Less than 24 hours
   else if (difference.inHours < 24) {
     final hours = difference.inHours;
-    return '${hours} hour${hours == 1 ? '' : 's'} ago';
+    return '$hours hour${hours == 1 ? '' : 's'} ago';
   }
   // Less than 7 days
   else if (difference.inDays < 7) {
